@@ -13,8 +13,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "-": "^0.0.1",
-    "D": "^1.0.0",
     "express": "^4.19.2",
     "ts-node": "^10.9.2"
   },
