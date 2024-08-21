@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
+    "start": "ts-node server.ts",
     "dev": "nodemon server.ts",
     "build": "tsc --build"
   },
@@ -13,7 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "aws-sdk": "^2.1678.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.635.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "ts-node": "^10.9.2"
