@@ -13,6 +13,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "aws-sdk": "^2.1678.0",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "ts-node": "^10.9.2"
   },
