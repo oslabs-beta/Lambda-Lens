@@ -1,0 +1,12 @@
+# Ignore the .env file in the server directory
+/server/.env
+
+# Ignore the node_modules directory
+/node_modules
+
+# Ignore TypeScript build outputs
+/server/dist
+
+# Ignore other specific directories or files if needed
+/server/logs
+/server/tmp

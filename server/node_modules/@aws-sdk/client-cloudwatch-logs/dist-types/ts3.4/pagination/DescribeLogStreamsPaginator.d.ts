@@ -1,0 +1,11 @@
+import { Paginator } from "@smithy/types";
+import {
+  DescribeLogStreamsCommandInput,
+  DescribeLogStreamsCommandOutput,
+} from "../commands/DescribeLogStreamsCommand";
+import { CloudWatchLogsPaginationConfiguration } from "./Interfaces";
+export declare const paginateDescribeLogStreams: (
+  config: CloudWatchLogsPaginationConfiguration,
+  input: DescribeLogStreamsCommandInput,
+  ...rest: any[]
+) => Paginator<DescribeLogStreamsCommandOutput>;
