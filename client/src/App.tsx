@@ -6,6 +6,7 @@ import DashboardContainer from './containers/DashboardContainer';
 import CloudwatchContainer from './containers/CloudwatchContainer';
 import NavbarComponent from './components/NavbarComponent';
 import './App.css'
+import './chartSetup';
 
 function App() {
   // const [count, setCount] = useState(0)

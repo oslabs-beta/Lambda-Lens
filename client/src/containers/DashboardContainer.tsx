@@ -1,6 +1,15 @@
+import ColdStartsGraphComponent from "../components/ColdStartsGraphComponent";
+import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
+
 const DashboardContainer = () => {
   return (
-    <p>placeholder</p>
+    <div>
+      <h1>Dashboard</h1>
+      <div className="dashboard-display">
+        <ColdStartsGraphComponent />
+        <ColdStartsMetricsContainer />
+      </div>
+    </div>
   )
 }
 
