@@ -1,0 +1,30 @@
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-display {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+}
+
+.charts-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.offset-graph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
