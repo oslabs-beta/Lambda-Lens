@@ -1,0 +1,30 @@
+//add variables here: 
+$font-stack: Helvetica, sans-serif;
+$primary-color: ##0D68E7;
+$secondary-color: #71A9F7;
+$text-color:##B2D0FB;
+
+.navbar {
+    background: $secondary-color;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px; 
+    z-index: 1000;
+    ul {
+        text-align: center;
+        margin: 0;
+        padding: 15px;
+        list-style: none;
+    }
+    li {
+        display: inline-block;
+        #dashboard{
+            color: $text-color
+        }
+        #cloudwatch{
+            color: $text-color
+        }
+    }
+}

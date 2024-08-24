@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DashboardContainer from './containers/DashboardContainer';
 import CloudwatchContainer from './containers/CloudwatchContainer';
 import NavbarComponent from './components/NavbarComponent';
-import './App.css'
+import './App.scss'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -13,7 +13,7 @@ function App() {
   return (
     <Router>
       <div>
-        <NavbarComponent />
+        <NavbarComponent id={'navbar'}/>
         <Routes>
           <Route path='/' element={<DashboardContainer />} />
           <Route path='/cloudwatchmetrics' element={<CloudwatchContainer />} />
