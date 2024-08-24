@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DashboardContainer from './containers/DashboardContainer';
 import CloudwatchContainer from './containers/CloudwatchContainer';
 import NavbarComponent from './components/NavbarComponent';
-import './App.scss'
+import './App.css'
+import './chartSetup';
 
 function App() {
   // const [count, setCount] = useState(0)

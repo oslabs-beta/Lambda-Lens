@@ -1,0 +1,24 @@
+{
+  "functions": [
+    { "functionName": "Function A", "avgBilledDur": 10, "numColdStarts": 10, "percentColdStarts": 5 },
+    { "functionName": "Function B", "avgBilledDur": 15, "numColdStarts": 20, "percentColdStarts": 10 },
+    { "functionName": "Function C", "avgBilledDur": 20, "numColdStarts": 5, "percentColdStarts": 15 },
+    { "functionName": "Function D", "avgBilledDur": 25, "numColdStarts": 15, "percentColdStarts": 20 },
+    { "functionName": "Function E", "avgBilledDur": 30, "numColdStarts": 10, "percentColdStarts": 25 },
+    { "functionName": "Function F", "avgBilledDur": 35, "numColdStarts": 8, "percentColdStarts": 7 },
+    { "functionName": "Function G", "avgBilledDur": 40, "numColdStarts": 9, "percentColdStarts": 13 },
+    { "functionName": "Function H", "avgBilledDur": 45, "numColdStarts": 11, "percentColdStarts": 17 },
+    { "functionName": "Function I", "avgBilledDur": 50, "numColdStarts": 14, "percentColdStarts": 30 },
+    { "functionName": "Function J", "avgBilledDur": 55, "numColdStarts": 13, "percentColdStarts": 22 },
+    { "functionName": "Function K", "avgBilledDur": 60, "numColdStarts": 4, "percentColdStarts": 3 },
+    { "functionName": "Function L", "avgBilledDur": 65, "numColdStarts": 16, "percentColdStarts": 27 },
+    { "functionName": "Function M", "avgBilledDur": 70, "numColdStarts": 7, "percentColdStarts": 2 },
+    { "functionName": "Function N", "avgBilledDur": 75, "numColdStarts": 18, "percentColdStarts": 35 },
+    { "functionName": "Function O", "avgBilledDur": 80, "numColdStarts": 19, "percentColdStarts": 40 },
+    { "functionName": "Function P", "avgBilledDur": 85, "numColdStarts": 12, "percentColdStarts": 18 },
+    { "functionName": "Function Q", "avgBilledDur": 90, "numColdStarts": 20, "percentColdStarts": 45 },
+    { "functionName": "Function R", "avgBilledDur": 95, "numColdStarts": 6, "percentColdStarts": 11 },
+    { "functionName": "Function S", "avgBilledDur": 100, "numColdStarts": 90, "percentColdStarts": 90 },
+    { "functionName": "Function T", "avgBilledDur": 105, "numColdStarts": 15, "percentColdStarts": 8 }
+  ]
+}
