@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <div>
-        <NavbarComponent />
+        <NavbarComponent id={'navbar'}/>
         <Routes>
           <Route path='/' element={<DashboardContainer />} />
           <Route path='/cloudwatchmetrics' element={<CloudwatchContainer />} />
