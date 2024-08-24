@@ -1,17 +1,20 @@
 import '../styles.css';
 
 const RowComponent = ({ 
-  functionName, 
+  functionName,
+  avgBilledDur, 
   coldStarts, 
   percentage
 }: { 
-  functionName: string, 
+  functionName: string,
+  avgBilledDur: number, 
   coldStarts: number, 
-  percentage: string 
+  percentage: number 
 }) => {
   return (
     <div className='data-row'>
       <div>{functionName}</div>
+      <div>{avgBilledDur}ms</div>
       <div>{coldStarts}</div>
       <div>{percentage}</div>
     </div>

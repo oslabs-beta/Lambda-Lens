@@ -28,3 +28,12 @@
   align-items: center;
   justify-content: center;
 }
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-graphs {
+  display: flex;
+}
