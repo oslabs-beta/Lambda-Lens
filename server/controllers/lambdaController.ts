@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Define the logGroupName to fetch the logs from aws
-const logGroupName = '/aws/lambda/testfunc'; 
+const logGroupName = '/aws/lambda/test-metric-pull-2'; 
 
 // Define the environment variables and access token in .env file
 const region = process.env.AWS_REGION as string;
