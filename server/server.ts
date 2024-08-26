@@ -1,11 +1,22 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { getLogs } from './controllers/lambdaController';
+import configRoutes from './routes/configRoutes';
+const cors = require('cors');
+
+
 import { getFunctionsController } from './controllers/getFunctionsController';
 import { get } from 'http';
 
 const app = express();
 
 const PORT = 8080;
+
+app.use(express.json());
+app.use(cors());
+
+// Configuration router
+console.log('Config route confirmation')
+app.use('/api/config', configRoutes);
 
 // call func getLogs to perform async 
 getLogs().then(() => {
@@ -14,6 +25,7 @@ getLogs().then(() => {
 }).catch(err => {
   console.log('Error fetching logs:', err.message)
 })
+
 
 
 //to test, run npm start in the server direcotry then send a postman request to localhost:8080/api
