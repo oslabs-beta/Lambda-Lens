@@ -10,7 +10,8 @@ type Config = {
 
 function ConfigPageContainer() {
   const handleSaveConfig = (config: Config) => {
-    fetch('/save-config', {
+    console.log('Sending config', config);
+    fetch('http://localhost:8080/api/config/save', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
