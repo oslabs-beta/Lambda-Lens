@@ -1,0 +1,41 @@
+//add variables here: 
+$font-stack: Helvetica, sans-serif;
+$primary-color: #0D68E7;
+$secondary-color: #71A9F7;
+$text-color:#B2D0FB;
+
+#root{
+    margin-top: 8vh;
+}
+
+.navbar {
+    background: $secondary-color;
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px; 
+    z-index: 1000;
+    ul {
+        text-align: center;
+        margin: 0;
+        padding: 15px;
+        list-style: none;
+    }
+    li {
+        display: inline-block;
+        font-family: $font-stack;
+        a {
+            color: black;
+            text-decoration: none;
+            padding: 14px;
+            // &: hover{
+            //     background-color: red;
+            // }
+            // &:visited { text-decoration: none; color: $text-color};
+            // &:link { text-decoration: none; color: blue};
+            // &:focus { text-decoration: none; color: red};
+            // &:hover { text-decoration: none; color: green};
+        }
+    }
+}

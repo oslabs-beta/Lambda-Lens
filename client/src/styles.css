@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-display {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+}
+
+.charts-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.offset-graph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #ffffff;
+  margin: 20px;
+  border-radius: 8px;
+}
+
+.dashboard-graphs {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
