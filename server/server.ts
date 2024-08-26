@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { getLogs } from './controllers/lambdaController';
+import configRoutes from './routes/configRoutes';
 
 const app = express();
 
@@ -12,6 +13,9 @@ getLogs().then(() => {
 }).catch(err => {
   console.log('Error fetching logs:', err.message)
 })
+
+// Configuration router
+app.use('/api/config', configRoutes);
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.send('hello');
