@@ -33,6 +33,7 @@ export const getFunctionsController: GetFunctionsController = {
     } catch (err) {
         //need to insert global error handler with return next({error})
         console.error(err);
+        return next({err});
     }
     }
 };
