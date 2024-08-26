@@ -106,10 +106,15 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "**/*.ts"
-, "../types.ts"  ],
+    "**/*.ts",
+    "types.ts",
+    ".env"  
+  ],
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],  
+  "ts-node": {
+    "files": true
+  },
 }
