@@ -1,0 +1,16 @@
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input, select {
+    border: 1px;
+    border-radius: 4px;
+    padding: 10px;
+  }
+
+  button {
+    padding: 10px;
+    border-radius: 4px;
+  }
+}
