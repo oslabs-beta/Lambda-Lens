@@ -22,10 +22,9 @@ export const envController: EnvController = {
 
         try{
             //if everything exists in the req body --> write env file 
-            fs.writeFileSync('./.env', writeToENV);
             //else if at least one field is missing --> return an error; 
             // console.log('Made it to the try block');
-            
+            fs.writeFileSync('./.env', writeToENV);
             res.locals.saved = 'Secrets successfuly saved';
             return next();
         } catch(err){
