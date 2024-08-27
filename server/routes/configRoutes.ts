@@ -4,9 +4,9 @@ import { Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
-router.post('/save', (req: Request, res: Response, next: NextFunction) => {
-  console.log('Made it to the route');
-  next();
-}, envController.saveSecrets)
+router.post('/save', envController.saveSecrets, (req: Request, res: Response, next: NextFunction) => {
+  // console.log('Made it to the route');
+  return next();
+});
 
 export default router

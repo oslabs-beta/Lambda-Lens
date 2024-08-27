@@ -13,7 +13,10 @@ app.use(express.json());
 app.use(cors());
 
 
-app.use('/api/config', configRoutes);
+app.use('/api/config', configRoutes, (_req: Request, res: Response, _next: NextFunction) => {
+  return res.status(200).json(res.locals.saved);
+  //do we always want to send back res.locals.saved? 
+});
 
 // call func getLogs to perform async 
 getLogs().then(() => {

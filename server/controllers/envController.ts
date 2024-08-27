@@ -8,7 +8,7 @@ interface EnvController {
 export const envController: EnvController = {
     //save secrets (credentials, region, and MongoDB URI) into .env
     saveSecrets: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        console.log('Made it to the controller');
+        // console.log('Made it to the controller');
 
         const { awsAccessKeyID, awsSecretAccessKey, awsRegion, mongoURI }:
         { awsAccessKeyID: string; awsSecretAccessKey: string; awsRegion: string; mongoURI: string } = req.body;
@@ -21,15 +21,18 @@ export const envController: EnvController = {
         `MONGODB_URI=${mongoURI}\n`;
 
         try{
-            console.log('Made it to the try block');
+            //if everything exists in the req body --> write env file 
             fs.writeFileSync('./.env', writeToENV);
+            //else if at least one field is missing --> return an error; 
+            // console.log('Made it to the try block');
+            
             res.locals.saved = 'Secrets successfuly saved';
             return next();
-        }catch(err){
+        } catch(err){
             return next({
                 log: `${err}: Error caught in envController.saveSecrets middleware function.`,
                 status: 500,
-                message: {err: 'Error saving Access key id, secret access key, and region.'}
+                message: {err: 'Error saving AWS Access Key ID, AWS Secret Access Key, AWS region, and MongoURI.'}
             });
         }
     }

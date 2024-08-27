@@ -1,5 +1,6 @@
 import { CloudWatchLogsClient, DescribeLogStreamsCommand, GetLogEventsCommand } from '@aws-sdk/client-cloudwatch-logs';
 import dotenv from 'dotenv';
+import { awsconfig } from '../configs/awsconfig';
 
 // Load environment variables
 dotenv.config();
@@ -7,24 +8,9 @@ dotenv.config();
 // Define the logGroupName to fetch the logs from aws
 const logGroupName = '/aws/lambda/test-metric-pull-2'; 
 
-// Define the environment variables and access token in .env file
-const region = process.env.AWS_REGION as string;
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
-
-//Check .env for all the variables
-if (!region || !accessKeyId || !secretAccessKey) {
-  throw new Error('Missing one or more required environment variables');
-}
 
 // provide the region and credendials to client
-const client = new CloudWatchLogsClient({
-  region,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
-  }
-});
+const client = new CloudWatchLogsClient(awsconfig);
 
 // define log event and type
 interface LogEvent {
