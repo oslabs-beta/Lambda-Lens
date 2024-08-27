@@ -15,10 +15,11 @@
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.635.0",
     "@aws-sdk/client-cloudwatch-logs": "^3.635.0",
+    "@aws-sdk/client-lambda": "^3.637.0",
+    "@types/aws-sdk": "^0.0.42",
     "@types/node": "^22.5.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "@aws-sdk/client-lambda": "^3.637.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.5.3",
