@@ -21,17 +21,24 @@ body {
 
 .container {
   display: flex;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .charts-column {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  max-width: 48%;
 }
 
 .offset-graph {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 48%;
 }
 
 .dashboard-container {
@@ -48,3 +55,5 @@ body {
   justify-content: space-around;
   margin-top: 20px;
 }
+
+
