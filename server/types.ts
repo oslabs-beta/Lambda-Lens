@@ -1,14 +1,8 @@
-<<<<<<< HEAD
 export interface Config {
-=======
-export type Config = {
-  region: string;
->>>>>>> dev
     credentials: {
       accessKeyId: string;
       secretAccessKey: string;
     };
-<<<<<<< HEAD
     region: string;
   };
 
@@ -20,6 +14,3 @@ export type Config = {
     InitDuration?: string;
     FunctionName?: string;
   }
-=======
-  };
->>>>>>> dev
