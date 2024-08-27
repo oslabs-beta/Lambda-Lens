@@ -1,44 +1,47 @@
-# LambdaLens
+# LAMBDA LENS
 
-# client setup
+We built Lambda Lens to provide users a more intuitive UI experience than running logs through AWS' CLI. Lambda Lens aggregates and tracks key performance metrics like Cold Starts for users to evaluate their Lambda Functions.
 
-npm create vite@latest
-|\_Project name: client
-|\_Select a framework: React
-|\_Select a variant: TypeScript
+Thank you for using our app!
 
-Note: I chose TypeScript without SWC as I didn't want to add more variables to the project
+# USER REQUIREMENTS
 
-cd client
+1. An **AWS Account** with admin access
+2. A **MongoDB URI**
+
+If you don't have a MongoDB account you may register at https://www.mongodb.com/cloud/atlas/register
+
+## Env variables
+
+Users may configure these variables directly on the app's Configuration page, however, users are also free to hard code the following keys into a .env file manually. **_Please note that these variables will not be stored. They will have to be re-configured every new instance of the app._**
+
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_REGION
+- MONGODB_URI
+
+# RUNNING THE APPLICATION
+
+## Installing dependencies
+
+```
+cd client || cd server
 npm install
+```
+
+## Running the servers
+
+```
+cd client || cd server
 npm run dev
+```
 
-vite.config.ts
-|\_added server { port: 3000 }
+- client will be running on: http://localhost:3000/
+- server will be running on: http://localhost:8080/
 
-# server setup
+## Compiling TypeScript (before deployment)
 
-cd server
-npm init -y // sets up package.json file
-npm i express // installs express
-npm i -D typescript // installs TypeScript as development dependency
-npm i -D @types/express // TypeScript definitions for express
-npx tsc --init // generates tsconfig.json
-npx tsc --build // uses the tsconfig options to compile a new file
-npm i -D ts-node // installs ts-node to interpret ts files to node
-npm i -D nodemon
-
-# running the servers
-
-1. cd client
-2. npm run dev
-   http://localhost:3000/
-
-3. cd server
-4. npm run dev
-   http://localhost:8080/
-
-# compiling TypeScript
-
-cd server
-npm run build // to compile TypeScript before deployment
+```
+cd client || cd server
+npm run build
+```

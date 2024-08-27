@@ -1,43 +1,48 @@
-import express, { NextFunction, Request, Response } from 'express';
-import { getLogs } from './controllers/lambdaController';
+import express, { Request, Response, NextFunction } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectToDatabase from './models/dbConnection';
+import lambdaController from './controllers/lambdaController'; 
+import { getFunction } from './controllers/getFunctionsController';
 import configRoutes from './routes/configRoutes';
-import { getFunctionsController } from './controllers/getFunctionsController';
-import { get } from 'http';
 
+dotenv.config();
 const app = express();
-const cors = require('cors');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
-app.use(express.json());
-app.use(cors());
+app.use(bodyParser.json()); 
+app.use(cors()); 
+app.use(express.json()); 
 
 
-app.use('/api/config', configRoutes, (_req: Request, res: Response, _next: NextFunction) => {
-  return res.status(200).json(res.locals.saved);
-  //do we always want to send back res.locals.saved? 
-});
-
-// call func getLogs to perform async 
-getLogs().then(() => {
-  // console once getLogs successfully
-  console.log('Log fetching completed');
+connectToDatabase().then(() => {
+  console.log('Database connected');
 }).catch(err => {
-  console.log('Error fetching logs:', err.message)
-})
-
-
-
-//to test, run npm start in the server direcotry then send a postman request to localhost:8080/api
-app.get('/api', getFunctionsController.listFunctionData, (_req: Request, res: Response, _next: NextFunction) => {
-  console.log('res.locals.functionsList from server.ts: ', res.locals.functionsList);
-  res.status(200).send(res.locals.functionsList);
-})
-
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.send('hello');
+  console.error('Database connection error:', err);
+  process.exit(1);
 });
+
+// app.get('/api', getFunction, (_req: Request, res: Response, _next: NextFunction) => {
+//   console.log('res.locals.functionsList from server.ts: ', res.locals.functionsList);
+//   res.status(200).send(res.locals.functionsList);
+// });
+
+app.get('/logs', lambdaController.processLogs, (req: Request, res: Response) => {
+  const alldata = res.locals.alldata;
+  res.json(alldata);
+});
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello');
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({ error: err.message });
+});
+
 
 app.listen(PORT, () => {
-  console.log(`Running on Port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
