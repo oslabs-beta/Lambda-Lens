@@ -21,7 +21,14 @@ export const envController: EnvController = {
         `MONGODB_URI=${mongoURI}\n`;
 
         try{
-            //if everything exists in the req body --> write env file 
+            //if everything exists in the req body --> write env file
+            if (!req.body.awsAccessKeyID || !req.body.awsRegion || !req.body.awsSecretAccessKey || !req.body.mongoURI){
+                return next({
+                    log: `One or more fields missing.`, //more semantic (fields missing)
+                    status: 500,
+                    message: {err: 'One or more fields missing'} //more semantic (fielids missing)
+                })
+            }
             //else if at least one field is missing --> return an error; 
             // console.log('Made it to the try block');
             fs.writeFileSync('./.env', writeToENV);

@@ -9,7 +9,7 @@ type Config = {
 }
 
 function ConfigPageContainer() {
-  const handleSaveConfig = (config: Config) => {
+  const handleSaveConfig = (config: Required<Config>) => {
     console.log('Sending config', config);
     fetch('http://localhost:8080/api/config/save', {
       method: 'POST',
@@ -20,9 +20,10 @@ function ConfigPageContainer() {
     })
     .then((res) => {
       if (res.ok) {
-        alert('Configuration saved')
+        alert(`Configuration saved`);
+        window.location.replace("http://localhost:3000");
       } else {
-        alert('Configuration not saved')
+        alert(`${res.ok}: Configuration not saved`) //remove template literal after debugging;
       }
     })
     .catch((err) => {
