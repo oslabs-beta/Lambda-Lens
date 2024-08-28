@@ -56,4 +56,48 @@ body {
   margin-top: 20px;
 }
 
+/* change */
 
+.table-container {
+  display: flex;
+  justify-content: center; /* Center the table horizontally */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  border-collapse: collapse;
+  width: 600px; /* Fixed width for the table */
+  /* You can also set a max-width if needed, e.g., max-width: 100%; */
+}
+
+.table-header, .table-row {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-header div, .table-row div {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+}
+
+.table-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table-row:hover {
+  background-color: #e0e0e0;
+}
+
+.table-cell {
+  padding: 10px;
+  /* You can set a fixed width for cells if needed */
+}
