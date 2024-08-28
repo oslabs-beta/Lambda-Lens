@@ -1,34 +1,6 @@
-// import { Link } from 'react-router-dom';
-// import '../NavbarComponent.css'
-// import logo from '../logo.png'
-
-// // Refactor of above code to take advantage of react router
-// const NavbarComponent = () => {
-//   return (
-//     <nav className='navbar'>
-//       <div className='logo-container'>
-//         <img src={logo} alt='Logo' className='logo' />
-//       </div>
-//       <ul id='navbarLinks'>
-//         <li>
-//           <Link to='/'>Dashboard</Link>
-//         </li>
-//         <li>
-//           <Link to='/cloudwatchmetrics'>Cloudwatch Metrics</Link>
-//         </li>
-//         <li>
-//           <Link to='/configuration'>Configuration</Link>
-//         </li>
-//       </ul>
-//     </nav>
-//   );
-// };
-
-// export default NavbarComponent;
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../NavbarComponent.css'; // Ensure this path is correct
+import '../NavbarComponent.css'; 
 import logo from '../logo.png';
 
 const LightModeIcon = () => (
