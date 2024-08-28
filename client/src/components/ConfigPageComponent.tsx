@@ -39,42 +39,47 @@ function ConfigForm({ onSave }: ConfigFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    //switch here 
     onSave(config);
   }
 
+
+
   return (
     <form className='config-form' onSubmit={handleSubmit}>
-      <TextField
+      {/* <TextField
           error
           id="outlined-error"
           label="AWS Access Key ID Required"
           // defaultValue="Hello World"
           placeholder='minimum 16 characters'
           type='password'
-        />
-      {/* <input 
+          onChange={handleChange}
+        /> */}
+      <input 
         type="password" 
         placeholder='AWS Access Key' 
         name='awsAccessKeyID' 
         value={config.awsAccessKeyID} 
         onChange={handleChange} 
-      /> */}
-      <TextField
+      />
+      {/* <TextField
           error
           id="outlined-error"
           label="AWS Secret Access Key Required"
           // defaultValue="Hello World"
           placeholder='case sensitive'
           type='password'
-        />
-      {/* <input 
+          onChange={handleChange}
+        /> */}
+      <input 
         type="password" 
         placeholder='AWS Secret Access Key' 
         name='awsSecretAccessKey' 
         value={config.awsSecretAccessKey} 
         onChange={handleChange} 
-      /> */}
-      <FormControl sx={{ m: 1, minWidth: 120 }} error>
+      />
+      {/* <FormControl sx={{ m: 1, minWidth: 120 }} error>
         <InputLabel>AWS Region</InputLabel>
         <Select
           value={config.awsRegion}
@@ -83,16 +88,16 @@ function ConfigForm({ onSave }: ConfigFormProps) {
           renderValue={(value) => `⚠️  - ${value}`}
         >
           <MenuItem value="">
-            {/* <em>None</em> */}
+            <em>None</em>
           </MenuItem>
           <MenuItem value="us-east-1" onChange={handleChange} >US East 1</MenuItem>
           <MenuItem value="us-east-2" onChange={handleChange}>US East 2</MenuItem>
           <MenuItem value="us-west-1" onChange={handleChange}>US West 1</MenuItem>
         </Select>
         <FormHelperText>Required</FormHelperText>
-      </FormControl>
+      </FormControl> */}
 
-      {/* <select 
+      <select 
         name='awsRegion'
         value={config.awsRegion}
         onChange={handleChange}
@@ -101,25 +106,26 @@ function ConfigForm({ onSave }: ConfigFormProps) {
         <option value="us-east-1">US East 1</option>
         <option value="us-east-2">US East 2</option>
         <option value="us-west-1">US West 1</option>
-      </select> */}
+      </select>
 
-      <TextField
+      {/* <TextField
           error
           id="outlined-error"
           label="MongoDB URI Required"
           // defaultValue="Hello World"
           placeholder='personal URL with username and password'
           type='password'
-        />
+          onChange={handleChange}
+        /> */}
 
-      {/* <input 
+      <input 
         type="password" 
         placeholder='MongoDB URI' 
         name='mongoURI' 
         value={config.mongoURI} 
         onChange={handleChange} 
-      /> */}
-      <button type='submit'>Save</button>
+      />
+      <button type='submit' onSubmit={handleSubmit}>Save</button>
     </form>
   )
 }

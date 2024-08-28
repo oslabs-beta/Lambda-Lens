@@ -23,11 +23,11 @@ function ConfigPageContainer() {
         alert(`Configuration saved`);
         window.location.replace("http://localhost:3000");
       } else {
-        alert(`${res.ok}: Configuration not saved`) //remove template literal after debugging;
+        alert('Error: Configuration not saved \nMissing one or more fields');
       }
     })
     .catch((err) => {
-      console.log('The following error occurred:', err)
+      console.log('The following error occurred:', err);
     })
   };
 
