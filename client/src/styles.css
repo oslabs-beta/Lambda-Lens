@@ -3,15 +3,21 @@ body {
   background-color: #f5f5f5;
 }
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-}
-
+.header-row,
 .data-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px 0; 
+  border-bottom: 1px solid #ddd; 
+}
+
+.header-row > div,
+.data-row > div {
+  flex: 1; 
+  text-align: center; 
+  padding: 10px; 
+  box-sizing: border-box; 
 }
 
 .dashboard-display {
@@ -41,26 +47,27 @@ body {
   max-width: 48%;
 }
 
-.dashboard-container {
+/* .dashboard-container {
   display: flex;
   flex-direction: column;
   padding: 20px;
   background-color: #ffffff;
   margin: 20px;
   border-radius: 8px;
-}
+} */
 
 .dashboard-graphs {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+  padding: 20px;
 }
 
 /* change */
 
 .table-container {
   display: flex;
-  justify-content: center; /* Center the table horizontally */
+  justify-content: center; 
   margin: 0 auto;
   padding: 20px;
 }
@@ -69,8 +76,8 @@ body {
   display: flex;
   flex-direction: column;
   border-collapse: collapse;
-  width: 600px; /* Fixed width for the table */
-  /* You can also set a max-width if needed, e.g., max-width: 100%; */
+  width: 600px; 
+  max-width: 100px;
 }
 
 .table-header, .table-row {
@@ -78,26 +85,23 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
-.table-header div, .table-row div {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-}
-
 .table-header {
   font-weight: bold;
   background-color: #f0f0f0;
 }
 
-.table-row:nth-child(even) {
-  background-color: #f9f9f9;
+.table-header div, .table-row div {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .table-row:hover {
   background-color: #e0e0e0;
 }
 
+
 .table-cell {
   padding: 10px;
-  /* You can set a fixed width for cells if needed */
 }

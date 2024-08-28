@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use(cors()); 
 app.use(express.json()); 
 
+app.use('/api/config', configRoutes);
 
 connectToDatabase().then(() => {
   console.log('Database connected');
@@ -24,10 +25,6 @@ connectToDatabase().then(() => {
   process.exit(1);
 });
 
-// app.get('/api', getFunction, (_req: Request, res: Response, _next: NextFunction) => {
-//   console.log('res.locals.functionsList from server.ts: ', res.locals.functionsList);
-//   res.status(200).send(res.locals.functionsList);
-// });
 
 app.get('/logs', lambdaController.processLogs, (req: Request, res: Response) => {
   const alldata = res.locals.alldata;
