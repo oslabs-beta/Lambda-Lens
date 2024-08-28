@@ -4,9 +4,9 @@ import visData from '../models/visDataModel';
 interface Log {
   Date: string;
   Time: string;
-  Duration: string;
+  FunctionName: string;
   BilledDuration: string;
-  InitDuration: string;
+  InitDuration?: string;
   MaxMemUsed: string;
 }
 
@@ -16,12 +16,28 @@ interface RawData {
 }
 
 export const databaseController = {
-  processData: async (
-    res: Response,
+  formatData: async (
     _req: Request,
+    res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
+      const rawData: Log[] = res.locals.allData;
+    } catch (err) {
+      next({
+        message: `Error in processData: ${err}`,
+        log: err,
+      });
+    }
+  },
+
+  processData: async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      // console.log('log from dbController', res.locals.allData);
       const rawData: RawData[] = res.locals.allData;
 
       for (let func of rawData) {
@@ -46,20 +62,20 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        message: `Error in mapData: ${err}`,
+        message: `Error in processData: ${err}`,
         log: err,
       });
     }
   },
 
   getProccessedData: async (
-    res: Response,
     req: Request,
+    res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
-      const functionName = req.body.name;
-      res.locals.data = await visData.find({ functionName: functionName });
+      res.locals.data = await visData.find({});
+      console.log('data fetched for frontend:', res.locals.data);
       return next();
     } catch (err) {
       next({

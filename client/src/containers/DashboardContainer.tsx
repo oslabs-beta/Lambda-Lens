@@ -1,51 +1,51 @@
-import { useState, useEffect } from "react";
-import ColdStartsGraphComponent from "../components/ColdStartsGraphComponent";
-import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
-import AvgBilledDurGraph from "../components/AvgBilledDurGraphComponent";
+import { useState, useEffect } from 'react';
+import ColdStartsGraphComponent from '../components/ColdStartsGraphComponent';
+import ColdStartsMetricsContainer from './ColdStartsMetricsContainer';
+import AvgBilledDurGraph from '../components/AvgBilledDurGraphComponent';
 import '../styles.css';
 
 interface FunctionData {
-    functionName: string; 
-    avgBilledDur: number;
-    numColdStarts: number;
-    percentColdStarts: number;
+  functionName: string;
+  avgBilledDur: number;
+  numColdStarts: number;
+  percentColdStarts: number;
 }
 
 const DashboardContainer = () => {
-const [data, setData] = useState<FunctionData[]>([]);
+  const [data, setData] = useState<FunctionData[]>([]);
 
-const fetchData = () => {
-  fetch('/mockData.json')
-    .then(res => res.json())
-    .then(data => setData(data.functions))
-    .catch(err => console.log(err))
-}
+  const fetchData = () => {
+    fetch('http://localhost:8080/data/req')
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((err) => console.log(err));
+  };
 
-useEffect(() => {
-  fetchData();
-}, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-const handleRefresh = () => {
-  fetchData();
-}
+  const handleRefresh = () => {
+    fetchData();
+  };
 
-const sortedData = data
-  .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
-  .slice(0, 10)
+  const sortedData = data
+    .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
+    .slice(0, 10);
 
   return (
-    <div className="dashboard-container">
+    <div className='dashboard-container'>
       <h1>Dashboard</h1>
       <button onClick={handleRefresh}>Refresh</button>
       <div>
-        <ColdStartsMetricsContainer data={sortedData}/>
+        <ColdStartsMetricsContainer data={sortedData} />
       </div>
-      <div className="dashboard-graphs">
-        <ColdStartsGraphComponent data={sortedData}/>
-        <AvgBilledDurGraph data={sortedData}/>
+      <div className='dashboard-graphs'>
+        <ColdStartsGraphComponent data={sortedData} />
+        <AvgBilledDurGraph data={sortedData} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default DashboardContainer;

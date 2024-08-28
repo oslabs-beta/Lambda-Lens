@@ -26,10 +26,13 @@ const formatLogs = (
       .toLocaleString('en-US', { timeZone: 'UTC' })
       .split(', ');
 
+    // removes /aws/lambda/ from the functionName
+    const cleanFuncName = functionName.replace('/aws/lambda/', '');
+
     const currentFormattedLog: FormattedLog = {
       Date: formattedDate[0],
       Time: formattedDate[1],
-      FunctionName: functionName,
+      FunctionName: cleanFuncName,
     };
 
     const parts = log.message.split(/\s+/);
@@ -114,7 +117,10 @@ const fetchAndSaveLogs = async (logGroupNames: string[]) => {
     // console.log('Formatted Logs:', JSON.stringify(formattedLogs, null, 2));
 
     if (formattedLogs.length > 0) {
-      await Log.insertMany(formattedLogs);
+      // console.log(formattedLogs);
+      return formattedLogs; // this is working up until this point
+
+      // await Log.insertMany(formattedLogs);
       // console.log('Logs have been saved to MongoDB');
     }
   } catch (err) {
@@ -126,37 +132,42 @@ const lambdaController = {
   async processLogs(req: Request, res: Response, next: NextFunction) {
     try {
       const functionNames = await getFunction();
+      // console.log('functionNames:', functionNames);
 
       if (functionNames.length === 0) {
         return res.status(404).json({ error: 'No Lambda functions found' });
       }
 
       const logGroupNames = functionNames.map((name) => `/aws/lambda/${name}`);
+      console.log(logGroupNames);
 
-      await fetchAndSaveLogs(logGroupNames);
+      const fetchedLogs = await fetchAndSaveLogs(logGroupNames); // can I make this into case by case situation?
+      // console.log('fetchedLogs:', fetchedLogs);
 
-      const allData: { functionName: string; logs: FormattedLog[] }[] = [];
+      // const alldata: { functionName: string; logs: FormattedLog[] }[] = [];
 
-      for (const logGroupName of logGroupNames) {
-        const functionName = logGroupName.replace('/aws/lambda/', '');
+      // for (const logGroupName of logGroupNames) {
+      //   const functionName = logGroupName.replace('/aws/lambda/', '');
 
-        const logs = await Log.find({ FunctionName: logGroupName });
+      // const fetchedLogs = await fetchAndSaveLogs(logGroupNames);
+      // const logs = await Log.find({ FunctionName: logGroupName });
+      // console.log('fetchedLogs:', fetchedLogs);
 
-        const formattedLogs: FormattedLog[] = logs.map((log) => ({
-          Date: log.Date || '',
-          Time: log.Time || '',
-          BilledDuration: log.BilledDuration || '',
-          MaxMemUsed: log.MaxMemUsed || '',
-          InitDuration: log.InitDuration || '',
-        }));
+      // const formattedLogs: FormattedLog[] = fetchedLogs!.map((log) => ({
+      //   Date: log.Date || '',
+      //   Time: log.Time || '',
+      //   BilledDuration: log.BilledDuration || '',
+      //   MaxMemUsed: log.MaxMemUsed || '',
+      //   InitDuration: log.InitDuration || '',
+      // }));
 
-        allData.push({
-          functionName,
-          logs: formattedLogs,
-        });
-      }
+      //   alldata.push({
+      //     functionName,
+      //     logs: formattedLogs,
+      //   });
+      // }
 
-      res.locals.allData = allData;
+      res.locals.allData = fetchedLogs;
 
       next();
     } catch (err) {
