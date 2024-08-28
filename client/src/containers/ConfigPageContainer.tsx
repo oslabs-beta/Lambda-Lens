@@ -9,7 +9,7 @@ type Config = {
 }
 
 function ConfigPageContainer() {
-  const handleSaveConfig = (config: Config) => {
+  const handleSaveConfig = (config: Required<Config>) => {
     console.log('Sending config', config);
     fetch('http://localhost:8080/api/config/save', {
       method: 'POST',
@@ -20,13 +20,14 @@ function ConfigPageContainer() {
     })
     .then((res) => {
       if (res.ok) {
-        alert('Configuration saved')
+        alert(`Configuration saved`);
+        window.location.replace("http://localhost:3000");
       } else {
-        alert('Configuration not saved')
+        alert('Error: Configuration not saved \nMissing one or more fields');
       }
     })
     .catch((err) => {
-      console.log('The following error occurred:', err)
+      console.log('The following error occurred:', err);
     })
   };
 
