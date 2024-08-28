@@ -110,13 +110,34 @@ const fetchAndSaveLogs = async (logGroupNames: string[]) => {
 
   try {
     const formattedLogs = formatLogs(allLogs);
+    // console.log(formattedLogs);
+
+    // iterate each array to sort into specific function pools
+    // then for each function pool, findOneAndUpdate
+    // possible identifiers: function name, date and time
+
+    for (const unsortedLogs of formattedLogs) {
+      console.log('unsortedLogs:', unsortedLogs);
+      await Log.findOneAndUpdate(
+        {
+          FunctionName: unsortedLogs.FunctionName,
+          Date: unsortedLogs.Date,
+          Time: unsortedLogs.Time,
+        },
+        unsortedLogs,
+        {
+          upsert: true,
+          returnNewDocument: true,
+        }
+      );
+    }
 
     // console.log('Formatted Logs:', JSON.stringify(formattedLogs, null, 2));
 
-    if (formattedLogs.length > 0) {
-      await Log.insertMany(formattedLogs);
-      // console.log('Logs have been saved to MongoDB');
-    }
+    // if (formattedLogs.length > 0) {
+    //   await Log.insertMany(formattedLogs);
+    //   // console.log('Logs have been saved to MongoDB');
+    // }
   } catch (err) {
     console.error(`Error formatting or saving logs: ${(err as Error).message}`);
   }

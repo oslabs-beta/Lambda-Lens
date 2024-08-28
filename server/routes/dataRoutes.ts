@@ -17,6 +17,8 @@ dataRouter.get(
 
 dataRouter.get(
   '/req',
+  lambdaController.processLogs,
+  databaseController.processData,
   databaseController.getProccessedData,
   (req: Request, res: Response, next: NextFunction) => {
     // console.log('data requested', res.locals.data);
