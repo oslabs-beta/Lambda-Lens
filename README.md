@@ -15,10 +15,12 @@ If you don't have a MongoDB account you may register at https://www.mongodb.com/
 
 Users may configure these variables directly on the app's Configuration page, however, users are also free to hard code the following keys into a .env file manually. **_Please note that these variables will not be stored. They will have to be re-configured every new instance of the app._**
 
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
-- AWS_REGION
-- MONGODB_URI
+```
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+MONGODB_URI=
+```
 
 # RUNNING THE APPLICATION
 
