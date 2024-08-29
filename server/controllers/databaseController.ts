@@ -16,21 +16,6 @@ interface RawData {
 }
 
 export const databaseController = {
-  formatData: async (
-    _req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> => {
-    try {
-      const rawData: Log[] = res.locals.allData;
-    } catch (err) {
-      next({
-        message: `Error in processData: ${err}`,
-        log: err,
-      });
-    }
-  },
-
   processData: async (
     _req: Request,
     res: Response,
@@ -76,7 +61,7 @@ export const databaseController = {
   },
 
   getProccessedData: async (
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
