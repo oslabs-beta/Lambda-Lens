@@ -52,12 +52,19 @@ export const databaseController = {
 
         const percentCold = totalStarts > 0 ? (cold / totalStarts) * 100 : 0;
 
-        await visData.create({
-          functionName: func.functionName,
-          avgBilledDur: billed,
-          numColdStarts: cold,
-          percentColdStarts: percentCold.toFixed(2),
-        });
+        await visData.findOneAndUpdate(
+          { functionName: func.functionName },
+          {
+            functionName: func.functionName,
+            avgBilledDur: billed,
+            numColdStarts: cold,
+            percentColdStarts: percentCold.toFixed(2),
+          },
+          {
+            upsert: true,
+            returnNewDocument: true,
+          }
+        );
       }
       return next();
     } catch (err) {
@@ -75,7 +82,7 @@ export const databaseController = {
   ): Promise<void> => {
     try {
       res.locals.data = await visData.find({});
-      console.log('data fetched for frontend:', res.locals.data);
+      // console.log('data fetched for frontend:', res.locals.data);
       return next();
     } catch (err) {
       next({
