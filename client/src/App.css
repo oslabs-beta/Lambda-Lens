@@ -9,7 +9,7 @@
 .logo {
   height: 2.5em; 
   padding: 1.5em; 
-  will-change: filter;
+  filter: brightness(0) invert(1);
   transition: filter 300ms;
 }
 
