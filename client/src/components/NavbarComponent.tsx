@@ -41,7 +41,7 @@ const NavbarComponent = () => {
       </div>
       <ul id='navbarLinks'>
         <li>
-          <Link to='/'>Dashboard</Link>
+          <Link to='/'>Function Performance</Link>
         </li>
         <li>
           <Link to='/cloudwatchmetrics'>Cloudwatch Metrics</Link>

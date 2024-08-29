@@ -20,7 +20,7 @@ dataRouter.get(
   lambdaController.processLogs,
   databaseController.processData,
   databaseController.getProccessedData,
-  (_req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response, _next: NextFunction) => {
     // console.log('data requested', res.locals.data);
     return res.status(200).send(res.locals.data);
   }

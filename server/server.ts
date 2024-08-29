@@ -49,8 +49,22 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello');
 });
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ error: err.message });
+
+//catch-all 404 handler for paths not defined
+app.use((_req: Request, res: Response) => {return res.status(404).send('This is not the page you\'re looking for')});
+
+//default global error handler
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  const defaultErr: {
+    log: string, 
+    status: number, 
+    message: { err: string} } = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  return res.status(errorObj.status).json(errorObj.message);
 });
 
 app.listen(PORT, () => {
