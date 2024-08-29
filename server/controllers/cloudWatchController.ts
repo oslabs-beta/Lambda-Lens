@@ -6,28 +6,9 @@ import {
 import dotenv from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
 import { getFunction } from './getFunctionsController';
+import { awsconfig } from '../configs/awsconfig';
 
-// load environment variables
-dotenv.config();
-
-// define AWS credentials
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID as string;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY as string;
-const region = process.env.AWS_REGION as string;
-
-// check .env for all the variables
-if (!region || !accessKeyId || !secretAccessKey) {
-  throw new Error('Missing one or more required environment variables');
-}
-
-// create new instance of CloudWatchClient using .env credentials
-const client = new CloudWatchClient({
-  region,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
-  },
-});
+const client = new CloudWatchClient(awsconfig);
 
 const metricCommand = (funcName: string): GetMetricDataCommand => {
   // define time range for the metric data
