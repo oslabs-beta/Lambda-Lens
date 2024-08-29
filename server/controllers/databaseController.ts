@@ -16,21 +16,6 @@ interface RawData {
 }
 
 export const databaseController = {
-  formatData: async (
-    _req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> => {
-    try {
-      const rawData: Log[] = res.locals.allData;
-    } catch (err) {
-      next({
-        message: `Error in processData: ${err}`,
-        log: err,
-      });
-    }
-  },
-
   processData: async (
     _req: Request,
     res: Response,
@@ -69,14 +54,14 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        message: `Error in processData: ${err}`,
-        log: err,
-      });
+        log: 'Error in databaseController.processData', 
+        status: 500, 
+        message: { err: 'Error occured when finding/updating database.'} });
     }
   },
 
   getProccessedData: async (
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
@@ -86,9 +71,9 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        message: `Error in mapData: ${err}`,
-        log: err,
-      });
+        log: 'Error in databaseController.getProcessedData', 
+        status: 500, 
+        message: { err: 'Error occured when finding from database'} });
     }
   },
 };

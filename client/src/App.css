@@ -3,17 +3,24 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  transition: background-color 1s, color 1s; 
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+  height: 2.5em; 
+  padding: 1.5em; 
+  filter: brightness(0) invert(1);
   transition: filter 300ms;
 }
+
+body.darkmode .logo {
+  filter: brightness(0) invert(1); 
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -51,17 +58,17 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   z-index: 1000;
+  transition: background-color 0.3s;
 }
 
 ul {
-  list-style-type: non;
+  list-style-type: none; 
   margin: 0;
   padding: 0;
-
-  
 }
+
 #navbarLinks {
   display: flex;
   flex-direction: row;
@@ -70,3 +77,31 @@ ul {
   padding: 0 34px;  
 }
 
+/* Dark mode styles */
+body.darkmode {
+  background-color: #1e1e1e; 
+  color: #e0e0e0; 
+}
+
+body.darkmode .navbar {
+  background-color: #333;
+}
+
+body.darkmode #navbarLinks a {
+  color: #e0e0e0;
+}
+
+div.darkmode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* body.darkmode .dashboard-container {
+  background-color: #1e1e1e; 
+  color: #e0e0e0; 
+} */
+
+body.darkmode .config-page-container {
+  background-color: #1e1e1e; 
+  color: #e0e0e0; 
+}

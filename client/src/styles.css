@@ -4,14 +4,25 @@ body {
 }
 
 .header-row {
-  display: flex;
-  justify-content: space-between;
+  font-size: 17px;
   font-weight: bold;
 }
 
+.header-row,
 .data-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px 0; 
+  border-bottom: 1px solid #ddd; 
+}
+
+.header-row > div,
+.data-row > div {
+  flex: 1; 
+  text-align: center; 
+  padding: 10px; 
+  box-sizing: border-box; 
 }
 
 .dashboard-display {
@@ -21,30 +32,137 @@ body {
 
 .container {
   display: flex;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .charts-column {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  max-width: 48%;
 }
 
 .offset-graph {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 48%;
 }
 
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
+/* .dashboard-container {
+  margin: 0 auto;
   padding: 20px;
-  background-color: #ffffff;
-  margin: 20px;
-  border-radius: 8px;
-}
+} */
 
 .dashboard-graphs {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 20px;
+  padding: 20px;
+  gap: 40px;
+  max-width: 100%;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center; 
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  border-collapse: collapse;
+  width: 600px; 
+  max-width: 100px;
+}
+
+.table-header, .table-row {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.table-header div, .table-row div {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.table-row:hover {
+  background-color: #e0e0e0;
+}
+
+
+.table-cell {
+  padding: 10px;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.dashboard-header h1 {
+  margin-right: 20px;
+}
+
+.refresh-button {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.refresh-button:hover {
+  background-color: #e0e0e0;
+}
+
+.component-box {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+   
+  
+.graph-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  max-width: 48%;
+  height: 400px;
+  padding: 10px;
+}
+
+body.darkmode .refresh-button:hover {
+  background-color: #555;
+}
+
+body.darkmode .component-box {
+  background-color: #2b2b2b;
+  border-color: #444;
+}
+
+body.darkmode .table-header {
+  background-color: #2e2e2e; 
+  color: #e0e0e0; 
+}
+
+body.darkmode .table-row:hover {
+  background-color: #444; 
 }

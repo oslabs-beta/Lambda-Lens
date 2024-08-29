@@ -10,9 +10,9 @@ dataRouter.get(
   '/update',
   lambdaController.processLogs,
   databaseController.processData,
-  (req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response, next: NextFunction) => {
     console.log('data received');
-    next();
+    return next();
   }
 );
 
