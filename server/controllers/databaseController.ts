@@ -54,9 +54,9 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        log: 'Error occured when accessing res.locals.allData or findOneAndUpdate to visData ', 
+        log: 'Error in databaseController.processData', 
         status: 500, 
-        message: { err: 'Error in databaseController.processData'} });
+        message: { err: 'Error occured when finding/updating database.'} });
     }
   },
 
@@ -71,9 +71,9 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        log: 'Error occured when setting res.locals.data to visData.find', 
+        log: 'Error in databaseController.getProcessedData', 
         status: 500, 
-        message: { err: 'Error in databaseController.getProcessedData'} });
+        message: { err: 'Error occured when finding from database'} });
     }
   },
 };

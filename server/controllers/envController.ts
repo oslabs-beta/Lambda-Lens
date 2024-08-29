@@ -42,9 +42,9 @@ export const envController: EnvController = {
         !req.body.mongoURI
       ) {
         return next({
-          log: `One or more fields missing.`, //more semantic (fields missing)
+          log: `Error in envController.saveSecrets`, //more semantic (fields missing)
           status: 500,
-          message: { err: 'Error in envController.saveSecrets' }, //more semantic (fielids missing)
+          message: { err: 'One or more fields missing.' }, //more semantic (fields missing)
         });
       }
       //else if at least one field is missing --> return an error;
