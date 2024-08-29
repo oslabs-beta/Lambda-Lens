@@ -8,7 +8,6 @@ import { getFunction } from './getFunctionsController';
 import Log from '../models/lambdaModel';
 import { FormattedLog } from '../types';
 import { awsconfig } from '../configs/awsconfig';
-import { Config } from '../types';
 
 const client = new CloudWatchLogsClient(awsconfig);
 
@@ -144,7 +143,7 @@ const fetchAndSaveLogs = async (logGroupNames: string[]) => {
 };
 
 const lambdaController = {
-  async processLogs(req: Request, res: Response, next: NextFunction) {
+  async processLogs(_req: Request, res: Response, next: NextFunction) {
     try {
       const functionNames = await getFunction();
 
@@ -179,7 +178,7 @@ const lambdaController = {
 
       res.locals.allData = allData;
 
-      next();
+      return next();
     } catch (err) {
       next(err);
     }
