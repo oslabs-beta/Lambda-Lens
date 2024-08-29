@@ -157,9 +157,13 @@ export const getMetricData = async (
       };
     });
 
-    res.locals.data = mappedMetricsArray;
-    next();
+    res.locals.cloudData = mappedMetricsArray;
+    return next();
   } catch (error) {
-    console.error('Error fetching metric data:', error);
+    return next({
+      log: 'Error in cloudWatchController.getMetricData',
+      status: 500,
+      message: { err: 'Error occured when retrieving Cloudwatch Metrics.' },
+    });
   }
 };

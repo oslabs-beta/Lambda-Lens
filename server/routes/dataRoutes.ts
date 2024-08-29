@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
-import { getMetricData } from '../controllers/cloudWatchController';
+import { getMetricData } from '../controllers/cloudwatchController';
 import lambdaController from '../controllers/lambdaController';
 // import lambdaController from '../controllers/rawDataController';
 
@@ -32,7 +32,7 @@ dataRouter.get(
   getMetricData,
   (req: Request, res: Response, next: NextFunction) => {
     // console.log('data requested from Cloud Watch:', res.locals.data);
-    return res.status(200).send(res.locals.data);
+    return res.status(200).send(res.locals.cloudData);
   }
 );
 
