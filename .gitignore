@@ -13,3 +13,5 @@ server/node_modules/
 # Ignore other specific directories or files if needed
 /server/logs
 /server/tmp
+
+dist
