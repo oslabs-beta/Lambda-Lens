@@ -35,14 +35,20 @@ const DashboardContainer = () => {
 
   return (
     <div className='dashboard-container'>
-      <h1>Dashboard</h1>
-      <button onClick={handleRefresh}>Refresh</button>
-      <div>
+      <div className='dashboard-header'>
+        <h1>Dashboard</h1>
+        <button className='refresh-button' onClick={handleRefresh}>&#x21bb;</button>
+      </div>
+      <div className='component-box'>
         <ColdStartsMetricsContainer data={sortedData} />
       </div>
       <div className='dashboard-graphs'>
-        <ColdStartsGraphComponent data={sortedData} />
-        <AvgBilledDurGraph data={sortedData} />
+        <div className='component-box graph-container'>
+          <ColdStartsGraphComponent data={sortedData} />
+        </div>
+        <div className='component-box graph-container'>
+          <AvgBilledDurGraph data={sortedData} />
+        </div>
       </div>
     </div>
   );
