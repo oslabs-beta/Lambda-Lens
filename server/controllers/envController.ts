@@ -44,7 +44,7 @@ export const envController: EnvController = {
         return next({
           log: `One or more fields missing.`, //more semantic (fields missing)
           status: 500,
-          message: { err: 'One or more fields missing' }, //more semantic (fielids missing)
+          message: { err: 'Error in envController.saveSecrets' }, //more semantic (fielids missing)
         });
       }
       //else if at least one field is missing --> return an error;

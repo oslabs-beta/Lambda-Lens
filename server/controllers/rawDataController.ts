@@ -171,7 +171,10 @@ const lambdaController = {
 
       next();
     } catch (err) {
-      next(err);
+      next({
+        log: 'Error occured when finding Lambda log streams', 
+        status: 500, 
+        message: { err: 'Error in lambdaController.processLogs'} });
     }
   },
 };
