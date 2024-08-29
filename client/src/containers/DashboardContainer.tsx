@@ -36,7 +36,7 @@ const DashboardContainer = () => {
   return (
     <div className='dashboard-container'>
       <div className='dashboard-header'>
-        <h1>Dashboard</h1>
+        <h1>Function Performance</h1>
         <button className='refresh-button' onClick={handleRefresh}>&#x21bb;</button>
       </div>
       <div className='component-box'>

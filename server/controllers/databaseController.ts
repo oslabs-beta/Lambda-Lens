@@ -54,9 +54,9 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        message: `Error in processData: ${err}`,
-        log: err,
-      });
+        log: 'Error in databaseController.processData', 
+        status: 500, 
+        message: { err: 'Error occured when finding/updating database.'} });
     }
   },
 
@@ -71,9 +71,9 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        message: `Error in mapData: ${err}`,
-        log: err,
-      });
+        log: 'Error in databaseController.getProcessedData', 
+        status: 500, 
+        message: { err: 'Error occured when finding from database'} });
     }
   },
 };
