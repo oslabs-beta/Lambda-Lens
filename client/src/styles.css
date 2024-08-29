@@ -3,7 +3,6 @@ body {
   background-color: #f5f5f5;
 }
 
-/* title of columns */
 .header-row {
   font-size: 17px;
   font-weight: bold;
@@ -66,8 +65,6 @@ body {
   gap: 40px;
   max-width: 100%;
 }
-
-/* change */
 
 .table-container {
   display: flex;

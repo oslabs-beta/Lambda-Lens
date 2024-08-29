@@ -6,12 +6,15 @@
   transition: background-color 1s, color 1s; 
 }
 
-/* Logo styling */
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+  height: 2.5em; 
+  padding: 1.5em; 
+  filter: brightness(0) invert(1);
   transition: filter 300ms;
+}
+
+body.darkmode .logo {
+  filter: brightness(0) invert(1); 
 }
 
 .logo:hover {
