@@ -5,10 +5,8 @@ import {
   GetLogEventsCommand,
 } from '@aws-sdk/client-cloudwatch-logs';
 import { getFunction } from './getFunctionsController';
-import Log from '../models/lambdaModel';
 import { FormattedLog } from '../types';
 import { awsconfig } from '../configs/awsconfig';
-import { Config } from '../types';
 
 const client = new CloudWatchLogsClient(awsconfig);
 
@@ -17,6 +15,7 @@ interface LogEvent {
   timestamp: number;
 }
 
+// formats report message string into useable key-value pairs
 const formatLogs = (
   logs: { log: LogEvent; functionName: string }[]
 ): FormattedLog[] => {
@@ -26,13 +25,10 @@ const formatLogs = (
       .toLocaleString('en-US', { timeZone: 'UTC' })
       .split(', ');
 
-    // removes /aws/lambda/ from the functionName
-    const cleanFuncName = functionName.replace('/aws/lambda/', '');
-
     const currentFormattedLog: FormattedLog = {
       Date: formattedDate[0],
       Time: formattedDate[1],
-      FunctionName: cleanFuncName,
+      FunctionName: functionName,
     };
 
     const parts = log.message.split(/\s+/);
@@ -48,133 +44,97 @@ const formatLogs = (
   });
 };
 
-const fetchAndSaveLogs = async (logGroupNames: string[]) => {
+// fetches report data from aws
+const fetchAndSaveLogs = async (functionName: string) => {
+  const formattedFunc = `/aws/lambda/${functionName}`;
   const allLogs: { log: LogEvent; functionName: string }[] = [];
 
-  for (const logGroupName of logGroupNames) {
-    try {
-      // console.log(`Fetching log streams for log group: ${logGroupName}`);
-      const describeResponse = await client.send(
-        new DescribeLogStreamsCommand({ logGroupName })
-      );
-      const streams = describeResponse.logStreams || [];
-
-      // console.log(
-      //   `Found ${streams.length} log streams for log group ${logGroupName}`
-      // );
-
-      for (const stream of streams.slice(-6)) {
-        const params = {
-          logGroupName,
-          logStreamName: stream.logStreamName,
-          startFromHead: true,
-        };
-
-        try {
-          // console.log(
-          //   `Fetching log events from stream: ${stream.logStreamName}`
-          // );
-          const logsResponse = await client.send(
-            new GetLogEventsCommand(params)
-          );
-          const events = logsResponse.events || [];
-
-          // console.log(
-          //   `Found ${events.length} log events in stream ${stream.logStreamName}`
-          // );
-
-          for (const event of events) {
-            if (event.message && event.message.startsWith('REPORT')) {
-              allLogs.push({
-                log: {
-                  message: event.message,
-                  timestamp: event.timestamp || Date.now(),
-                },
-                functionName: logGroupName,
-              });
-            }
-          }
-        } catch (err) {
-          console.error(
-            `Error retrieving log events for stream ${stream.logStreamName}: ${
-              (err as Error).message
-            }`
-          );
-        }
-      }
-    } catch (err) {
-      console.error(
-        `Error retrieving log streams for log group ${logGroupName}: ${
-          (err as Error).message
-        }`
-      );
-    }
-  }
-
   try {
-    const formattedLogs = formatLogs(allLogs);
+    const describeResponse = await client.send(
+      new DescribeLogStreamsCommand({ logGroupName: formattedFunc })
+    );
+    const streams = describeResponse.logStreams || [];
 
-    // console.log('Formatted Logs:', JSON.stringify(formattedLogs, null, 2));
+    // takes the 6 most recent streams
+    for (const stream of streams.slice(-6)) {
+      const params = {
+        logGroupName: formattedFunc,
+        logStreamName: stream.logStreamName,
+        startFromHead: true,
+      };
 
-    if (formattedLogs.length > 0) {
-      // console.log(formattedLogs);
-      return formattedLogs; // this is working up until this point
+      try {
+        const logsResponse = await client.send(new GetLogEventsCommand(params));
+        const events = logsResponse.events || [];
 
-      // await Log.insertMany(formattedLogs);
-      // console.log('Logs have been saved to MongoDB');
+        // loops through all the events, finding messages that start with REPORT
+        for (const event of events) {
+          if (event.message && event.message.startsWith('REPORT')) {
+            allLogs.push({
+              log: {
+                message: event.message,
+                timestamp: event.timestamp || Date.now(),
+              },
+              functionName: functionName,
+            });
+          }
+        }
+      } catch (err) {
+        console.error(
+          `Error retrieving log events for stream ${stream.logStreamName}: ${
+            (err as Error).message
+          }`
+        );
+      }
     }
   } catch (err) {
-    console.error(`Error formatting or saving logs: ${(err as Error).message}`);
+    console.error(
+      `Error retrieving log streams for log group ${functionName}: ${
+        (err as Error).message
+      }`
+    );
   }
+  return formatLogs(allLogs);
 };
 
+// processes the logs retrieved from the above functions and passes the data to the frontend
 const lambdaController = {
   async processLogs(req: Request, res: Response, next: NextFunction) {
     try {
-      const functionNames = await getFunction();
-      // console.log('functionNames:', functionNames);
+      // retrieves the array of function names
+      const functionNames: string[] = await getFunction();
 
       if (functionNames.length === 0) {
         return res.status(404).json({ error: 'No Lambda functions found' });
       }
 
-      const logGroupNames = functionNames.map((name) => `/aws/lambda/${name}`);
-      console.log(logGroupNames);
+      // helper function that maps and fetches the log data to a schema
+      const helper = async (functionNames: string[]) => {
+        const fetchPromises = functionNames.map(async (functionName) => {
+          return {
+            functionName,
+            logs: await fetchAndSaveLogs(functionName),
+          };
+        });
 
-      const fetchedLogs = await fetchAndSaveLogs(logGroupNames); // can I make this into case by case situation?
-      // console.log('fetchedLogs:', fetchedLogs);
+        // resolves all the promises
+        const dataArr = await Promise.all(fetchPromises);
 
-      // const alldata: { functionName: string; logs: FormattedLog[] }[] = [];
+        return dataArr;
+      };
 
-      // for (const logGroupName of logGroupNames) {
-      //   const functionName = logGroupName.replace('/aws/lambda/', '');
+      // invokes the helper function and stores the data in a new variable
+      const dataArr = await helper(functionNames);
 
-      // const fetchedLogs = await fetchAndSaveLogs(logGroupNames);
-      // const logs = await Log.find({ FunctionName: logGroupName });
-      // console.log('fetchedLogs:', fetchedLogs);
+      res.locals.allData = dataArr;
 
-      // const formattedLogs: FormattedLog[] = fetchedLogs!.map((log) => ({
-      //   Date: log.Date || '',
-      //   Time: log.Time || '',
-      //   BilledDuration: log.BilledDuration || '',
-      //   MaxMemUsed: log.MaxMemUsed || '',
-      //   InitDuration: log.InitDuration || '',
-      // }));
-
-      //   alldata.push({
-      //     functionName,
-      //     logs: formattedLogs,
-      //   });
-      // }
-
-      res.locals.allData = fetchedLogs;
-
-      next();
+      return next();
     } catch (err) {
       next({
-        log: 'Error in lambdaController.processLogs', 
-        status: 500, 
-        message: { err: 'Error occured when finding Lambda log streams'} });
+        log: 'Error in lambdaController.processLogs',
+        status: 500,
+        message: { err: 'Error occurred when finding Lambda log streams' },
+      });
     }
   },
 };
