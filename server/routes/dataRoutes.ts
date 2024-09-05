@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
-import { getMetricData } from '../controllers/cloudwatchController';
+import { getMetricData } from '../controllers/cloudWatchController';
 import lambdaController from '../controllers/lambdaController';
 // import lambdaController from '../controllers/rawDataController';
 

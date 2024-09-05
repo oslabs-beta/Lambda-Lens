@@ -8,7 +8,10 @@ import { getFunction } from './controllers/getFunctionsController';
 import configRoutes from './routes/configRoutes';
 import dataRoutes from './routes/dataRoutes';
 
+
 dotenv.config();
+
+
 const app = express();
 
 const PORT = process.env.PORT || 8080;
@@ -17,6 +20,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
+if(process.env.MONGODB_URI){
 connectToDatabase()
   .then(() => {
     console.log('Database connected');
@@ -25,6 +29,7 @@ connectToDatabase()
     console.error('Database connection error:', err);
     process.exit(1);
   });
+}
 
 // app.get('/api', getFunction, (_req: Request, res: Response, _next: NextFunction) => {
 //   console.log('res.locals.functionsList from server.ts: ', res.locals.functionsList);
