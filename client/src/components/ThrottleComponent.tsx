@@ -1,12 +1,18 @@
 import { Line } from 'react-chartjs-2';
 
-const ThrottleComponent = () => {
-  const data = {
-    labels: ['App A', 'App B', 'App C', 'App D', 'App E'],
+interface Props {
+  data: {
+    throttles: number[];
+  };
+}
+
+const ThrottleComponent = ({ data }: Props) => {
+  const chartData = {
+    labels: ['Throttle Data'],
     datasets: [
       {
         label: 'Throttles',
-        data: [10, 40, 5, 30, 50],
+        data: data.throttles,
         borderColor: 'rgba(75, 192, 192, 1)',
         fill: false,
       },
@@ -24,7 +30,7 @@ const ThrottleComponent = () => {
   return (
     <div>
       <h2>Number of Throttles</h2>
-      <Line data={data} options={options} />
+      <Line data={chartData} options={options} />
     </div>
   )
 };

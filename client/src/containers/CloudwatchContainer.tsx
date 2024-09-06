@@ -1,4 +1,4 @@
-import ConcurrInvocComponent from "../components/ConcurrInvocComponent";
+import ConcurrExecComponent from "../components/ConcurrExecComponent";
 import ThrottleComponent from "../components/ThrottleComponent";
 import TotalDurationComponent from "../components/TotalDurationComponent";
 import { useState, useEffect } from "react";
@@ -51,11 +51,11 @@ const CloudwatchContainer = () => {
             {filteredData && (
                 <div className="container">
                     <div className="charts-column">
-                        <ConcurrInvocComponent />
-                        <ThrottleComponent />
+                        <ConcurrExecComponent data={filteredData}/>
+                        <ThrottleComponent data={filteredData}/>
                     </div>
                     <div className="offset-graph">
-                        <TotalDurationComponent />
+                        <TotalDurationComponent data={filteredData}/>
                     </div>
                 </div>
             )}

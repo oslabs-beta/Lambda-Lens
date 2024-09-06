@@ -1,11 +1,17 @@
 import { Pie } from 'react-chartjs-2';
 
-const TotalDurationComponent = () => {
-  const data = {
-    labels: ['App A', 'App B', 'App C', 'App D', 'App E'],
+interface Props {
+  data: {
+    duration: number[];
+  }
+}
+
+const TotalDurationComponent = ({ data }: Props) => {
+  const chartData = {
+    labels: ['Invocation'],
     datasets: [
       {
-        data: [300, 50, 100, 75, 150],
+        data: data.duration,
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
@@ -20,7 +26,7 @@ const TotalDurationComponent = () => {
   return (
     <div>
       <h2>Total Execution Duration</h2>
-      <Pie data={data} />
+      <Pie data={chartData} />
     </div>
   )
 }
