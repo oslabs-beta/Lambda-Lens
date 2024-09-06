@@ -3,14 +3,14 @@ import { Line } from 'react-chartjs-2';
 interface Props {
   data: {
     throttles: number[];
+    timestamps: string[];
   };
 }
 
 const ThrottleComponent = ({ data }: Props) => {
-  const labels = data.throttles.map((_, index) => `Invocation ${index + 1}`);
   
   const chartData = {
-    labels,
+    labels: data.timestamps,
     datasets: [
       {
         label: 'Throttles',
@@ -31,7 +31,7 @@ const ThrottleComponent = ({ data }: Props) => {
 
   return (
     <div>
-      <h2>Number of Throttles</h2>
+      <h2>Number of Throttles (5min period)</h2>
       <Line data={chartData} options={options} />
     </div>
   )

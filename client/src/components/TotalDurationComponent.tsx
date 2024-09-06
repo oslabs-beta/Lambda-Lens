@@ -3,14 +3,14 @@ import { Pie } from 'react-chartjs-2';
 interface Props {
   data: {
     duration: number[];
+    timestamps: string[];
   }
 }
 
 const TotalDurationComponent = ({ data }: Props) => {
-  const labels = data.duration.map((_, index) => `Invocation ${index + 1}`);
   
   const chartData = {
-    labels,
+    labels: data.timestamps,
     datasets: [
       {
         data: data.duration,
@@ -27,7 +27,7 @@ const TotalDurationComponent = ({ data }: Props) => {
 
   return (
     <div>
-      <h2>Total Execution Duration</h2>
+      <h2>Total Execution Duration (5min period)</h2>
       <Pie data={chartData} />
     </div>
   )

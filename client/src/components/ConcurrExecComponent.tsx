@@ -3,17 +3,17 @@ import { Bar } from "react-chartjs-2";
 interface Props {
   data: {
     concurrentExecutions: number[];
+    timestamps: string[];
   };
 }
 
 const ConcurrExecComponent = ({ data }: Props) => {
-  const labels = data.concurrentExecutions.map((_, index) => `Invocation ${index + 1}`);
   
   const chartData = {
-    labels,
+    labels: data.timestamps,
     datasets: [
       {
-        label: 'Invocation',
+        label: 'Executions',
         data: data.concurrentExecutions,
         backgroundColor: 'rgba(75, 192, 192, 1)',
       },
@@ -22,7 +22,7 @@ const ConcurrExecComponent = ({ data }: Props) => {
 
   return (
     <div>
-      <h2>Concurrent Executions</h2>
+      <h2>Concurrent Executions (5min period)</h2>
       <Bar data={chartData} />
     </div>
   )

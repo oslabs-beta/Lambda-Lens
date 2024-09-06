@@ -8,6 +8,7 @@ interface FunctionData {
     duration: number[];
     concurrentExecutions: number[];
     throttles: number[];
+    timestamps: string[];
 }
 
 const CloudwatchContainer = () => {
