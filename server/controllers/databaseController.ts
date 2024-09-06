@@ -22,7 +22,6 @@ export const databaseController = {
     next: NextFunction
   ): Promise<void> => {
     try {
-      // console.log('log from dbController', res.locals.allData);
       const rawData: RawData[] = res.locals.allData;
 
       for (let func of rawData) {
@@ -54,9 +53,10 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        log: 'Error in databaseController.processData', 
-        status: 500, 
-        message: { err: 'Error occured when finding/updating database.'} });
+        log: 'Error in databaseController.processData',
+        status: 500,
+        message: { err: 'Error occurred when finding/updating database.' },
+      });
     }
   },
 
@@ -71,9 +71,10 @@ export const databaseController = {
       return next();
     } catch (err) {
       next({
-        log: 'Error in databaseController.getProcessedData', 
-        status: 500, 
-        message: { err: 'Error occured when finding from database'} });
+        log: 'Error in databaseController.getProcessedData',
+        status: 500,
+        message: { err: 'Error occurred when finding from database' },
+      });
     }
   },
 };

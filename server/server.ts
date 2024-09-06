@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectToDatabase from './models/dbConnection';
-import lambdaController from './controllers/lambdaController';
 import { getFunction } from './controllers/getFunctionsController';
 import configRoutes from './routes/configRoutes';
 import dataRoutes from './routes/dataRoutes';
@@ -26,15 +25,6 @@ connectToDatabase()
     process.exit(1);
   });
 
-// app.get('/api', getFunction, (_req: Request, res: Response, _next: NextFunction) => {
-//   console.log('res.locals.functionsList from server.ts: ', res.locals.functionsList);
-//   res.status(200).send(res.locals.functionsList);
-// });
-
-// app.get('/logs', lambdaController.processLogs, (req: Request, res: Response) => {
-//   const alldata = res.locals.alldata;
-//   res.json(alldata);
-// });
 app.use(
   '/api/config',
   configRoutes,
@@ -49,16 +39,18 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello');
 });
 
-
 //catch-all 404 handler for paths not defined
-app.use((_req: Request, res: Response) => {return res.status(404).send('This is not the page you\'re looking for')});
+app.use((_req: Request, res: Response) => {
+  return res.status(404).send("This is not the page you're looking for");
+});
 
 //default global error handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   const defaultErr: {
-    log: string, 
-    status: number, 
-    message: { err: string} } = {
+    log: string;
+    status: number;
+    message: { err: string };
+  } = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
     message: { err: 'An error occurred' },
