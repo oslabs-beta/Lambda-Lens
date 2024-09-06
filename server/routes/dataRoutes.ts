@@ -33,9 +33,14 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
+<<<<<<< HEAD
 import lambdaController from '../controllers/lambdaController';
 import { getMetricData } from '../controllers/cloudWatchController';
 import metricsController from '../controllers/percentileController';
+=======
+import { getMetricData } from '../controllers/cloudWatchController';
+import lambdaController from '../controllers/rawDataController';
+>>>>>>> dev
 
 const dataRouter = Router();
 
@@ -44,8 +49,12 @@ dataRouter.get(
   lambdaController.processLogs,
   databaseController.processData,
   (_req: Request, res: Response, next: NextFunction) => {
+<<<<<<< HEAD
     console.log('Data updated');
     return next();
+=======
+    return res.status(200).send(res.locals.allData);
+>>>>>>> dev
   }
 );
 
@@ -54,7 +63,11 @@ dataRouter.get(
   lambdaController.processLogs,
   databaseController.processData,
   databaseController.getProccessedData,
+<<<<<<< HEAD
   (_req: Request, res: Response, _next: NextFunction) => {
+=======
+  (req: Request, res: Response, next: NextFunction) => {
+>>>>>>> dev
     return res.status(200).send(res.locals.data);
   }
 );
@@ -67,6 +80,7 @@ dataRouter.get(
   }
 );
 
+<<<<<<< HEAD
 dataRouter.get(
   '/metrics',
   metricsController.processMetrics, 
@@ -80,3 +94,6 @@ dataRouter.get(
 );
 
 export default dataRouter;
+=======
+export default dataRouter;
+>>>>>>> dev
