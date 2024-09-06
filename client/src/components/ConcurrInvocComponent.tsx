@@ -1,6 +1,6 @@
 import { Bar } from "react-chartjs-2";
 
-const InvocErrComponent = () => {
+const ConcurrInvocComponent = () => {
   const data = {
     labels: ['App A', 'App B', 'App C', 'App D', 'App E'],
     datasets: [
@@ -14,10 +14,10 @@ const InvocErrComponent = () => {
 
   return (
     <div>
-      <h2>Invocation Error Rates</h2>
+      <h2>Concurrent Invocations</h2>
       <Bar data={data} />
     </div>
   )
 };
 
-export default InvocErrComponent;
+export default ConcurrInvocComponent;
