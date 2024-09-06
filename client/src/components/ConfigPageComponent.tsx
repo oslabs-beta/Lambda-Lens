@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import './ConfigPageComponent.scss';
 import * as React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form'; //add ALL of them here
+import { useForm, SubmitHandler } from 'react-hook-form'; 
 
-//typing form values
 type Config = {
   awsAccessKeyID: string;
   awsSecretAccessKey: string;
@@ -37,6 +36,7 @@ function ConfigForm({ onSave }: ConfigFormProps) {
     }));
   };
 
+  //address
   const handleSubmit1 = (e: React.FormEvent) => {
     e.preventDefault();
     //switch here 
