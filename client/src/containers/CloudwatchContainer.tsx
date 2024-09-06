@@ -1,9 +1,8 @@
-import React from 'react';
 import InvocErrComponent from '../components/InvocErrComponent';
 import ThrottleComponent from '../components/ThrottleComponent';
 import TotalDurationComponent from '../components/TotalDurationComponent';
 
-const CloudwatchContainer: React.FC = () => {
+const CloudwatchContainer = () => {
   return (
     <div>
       <h1>CloudWatch Metrics</h1>
