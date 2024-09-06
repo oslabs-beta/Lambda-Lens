@@ -7,15 +7,36 @@ interface Props {
   };
 }
 
+const formatTimestamp = (timestamp: string) => {
+  const date = new Date(timestamp);
+
+  const formattedDate = date.toLocaleDateString([], {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const formattedTime = date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return `${formattedDate} ${formattedTime}`;
+};
+
 const ThrottleComponent = ({ data }: Props) => {
+  const labels = data.timestamps.map(formatTimestamp);
   
   const chartData = {
-    labels: data.timestamps,
+    labels,
     datasets: [
       {
         label: 'Throttles',
         data: data.throttles,
-        borderColor: 'rgba(75, 192, 192, 1)',
+        borderColor: [
+          'rgba(60, 120, 180, 1)',
+          'rgba(140, 140, 140, 1)',
+        ],
         fill: false,
       },
     ],

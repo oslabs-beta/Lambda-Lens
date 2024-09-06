@@ -7,19 +7,34 @@ interface Props {
   }
 }
 
+const formatTimestamp = (timestamp: string) => {
+  const date = new Date(timestamp);
+
+  const formattedDate = date.toLocaleDateString([], {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const formattedTime = date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return `${formattedDate} ${formattedTime}`;
+};
+
 const TotalDurationComponent = ({ data }: Props) => {
+  const labels = data.timestamps.map(formatTimestamp);
   
   const chartData = {
-    labels: data.timestamps,
+    labels,
     datasets: [
       {
         data: data.duration,
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-          'rgb(100, 70, 200)',
-          'rgb(200, 20, 250)',
+          'rgba(60, 120, 180, 1)',
+          'rgba(140, 140, 140, 1)',
         ],
       },
     ],
