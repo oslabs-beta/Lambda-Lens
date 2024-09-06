@@ -43,9 +43,10 @@ app.use((_req: Request, res: Response) => {return res.status(404).send('This is 
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   const defaultErr: {
-    log: string, 
-    status: number, 
-    message: { err: string} } = {
+    log: string;
+    status: number;
+    message: { err: string };
+  } = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
     message: { err: 'An error occurred' },
