@@ -7,8 +7,10 @@ interface Props {
 }
 
 const TotalDurationComponent = ({ data }: Props) => {
+  const labels = data.duration.map((_, index) => `Invocation ${index + 1}`);
+  
   const chartData = {
-    labels: ['Invocation'],
+    labels,
     datasets: [
       {
         data: data.duration,

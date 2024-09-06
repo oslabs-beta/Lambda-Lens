@@ -7,8 +7,10 @@ interface Props {
 }
 
 const ConcurrExecComponent = ({ data }: Props) => {
+  const labels = data.concurrentExecutions.map((_, index) => `Invocation ${index + 1}`);
+  
   const chartData = {
-    labels: ['Invocation'],
+    labels,
     datasets: [
       {
         label: 'Invocation',

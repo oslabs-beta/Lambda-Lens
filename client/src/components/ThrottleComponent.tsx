@@ -7,8 +7,10 @@ interface Props {
 }
 
 const ThrottleComponent = ({ data }: Props) => {
+  const labels = data.throttles.map((_, index) => `Invocation ${index + 1}`);
+  
   const chartData = {
-    labels: ['Throttle Data'],
+    labels,
     datasets: [
       {
         label: 'Throttles',
