@@ -1,10 +1,10 @@
-import { Pie } from 'react-chartjs-2';
+import { Bar } from "react-chartjs-2";
 
 interface Props {
   data: {
-    duration: number[];
+    concurrentExecutions: number[];
     timestamps: string[];
-  }
+  };
 }
 
 const formatTimestamp = (timestamp: string) => {
@@ -24,14 +24,15 @@ const formatTimestamp = (timestamp: string) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
-const TotalDurationComponent = ({ data }: Props) => {
+const ConcurrExecComponent = ({ data }: Props) => {
   const labels = data.timestamps.map(formatTimestamp);
   
   const chartData = {
     labels,
     datasets: [
       {
-        data: data.duration,
+        label: 'Executions',
+        data: data.concurrentExecutions,
         backgroundColor: [
           'rgba(60, 120, 180, 1)',
           'rgba(140, 140, 140, 1)',
@@ -42,10 +43,10 @@ const TotalDurationComponent = ({ data }: Props) => {
 
   return (
     <div>
-      <h2>Total Execution Duration (5min period)</h2>
-      <Pie data={chartData} />
+      <h2>Concurrent Executions (5min period)</h2>
+      <Bar data={chartData} />
     </div>
   )
-}
+};
 
-export default TotalDurationComponent;
+export default ConcurrExecComponent;

@@ -122,6 +122,7 @@ export const getMetricData = async (
           duration: [],
           concurrentExecutions: [],
           throttles: [],
+          timestamps: [],
         };
       }
 
@@ -129,12 +130,14 @@ export const getMetricData = async (
       const duration = metricData.MetricDataResults[0].Values ?? [];
       const concurrent = metricData.MetricDataResults[1].Values ?? [];
       const throttles = metricData.MetricDataResults[2].Values ?? [];
+      const timestamps = metricData.MetricDataResults[0].Timestamps ?? [];
 
       return {
         functionName: functionName,
         duration: duration,
         concurrentExecutions: concurrent,
         throttles: throttles,
+        timestamps: timestamps,
       };
     });
 
