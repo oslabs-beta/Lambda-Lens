@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import visData from '../models/visDataModel';
+import { awsconfig } from '../configs/awsconfig';
+
+const { region } = awsconfig;
 
 interface Log {
   Date: string;
@@ -37,8 +40,9 @@ export const databaseController = {
         const percentCold = totalStarts > 0 ? (cold / totalStarts) * 100 : 0;
 
         await visData.findOneAndUpdate(
-          { functionName: func.functionName },
+          { functionName: func.functionName, region: region },
           {
+            region: region,
             functionName: func.functionName,
             avgBilledDur: billed,
             numColdStarts: cold,
@@ -66,8 +70,7 @@ export const databaseController = {
     next: NextFunction
   ): Promise<void> => {
     try {
-      res.locals.data = await visData.find({});
-      // console.log('data fetched for frontend:', res.locals.data);
+      res.locals.data = await visData.find({ region });
       return next();
     } catch (err) {
       next({
