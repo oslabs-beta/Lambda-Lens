@@ -39,3 +39,19 @@ $text-color:#B2D0FB;
         }
     }
 }
+
+.config-error {
+    text-align: left;
+    color: red; 
+    margin-left: 0;
+    padding-left: 10px;
+    font-size: 12px;
+    position: relative;
+}
+
+.config-error::before {
+    content: "⚠ ";
+    display: inline-block;
+    color: red;
+    margin-right: 5px;
+}

@@ -37,11 +37,11 @@ function ConfigForm({ onSave }: ConfigFormProps) {
   };
 
   //address
-  const handleSubmit1 = (e: React.FormEvent) => {
-    e.preventDefault();
-    //switch here 
-    onSave(config);
-  }
+  // const handleSubmit1 = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   //switch here 
+  //   onSave(config);
+  // }
 
   
   return (
@@ -52,14 +52,14 @@ function ConfigForm({ onSave }: ConfigFormProps) {
       placeholder='AWS Access Key'
       onChange={handleChange} 
       />
-      {errors.awsAccessKeyID && <p>AWS Access Key ID is required</p>}
+      {errors.awsAccessKeyID && <p className='config-error'>AWS Access Key ID is required</p>}
 
       <input 
       {...register("awsSecretAccessKey", { required: true })}
       placeholder='AWS Secret Access Key' 
       onChange={handleChange} 
       />
-      {errors.awsSecretAccessKey && <p>AWS Secret Access Key is required</p>}
+      {errors.awsSecretAccessKey && <p className='config-error'>AWS Secret Access Key is required</p>}
 
       <select {...register("awsRegion", { required: true })} onChange={handleChange} >
         <option value="">Select Region</option>
@@ -67,14 +67,14 @@ function ConfigForm({ onSave }: ConfigFormProps) {
         <option value="us-east-2">US East 2</option>
         <option value="us-west-1">US West 1</option>
       </select>
-      {errors.awsRegion && <p>AWS Region is required</p>}
+      {errors.awsRegion && <p className='config-error'>AWS Region is required</p>}
       
       <input 
       {...register("mongoURI", { required: true })}
       placeholder='MongoDB URI' 
       onChange={handleChange} 
       />
-      {errors.mongoURI && <p>MongoDB URI is required</p>}
+      {errors.mongoURI && <p className='config-error'>MongoDB URI is required</p>}
 
       <input type="submit"/>
     </form>
