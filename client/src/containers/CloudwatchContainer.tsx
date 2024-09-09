@@ -1,6 +1,7 @@
 import ConcurrExecComponent from "../components/ConcurrExecComponent";
 import ThrottleComponent from "../components/ThrottleComponent";
 import TotalDurationComponent from "../components/TotalDurationComponent";
+import PercentileLatencyComponent from "../components/PercentileLatencyComponent";
 import { useState, useEffect } from "react";
 
 interface FunctionData {
@@ -11,10 +12,18 @@ interface FunctionData {
     timestamps: string[];
 }
 
+interface PercentileData {
+    p90: number[];
+    p95: number[];
+    p99: number[];
+}
+
 const CloudwatchContainer = () => {
     const [functionData, setFunctionData] = useState<FunctionData[]>([]);
     const [selectedFunction, setSelectedFunction] = useState<string>('');
     const [filteredData, setFilteredData] = useState<FunctionData | null>(null);
+    const [percentileData, setPercentileData] = useState<{ [key: string]: { percentiles: PercentileData } }>({});
+    const [filteredPercentileData, setFilteredPercentileData] = useState<PercentileData | null>(null);
 
     useEffect(() => {
         fetch('http://localhost:8080/data/cloud')
@@ -29,37 +38,59 @@ const CloudwatchContainer = () => {
     }, []);
 
     useEffect(() => {
+        fetch('http://localhost:8080/data/metrics')
+            .then(res => res.json())
+            .then((data: { [key: string]: { percentiles: PercentileData } }) => {
+                setPercentileData(data);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    useEffect(() => {
         if (selectedFunction && functionData.length > 0) {
             const selected = functionData.find(func => func.functionName === selectedFunction);
             setFilteredData(selected || null);
+
+            const selectedPercentile = percentileData[selectedFunction]?.percentiles;
+            setFilteredPercentileData(selectedPercentile || null);
         }
-    }, [selectedFunction, functionData]);
+    }, [selectedFunction, functionData, percentileData]);
 
     return (
         <div>
-            <h1>CloudWatch Metrics</h1>
-            <select
-                value={selectedFunction}
-                onChange={(e) => setSelectedFunction(e.target.value)}
-            >
-                {functionData.map(func => (
-                    <option key={func.functionName} value={func.functionName}>
-                        {func.functionName}
-                    </option>
-                ))}
-            </select>
-
-            {filteredData && (
-                <div className="container">
-                    <div className="charts-column">
-                        <ConcurrExecComponent data={filteredData}/>
-                        <ThrottleComponent data={filteredData}/>
+            <div className="dashboard-header">
+                <h1>CloudWatch Metrics</h1>
+                <select
+                    value={selectedFunction}
+                    onChange={(e) => setSelectedFunction(e.target.value)}
+                >
+                    {functionData.map(func => (
+                        <option key={func.functionName} value={func.functionName}>
+                            {func.functionName}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="grid-container">
+                {filteredData && (
+                    <>
+                        <div className="component-box">
+                            <ConcurrExecComponent data={filteredData}/>
+                        </div>
+                        <div className="component-box">
+                            <ThrottleComponent data={filteredData}/>
+                        </div>
+                        <div className="component-box">
+                            <TotalDurationComponent data={filteredData}/>
+                        </div>
+                    </>
+                )}
+                {filteredPercentileData && (
+                    <div className="component-box">
+                        <PercentileLatencyComponent data={filteredPercentileData} />
                     </div>
-                    <div className="offset-graph">
-                        <TotalDurationComponent data={filteredData}/>
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }

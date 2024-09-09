@@ -44,15 +44,30 @@ const ThrottleComponent = ({ data }: Props) => {
 
   const options = {
     scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'End time'
+        }
+      },
       y: {
         beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Throttles'
+        }
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
       },
     },
   };
 
   return (
     <div>
-      <h2>Number of Throttles (5min period)</h2>
+      <h2>Total Number of Throttles (5min period)</h2>
       <Line data={chartData} options={options} />
     </div>
   )
