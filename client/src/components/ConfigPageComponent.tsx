@@ -36,14 +36,6 @@ function ConfigForm({ onSave }: ConfigFormProps) {
     }));
   };
 
-  //address
-  // const handleSubmit1 = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   //switch here 
-  //   onSave(config);
-  // }
-
-  
   return (
     <form className='config-form' onSubmit={handleSubmit(onSubmit)}>
       
