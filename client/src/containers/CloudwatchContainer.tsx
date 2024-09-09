@@ -58,27 +58,35 @@ const CloudwatchContainer = () => {
 
     return (
         <div>
-            <h1>CloudWatch Metrics</h1>
-            <select
-                value={selectedFunction}
-                onChange={(e) => setSelectedFunction(e.target.value)}
-            >
-                {functionData.map(func => (
-                    <option key={func.functionName} value={func.functionName}>
-                        {func.functionName}
-                    </option>
-                ))}
-            </select>
+            <div className="dashboard-header">
+                <h1>CloudWatch Metrics</h1>
+                <select
+                    value={selectedFunction}
+                    onChange={(e) => setSelectedFunction(e.target.value)}
+                >
+                    {functionData.map(func => (
+                        <option key={func.functionName} value={func.functionName}>
+                            {func.functionName}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <div className="grid-container">
                 {filteredData && (
                     <>
+                        <div className="component-box">
                             <ConcurrExecComponent data={filteredData}/>
+                        </div>
+                        <div className="component-box">
                             <ThrottleComponent data={filteredData}/>
+                        </div>
+                        <div className="component-box">
                             <TotalDurationComponent data={filteredData}/>
+                        </div>
                     </>
                 )}
                 {filteredPercentileData && (
-                    <div>
+                    <div className="component-box">
                         <PercentileLatencyComponent data={filteredPercentileData} />
                     </div>
                 )}

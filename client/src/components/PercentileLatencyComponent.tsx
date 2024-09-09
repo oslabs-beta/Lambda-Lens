@@ -18,7 +18,7 @@ const PercentileLatencyComponent = ({ data }: Props) => {
   ];
 
   const chartData = {
-    labels: ['Latency Percentiles'],
+    labels: ['Percentiles'],
     datasets: (Object.keys(data) as Array<keyof PercentileData>).map((key, index) => ({
       label: `${key.toUpperCase()} Latency (ms)`,  
       data: [data[key][0]],  

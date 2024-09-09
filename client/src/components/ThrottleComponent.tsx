@@ -58,6 +58,11 @@ const ThrottleComponent = ({ data }: Props) => {
         }
       },
     },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
 
   return (

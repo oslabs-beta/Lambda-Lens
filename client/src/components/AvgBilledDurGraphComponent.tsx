@@ -27,10 +27,33 @@ const AvgBilledDurGraph = ({ data }: Props) => {
     ],
   };
 
+  const options = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Function Name'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Time (ms)'
+        }
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
   return (
     <div>
       <h2>Average Billed Duration (ms)</h2>
-      <Bar data={chartData} />
+      <Bar data={chartData} options={options}/>
     </div>
   )
 };
