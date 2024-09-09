@@ -11,23 +11,36 @@ interface Props {
 }
 
 const PercentileLatencyComponent = ({ data }: Props) => {
-  const labels = ['p90', 'p95', 'p99'];
+  const colorPalette = [
+    'rgba(100, 150, 200, 1)',
+    'rgba(150, 100, 200, 1)',
+    'rgba(200, 150, 100, 1)',
+  ];
 
-    const chartData = {
-    labels,
-    datasets: [
-      {
-        label: 'Latency (ms)',
-        data: [data.p90[0], data.p95[0], data.p99[0]],
-        backgroundColor: ['rgba(100, 150, 200, 1)']
-      },
-    ],
+  const chartData = {
+    labels: ['Latency Percentiles'],
+    datasets: (Object.keys(data) as Array<keyof PercentileData>).map((key, index) => ({
+      label: `${key.toUpperCase()} Latency (ms)`,  
+      data: [data[key][0]],  
+      backgroundColor: colorPalette[index],
+    })),
+  }
+
+  const options = {
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Latency (ms)',
+        }
+      }
+    },
   };
 
   return (
     <div>
       <h2>Percentile Latency (ms)</h2>
-      <Bar data={chartData} />
+      <Bar data={chartData} options={options} />
     </div>
   )
 

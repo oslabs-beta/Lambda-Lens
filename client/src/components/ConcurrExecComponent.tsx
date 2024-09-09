@@ -41,10 +41,28 @@ const ConcurrExecComponent = ({ data }: Props) => {
     ],
   };
 
+  const options = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'End time'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Executions'
+        }
+      },
+    },
+  };
+
   return (
     <div>
-      <h2>Concurrent Executions (5min period)</h2>
-      <Bar data={chartData} />
+      <h2>Total Concurrent Executions (5min period)</h2>
+      <Bar data={chartData} options={options} />
     </div>
   )
 };

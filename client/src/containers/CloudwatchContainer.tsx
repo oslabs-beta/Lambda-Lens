@@ -69,24 +69,20 @@ const CloudwatchContainer = () => {
                     </option>
                 ))}
             </select>
-
-            {filteredData && (
-                <div className="container">
-                    <div className="charts-column">
-                        <ConcurrExecComponent data={filteredData}/>
-                        <ThrottleComponent data={filteredData}/>
+            <div className="grid-container">
+                {filteredData && (
+                    <>
+                            <ConcurrExecComponent data={filteredData}/>
+                            <ThrottleComponent data={filteredData}/>
+                            <TotalDurationComponent data={filteredData}/>
+                    </>
+                )}
+                {filteredPercentileData && (
+                    <div>
+                        <PercentileLatencyComponent data={filteredPercentileData} />
                     </div>
-                    <div className="offset-graph">
-                        <TotalDurationComponent data={filteredData}/>
-                    </div>
-                </div>
-            )}
-
-            {filteredPercentileData && (
-                <div>
-                    <PercentileLatencyComponent data={filteredPercentileData} />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }

@@ -30,10 +30,11 @@ body {
   justify-content: space-between;
 }
 
-.container {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
 }
 
 .charts-column {
