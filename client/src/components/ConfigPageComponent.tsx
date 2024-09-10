@@ -12,9 +12,11 @@ type Config = {
 
 type ConfigFormProps = {
   onSave: (config: Config) => void;
+  onDatabase: () => void;
 }
 
-function ConfigForm({ onSave }: ConfigFormProps) {
+
+function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
   const { register, handleSubmit, formState: { errors } } = useForm<Config>();
   const onSubmit: SubmitHandler<Config> = data => {
     onSave(data);
@@ -34,6 +36,14 @@ function ConfigForm({ onSave }: ConfigFormProps) {
       [name as string]: value,
     }));
   };
+
+
+  const handleDatabase = (e: React.FormEvent) => {
+    e.preventDefault();
+    onDatabase();
+  }
+
+
 
   return (
     <form className='config-form' onSubmit={handleSubmit(onSubmit)}>
@@ -68,6 +78,7 @@ function ConfigForm({ onSave }: ConfigFormProps) {
       {errors.mongoURI && <p className='config-error'>MongoDB URI is required</p>}
 
       <input type="submit"/>
+      <button type='submit' onClick={handleDatabase}>Connect to DB</button>
     </form>
   )
 }

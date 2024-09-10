@@ -25,7 +25,7 @@ export const envController: EnvController = {
       awsRegion: string;
       mongoURI: string;
     } = req.body;
-    console.log('The req body is:', req.body);
+    // console.log('The req body is:', req.body);
     //Format .env:
     const writeToENV =
       `AWS_ACCESS_KEY_ID=${awsAccessKeyID}\n` +
