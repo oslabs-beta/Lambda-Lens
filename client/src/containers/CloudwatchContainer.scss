@@ -7,14 +7,20 @@ $standard-element: #447A90;
 $largest-container: #FFFFFF;
 $medium-container: #F3F3F3;
 $smallest-container: #E1E1E1;
-
+body {
+    background-color: $largest-container;
+    margin-left: 2px;
+    margin-right: 2px;
+}
 .dashboard-header {
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    
     h1{
         margin-right: 16px;
+        font-weight: 400;
     }
     select{
         border-radius: 8px;
@@ -24,15 +30,17 @@ $smallest-container: #E1E1E1;
         color: $primary-text;
     }
 }
-body {
-    background-color: $largest-container;
-}
+
 .component-box{
     background-color:$medium-container;
+    // display: flex;
+    // justify-content: flex-start;
+    // align-items: flex-start;
     h2{
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        font-weight: 400;
     }
     .bar{
         background-color: $smallest-container;

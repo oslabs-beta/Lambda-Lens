@@ -21,21 +21,21 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
   const onSubmit: SubmitHandler<Config> = data => {
     onSave(data);
   }
+//delete this: 
+  // const [config, setConfig] = useState<Config>({
+  //   awsAccessKeyID: '',
+  //   awsSecretAccessKey: '',
+  //   awsRegion: '',
+  //   mongoURI: '',
+  // });
 
-  const [config, setConfig] = useState<Config>({
-    awsAccessKeyID: '',
-    awsSecretAccessKey: '',
-    awsRegion: '',
-    mongoURI: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setConfig((prevConfig) => ({
-      ...prevConfig,
-      [name as string]: value,
-    }));
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  //   const { name, value } = e.target;
+  //   setConfig((prevConfig) => ({
+  //     ...prevConfig,
+  //     [name as string]: value,
+  //   }));
+  // };
 
 
   const handleDatabase = (e: React.FormEvent) => {
@@ -51,18 +51,18 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
       <input 
       {...register("awsAccessKeyID", { required: true })}
       placeholder='AWS Access Key'
-      onChange={handleChange} 
+      // onChange={handleChange} //you can delete this 
       />
       {errors.awsAccessKeyID && <p className='config-error'>AWS Access Key ID is required</p>}
 
       <input 
       {...register("awsSecretAccessKey", { required: true })}
       placeholder='AWS Secret Access Key' 
-      onChange={handleChange} 
+      // onChange={handleChange} //you can delete this 
       />
       {errors.awsSecretAccessKey && <p className='config-error'>AWS Secret Access Key is required</p>}
 
-      <select {...register("awsRegion", { required: true })} onChange={handleChange} >
+      <select {...register("awsRegion", { required: true })}  >
         <option value="">Select Region</option>
         <option value="us-east-1">US East 1</option>
         <option value="us-east-2">US East 2</option>
@@ -73,7 +73,7 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
       <input 
       {...register("mongoURI", { required: true })}
       placeholder='MongoDB URI' 
-      onChange={handleChange} 
+      // onChange={handleChange}  // you can delete this 
       />
       {errors.mongoURI && <p className='config-error'>MongoDB URI is required</p>}
 

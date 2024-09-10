@@ -23,6 +23,7 @@ const PercentileLatencyComponent = ({ data }: Props) => {
       label: `${key.toUpperCase()} Latency (ms)`,  
       data: [data[key][0]],  
       backgroundColor: colorPalette[index],
+      borderRadius: 4
     })),
   }
 
@@ -32,6 +33,9 @@ const PercentileLatencyComponent = ({ data }: Props) => {
         title: {
           display: true,
           text: 'Latency (ms)',
+        },
+        grid: {
+          display: false
         }
       }
     },

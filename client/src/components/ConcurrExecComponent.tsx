@@ -37,23 +37,31 @@ const ConcurrExecComponent = ({ data }: Props) => {
           'rgba(60, 120, 180, 1)',
           'rgba(140, 140, 140, 1)',
         ],
+        borderRadius: 4
       },
     ],
   };
 
   const options = {
+    indexAxis: 'y',
     scales: {
       x: {
         title: {
           display: true,
-          text: 'End time'
+          text: 'Executions'
+        },
+        grid: {
+          display: false
         }
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Executions'
+          text: 'End time'
+        },
+        grid: {
+          display: false
         }
       },
     },

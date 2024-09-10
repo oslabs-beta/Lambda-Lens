@@ -48,6 +48,9 @@ const ThrottleComponent = ({ data }: Props) => {
         title: {
           display: true,
           text: 'End time'
+        },
+        grid: {
+          display: false
         }
       },
       y: {
@@ -55,6 +58,9 @@ const ThrottleComponent = ({ data }: Props) => {
         title: {
           display: true,
           text: 'Throttles'
+        },
+        grid: {
+          display: false
         }
       },
     },
