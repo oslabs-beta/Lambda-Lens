@@ -19,9 +19,11 @@ type Config = {
 
 type ConfigFormProps = {
   onSave: (config: Config) => void;
+  onDatabase: () => void;
 }
 
-function ConfigForm({ onSave }: ConfigFormProps) {
+
+function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
   const [config, setConfig] = useState<Config>({
     awsAccessKeyID: '',
     awsSecretAccessKey: '',
@@ -41,6 +43,11 @@ function ConfigForm({ onSave }: ConfigFormProps) {
     e.preventDefault();
     //switch here 
     onSave(config);
+  }
+
+  const handleDatabase = (e: React.FormEvent) => {
+    e.preventDefault();
+    onDatabase();
   }
 
 
@@ -126,6 +133,7 @@ function ConfigForm({ onSave }: ConfigFormProps) {
         onChange={handleChange} 
       />
       <button type='submit' onSubmit={handleSubmit}>Save</button>
+      <button type='submit' onClick={handleDatabase}>Connect to DB</button>
     </form>
   )
 }

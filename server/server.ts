@@ -2,8 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectToDatabase from './models/dbConnection';
-import { getFunction } from './controllers/getFunctionsController';
+// import connectToDatabase from './models/dbConnection';
+// import { getFunction } from './controllers/getFunctionsController';
 import configRoutes from './routes/configRoutes';
 import dataRoutes from './routes/dataRoutes';
 
@@ -18,17 +18,6 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
-
-if(process.env.MONGODB_URI){
-connectToDatabase()
-  .then(() => {
-    console.log('Database connected');
-  })
-  .catch((err) => {
-    console.error('Database connection error:', err);
-    process.exit(1);
-  });
-}
 
 app.use(
   '/api/config',
