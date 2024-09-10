@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import ColdStartsGraphComponent from '../components/ColdStartsGraphComponent';
 import ColdStartsMetricsContainer from './ColdStartsMetricsContainer';
 import AvgBilledDurGraph from '../components/AvgBilledDurGraphComponent';
+import ChatContainer from './ChatContainer';
 import '../Graphs.css';
 
 interface FunctionData {
@@ -60,7 +61,7 @@ const DashboardContainer = () => {
         {/* Quadrant 4 */}
         <div className='component-box'>
           <h2>Bedrock Analysis</h2>
-          <p>Coming soon...</p>
+          <ChatContainer />
         </div>
       </div>
     );
