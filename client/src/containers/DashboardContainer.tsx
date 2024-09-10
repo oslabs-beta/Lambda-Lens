@@ -3,6 +3,7 @@ import ColdStartsGraphComponent from '../components/ColdStartsGraphComponent';
 import ColdStartsMetricsContainer from './ColdStartsMetricsContainer';
 import AvgBilledDurGraph from '../components/AvgBilledDurGraphComponent';
 import '../styles.css';
+import ChatContainer from './ChatContainer';
 
 interface FunctionData {
   functionName: string;
@@ -49,6 +50,9 @@ const DashboardContainer = () => {
         <div className='component-box graph-container'>
           <AvgBilledDurGraph data={sortedData} />
         </div>
+      </div>
+      <div className='chat-container'>
+        <ChatContainer />
       </div>
     </div>
   );

@@ -105,3 +105,105 @@ body.darkmode .config-page-container {
   background-color: #1e1e1e; 
   color: #e0e0e0; 
 }
+
+
+/* chat style */
+
+.chat-container {
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px; 
+  max-height: 500px; 
+  display: flex;
+  flex-direction: column; 
+}
+
+.chat-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px; 
+}
+
+
+.chat-window {
+  margin-bottom: 10px;
+  max-height: 300px; 
+  overflow-y: auto; 
+}
+
+.chat-message {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+}
+
+.chat-message .role {
+  font-weight: bold;
+  margin-bottom: 4px; 
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.chat-input button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background-color: #0056b3;
+}
+
+.chat-message p {
+  margin: 0;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.chat-message.user p {
+  background-color: #d1e7dd;
+}
+
+.chat-message.assistant p {
+  background-color: #e2e3e5;
+}
+
+body.darkmode .chat-container {
+  background-color:#2b2b2b;
+  color: #e0e0e0; 
+  border-color: #444;
+}
+
+body.darkmode .chat-message {
+  background-color:  #2b2b2b;  
+  color: #140202;  
+}
+
+body.darkmode .chat-message.user {
+  background-color:  #2b2b2b;
+  color: #c0a1a1; 
+}
+
+body.darkmode .chat-message.assistant {
+  background-color: #2b2b2b; 
+  color: #c0a1a1; 
+}

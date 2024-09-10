@@ -3,6 +3,7 @@ import { databaseController } from '../controllers/databaseController';
 import { getMetricData } from '../controllers/cloudWatchController';
 import lambdaController from '../controllers/rawDataController';
 import metricsController from '../controllers/percentileController';
+import { handleChat } from '../controllers/ChatControllerts';
 
 const dataRouter = Router();
 
@@ -41,5 +42,7 @@ dataRouter.get(
       return res.status(200).json(res.locals.metricData);
     }
 );
+
+dataRouter.post('/chat', handleChat);
 
 export default dataRouter;
