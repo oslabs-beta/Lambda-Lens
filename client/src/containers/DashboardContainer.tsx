@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import ColdStartsGraphComponent from '../components/ColdStartsGraphComponent';
 import ColdStartsMetricsContainer from './ColdStartsMetricsContainer';
 import AvgBilledDurGraph from '../components/AvgBilledDurGraphComponent';
-import '../styles.css';
 import ChatContainer from './ChatContainer';
 import '../Graphs.css';
 
