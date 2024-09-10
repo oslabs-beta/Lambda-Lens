@@ -11,35 +11,43 @@ const AvgBilledDurGraph = ({ data }: Props) => {
       {
         label: 'Average Billed Duration (ms)',
         data: data.map(fn => fn.avgBilledDur),
-        backgroundColor: [
-          '#4E79A7', // Soft Blue
-          '#F28E2B', // Orange
-          '#E15759', // Red
-          '#76B7B2', // Teal
-          '#59A14F', // Green
-          '#EDC948', // Yellow
-          '#B07AA1', // Purple
-          '#FF9DA7', // Pink
-          '#9C755F', // Brown
-          '#BAB0AC', // Gray
-        ],
+        backgroundColor: '#447A90',
+        borderRadius: 2,
+        hoverBackgroundColor: '#62ACCC'
       },
     ],
   };
 
   const options = {
+    indexAxis: 'y' as const,
     scales: {
       x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: '#FFFFFF',
+          display: false,
+        },
         title: {
-          display: true,
-          text: 'Function Name'
+          display: false,
+        },
+        border: {
+          display: false,
         }
       },
       y: {
-        beginAtZero: true,
+        grid: {
+          display: false,
+        },
+        ticks: {
+          padding: 10,
+        },
         title: {
-          display: true,
-          text: 'Time (ms)'
+          display: false,
+        },
+        border: {
+          display: false,
         }
       },
     },
