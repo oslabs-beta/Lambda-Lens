@@ -30,10 +30,11 @@ body {
   justify-content: space-between;
 }
 
-.container {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
 }
 
 .charts-column {
@@ -51,11 +52,6 @@ body {
   justify-content: center;
   max-width: 48%;
 }
-
-/* .dashboard-container {
-  margin: 0 auto;
-  padding: 20px;
-} */
 
 .dashboard-graphs {
   display: flex;
@@ -134,12 +130,10 @@ body {
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  margin-bottom: 20px;
   background-color: #ffffff;
   border-radius: 8px;
 }
    
-  
 .graph-container {
   display: flex;
   flex: 1;

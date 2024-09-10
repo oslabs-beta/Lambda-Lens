@@ -22,9 +22,8 @@ function ConfigPageContainer() {
     .then((res) => {
       if (res.ok) {
         alert(`Configuration saved`);
-        // window.location.replace("http://localhost:3000");
       } else {
-        alert('Error: Configuration not saved \nMissing one or more fields');
+        alert('Error saving user information');
       }
     })
     .catch((err) => {

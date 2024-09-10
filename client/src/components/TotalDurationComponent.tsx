@@ -1,17 +1,40 @@
 import { Pie } from 'react-chartjs-2';
 
-const TotalDurationComponent = () => {
-  const data = {
-    labels: ['App A', 'App B', 'App C', 'App D', 'App E'],
+interface Props {
+  data: {
+    duration: number[];
+    timestamps: string[];
+  }
+}
+
+const formatTimestamp = (timestamp: string) => {
+  const date = new Date(timestamp);
+
+  const formattedDate = date.toLocaleDateString([], {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const formattedTime = date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return `${formattedDate} ${formattedTime}`;
+};
+
+const TotalDurationComponent = ({ data }: Props) => {
+  const labels = data.timestamps.map(formatTimestamp);
+  
+  const chartData = {
+    labels,
     datasets: [
       {
-        data: [300, 50, 100, 75, 150],
+        data: data.duration,
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-          'rgb(100, 70, 200)',
-          'rgb(200, 20, 250)',
+          'rgba(60, 120, 180, 1)',
+          'rgba(140, 140, 140, 1)',
         ],
       },
     ],
@@ -19,8 +42,8 @@ const TotalDurationComponent = () => {
 
   return (
     <div>
-      <h2>Total Execution Duration</h2>
-      <Pie data={data} />
+      <h2>Average Execution Duration (5min period)</h2>
+      <Pie data={chartData} />
     </div>
   )
 }

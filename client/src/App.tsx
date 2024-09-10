@@ -3,6 +3,7 @@ import DashboardContainer from './containers/DashboardContainer';
 import CloudwatchContainer from './containers/CloudwatchContainer';
 import NavbarComponent from './components/NavbarComponent';
 import ConfigPageContainer from './containers/ConfigPageContainer';
+import ChatContainer from './containers/ChatContainer';
 import './App.css'
 import './chartSetup';
 
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' element={<DashboardContainer />} />
           <Route path='/cloudwatchmetrics' element={<CloudwatchContainer />} />
           <Route path='/configuration' element={<ConfigPageContainer />} />
+          <Route path='/chat' element={<ChatContainer />}/>
         </Routes> 
       </div>
     </Router>

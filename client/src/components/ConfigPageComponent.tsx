@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import './ConfigPageComponent.scss';
 import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
-// import InputLabel from '@mui/material/InputLabel';
-// import FormControl from '@mui/material/FormControl';
-// import Select, { SelectChangeEvent } from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormHelperText from '@mui/material/FormHelperText';
-
+import { useForm, SubmitHandler } from 'react-hook-form'; 
 
 type Config = {
   awsAccessKeyID: string;
@@ -24,6 +17,11 @@ type ConfigFormProps = {
 
 
 function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
+  const { register, handleSubmit, formState: { errors } } = useForm<Config>();
+  const onSubmit: SubmitHandler<Config> = data => {
+    onSave(data);
+  }
+
   const [config, setConfig] = useState<Config>({
     awsAccessKeyID: '',
     awsSecretAccessKey: '',
@@ -39,11 +37,6 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    //switch here 
-    onSave(config);
-  }
 
   const handleDatabase = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,86 +46,38 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps ){
 
 
   return (
-    <form className='config-form' onSubmit={handleSubmit}>
-      {/* <TextField
-          error
-          id="outlined-error"
-          label="AWS Access Key ID Required"
-          // defaultValue="Hello World"
-          placeholder='minimum 16 characters'
-          type='password'
-          onChange={handleChange}
-        /> */}
+    <form className='config-form' onSubmit={handleSubmit(onSubmit)}>
+      
       <input 
-        type="password" 
-        placeholder='AWS Access Key' 
-        name='awsAccessKeyID' 
-        value={config.awsAccessKeyID} 
-        onChange={handleChange} 
+      {...register("awsAccessKeyID", { required: true })}
+      placeholder='AWS Access Key'
+      onChange={handleChange} 
       />
-      {/* <TextField
-          error
-          id="outlined-error"
-          label="AWS Secret Access Key Required"
-          // defaultValue="Hello World"
-          placeholder='case sensitive'
-          type='password'
-          onChange={handleChange}
-        /> */}
-      <input 
-        type="password" 
-        placeholder='AWS Secret Access Key' 
-        name='awsSecretAccessKey' 
-        value={config.awsSecretAccessKey} 
-        onChange={handleChange} 
-      />
-      {/* <FormControl sx={{ m: 1, minWidth: 120 }} error>
-        <InputLabel>AWS Region</InputLabel>
-        <Select
-          value={config.awsRegion}
-          placeholder="Region"
-          onChange={handleChange}
-          renderValue={(value) => `⚠️  - ${value}`}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value="us-east-1" onChange={handleChange} >US East 1</MenuItem>
-          <MenuItem value="us-east-2" onChange={handleChange}>US East 2</MenuItem>
-          <MenuItem value="us-west-1" onChange={handleChange}>US West 1</MenuItem>
-        </Select>
-        <FormHelperText>Required</FormHelperText>
-      </FormControl> */}
+      {errors.awsAccessKeyID && <p className='config-error'>AWS Access Key ID is required</p>}
 
-      <select 
-        name='awsRegion'
-        value={config.awsRegion}
-        onChange={handleChange}
-      >
+      <input 
+      {...register("awsSecretAccessKey", { required: true })}
+      placeholder='AWS Secret Access Key' 
+      onChange={handleChange} 
+      />
+      {errors.awsSecretAccessKey && <p className='config-error'>AWS Secret Access Key is required</p>}
+
+      <select {...register("awsRegion", { required: true })} onChange={handleChange} >
         <option value="">Select Region</option>
         <option value="us-east-1">US East 1</option>
         <option value="us-east-2">US East 2</option>
         <option value="us-west-1">US West 1</option>
       </select>
-
-      {/* <TextField
-          error
-          id="outlined-error"
-          label="MongoDB URI Required"
-          // defaultValue="Hello World"
-          placeholder='personal URL with username and password'
-          type='password'
-          onChange={handleChange}
-        /> */}
-
+      {errors.awsRegion && <p className='config-error'>AWS Region is required</p>}
+      
       <input 
-        type="password" 
-        placeholder='MongoDB URI' 
-        name='mongoURI' 
-        value={config.mongoURI} 
-        onChange={handleChange} 
+      {...register("mongoURI", { required: true })}
+      placeholder='MongoDB URI' 
+      onChange={handleChange} 
       />
-      <button type='submit' onSubmit={handleSubmit}>Save</button>
+      {errors.mongoURI && <p className='config-error'>MongoDB URI is required</p>}
+
+      <input type="submit"/>
       <button type='submit' onClick={handleDatabase}>Connect to DB</button>
     </form>
   )

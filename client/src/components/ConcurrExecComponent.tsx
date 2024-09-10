@@ -1,8 +1,8 @@
-import { Line } from 'react-chartjs-2';
+import { Bar } from "react-chartjs-2";
 
 interface Props {
   data: {
-    throttles: number[];
+    concurrentExecutions: number[];
     timestamps: string[];
   };
 }
@@ -24,20 +24,19 @@ const formatTimestamp = (timestamp: string) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
-const ThrottleComponent = ({ data }: Props) => {
+const ConcurrExecComponent = ({ data }: Props) => {
   const labels = data.timestamps.map(formatTimestamp);
   
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Throttles',
-        data: data.throttles,
-        borderColor: [
+        label: 'Executions',
+        data: data.concurrentExecutions,
+        backgroundColor: [
           'rgba(60, 120, 180, 1)',
           'rgba(140, 140, 140, 1)',
         ],
-        fill: false,
       },
     ],
   };
@@ -54,7 +53,7 @@ const ThrottleComponent = ({ data }: Props) => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Throttles'
+          text: 'Executions'
         }
       },
     },
@@ -67,10 +66,10 @@ const ThrottleComponent = ({ data }: Props) => {
 
   return (
     <div>
-      <h2>Total Number of Throttles (5min period)</h2>
-      <Line data={chartData} options={options} />
+      <h2>Total Concurrent Executions (5min period)</h2>
+      <Bar data={chartData} options={options} />
     </div>
   )
 };
 
-export default ThrottleComponent;
+export default ConcurrExecComponent;
