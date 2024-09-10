@@ -1,5 +1,18 @@
 .config-page-container {
+  margin-top: -15px;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 4px;
+  text-align: left;
+  font-family: Helvetica, Arial, sans-serif;
+
+  h2 {
+    font-size: 48px;
+    font-weight: 400;
+  }
+
+  .config-component {
+    margin: auto;
+    width: 50%;
+  }
 }

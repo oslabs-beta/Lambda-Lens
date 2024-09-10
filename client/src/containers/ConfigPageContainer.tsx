@@ -1,4 +1,4 @@
-import ConfigForm from "../components/ConfigPageComponent";
+import ConfigForm from '../components/ConfigPageComponent';
 import './ConfigPageContainer.scss';
 
 type Config = {
@@ -6,7 +6,7 @@ type Config = {
   awsSecretAccessKey: string;
   awsRegion: string;
   mongoURI: string;
-}
+};
 
 function ConfigPageContainer() {
   const handleSaveConfig = (config: Required<Config>) => {
@@ -18,23 +18,25 @@ function ConfigPageContainer() {
       },
       body: JSON.stringify(config),
     })
-    .then((res) => {
-      if (res.ok) {
-        alert(`Configuration saved`);
-        window.location.replace("http://localhost:3000");
-      } else {
-        alert('Error: Configuration not saved \nMissing one or more fields');
-      }
-    })
-    .catch((err) => {
-      console.log('The following error occurred:', err);
-    })
+      .then((res) => {
+        if (res.ok) {
+          alert(`Configuration saved`);
+          window.location.replace('http://localhost:3000');
+        } else {
+          alert('Error: Configuration not saved \nMissing one or more fields');
+        }
+      })
+      .catch((err) => {
+        console.log('The following error occurred:', err);
+      });
   };
 
   return (
-    <div className="config-page-container">
+    <div className='config-page-container'>
       <h2>Configuration</h2>
-      <ConfigForm onSave={handleSaveConfig} />
+      <div className='config-component'>
+        <ConfigForm onSave={handleSaveConfig} />
+      </div>
     </div>
   );
 }

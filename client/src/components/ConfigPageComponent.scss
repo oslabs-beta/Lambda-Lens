@@ -1,16 +1,152 @@
+$element-h: #62accc;
+$element-s: #447a90;
+
+$light-cont-l: #ffffff;
+$light-cont-m: #f3f3f3;
+$light-cont-s: #e1e1e1;
+$light-text-prim: #161616;
+$light-text-sec: #646464;
+
+$error: #d25d23;
+
 .config-form {
   display: flex;
   flex-direction: column;
+  background-color: $light-cont-m;
+  padding: 10px;
+  border-radius: 10px;
+  width: 600px;
+  font-family: Helvetica, Arial, sans-serif;
 
-  input, select {
+  input,
+  select {
     border: 1px;
     border-radius: 4px;
     padding: 10px;
     margin-bottom: 5px;
+    color: $light-text-sec;
+    background-color: $light-cont-s;
+    font-family: Helvetica, Arial, sans-serif;
+    outline: none;
+  }
+
+  select:hover {
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: $light-text-prim;
+    border: 2px solid #62accc;
+    outline: none;
+    background-color: $light-cont-m;
+  }
+
+  input:hover {
+    border: 1px;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: #161616;
+    background-color: $light-cont-m;
+  }
+
+  input:focus {
+    background-color: $light-cont-m;
+    border: 2px solid $element-h;
+    outline: none;
   }
 
   button {
     padding: 10px;
     border-radius: 4px;
+  }
+
+  .config-submit-button {
+    background-color: $element-s;
+    color: $light-cont-l;
+    font-weight: bold;
+  }
+  .config-submit-button:hover {
+    background-color: $element-h;
+    color: $light-cont-l;
+    font-weight: bold;
+  }
+
+  .config-error {
+    color: $error;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+}
+
+$dark-cont-l: #161616;
+$dark-cont-m: #2a2a2a;
+$dark-cont-s: #363636;
+$dark-text-prim: #ffffff;
+$dark-text-sec: #a2a2a2;
+
+body.darkmode .config-form {
+  display: flex;
+  flex-direction: column;
+  background-color: $dark-cont-m;
+  padding: 10px;
+  border-radius: 10px;
+  width: 600px;
+  font-family: Helvetica, Arial, sans-serif;
+
+  input,
+  select {
+    border: 1px;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: $dark-text-sec;
+    background-color: $dark-cont-s;
+    font-family: Helvetica, Arial, sans-serif;
+    outline: none;
+  }
+
+  select:hover {
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: $dark-cont-m;
+    border: 2px solid $element-h;
+    outline: none;
+    background-color: $dark-cont-m;
+  }
+
+  input:hover {
+    border: 1px;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: $dark-cont-m;
+    background-color: $dark-cont-m;
+  }
+
+  input:focus {
+    background-color: $dark-cont-m;
+    border: 2px solid $element-h;
+    outline: none;
+  }
+
+  button {
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+  .config-submit-button {
+    background-color: $element-s;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .config-submit-button:hover {
+    background-color: $element-h;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+  .config-error {
+    color: $error;
+    font-family: Helvetica, Arial, sans-serif;
   }
 }
