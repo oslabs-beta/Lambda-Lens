@@ -2,14 +2,10 @@ import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// import connectToDatabase from './models/dbConnection';
-// import { getFunction } from './controllers/getFunctionsController';
 import configRoutes from './routes/configRoutes';
 import dataRoutes from './routes/dataRoutes';
 
-
 dotenv.config();
-
 
 const app = express();
 
