@@ -9,7 +9,7 @@ interface ConversationEntry {
 }
 
 const client = new BedrockRuntimeClient({
-  region: 'us-east-1',
+  region: process.env.AWS_REGION,
   endpoint: 'https://bedrock-runtime.us-east-1.amazonaws.com',
   credentials: {
     accessKeyId: awsconfig.credentials.accessKeyId,
