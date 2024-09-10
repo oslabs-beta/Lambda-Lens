@@ -42,7 +42,7 @@ const TotalDurationComponent = ({ data }: Props) => {
 
   return (
     <div>
-      <h2>Total Execution Duration (5min period)</h2>
+      <h2>Average Execution Duration (5min period)</h2>
       <Pie data={chartData} />
     </div>
   )
