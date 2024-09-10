@@ -13,11 +13,11 @@ const RowComponent = ({
 }) => {
   return (
     <div className='table-row'>
-    <div className='table-cell'>{functionName}</div>
-    <div className='table-cell'>{avgBilledDur} ms</div>
-    <div className='table-cell'>{coldStarts}</div>
-    <div className='table-cell'>{percentage}%</div>
-  </div>
+      <div>{functionName}</div>
+      <div>{avgBilledDur} ms</div>
+      <div>{coldStarts}</div>
+      <div>{percentage}%</div>
+    </div>
   );
 };
 

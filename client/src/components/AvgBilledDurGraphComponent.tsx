@@ -61,7 +61,9 @@ const AvgBilledDurGraph = ({ data }: Props) => {
   return (
     <div>
       <h2>Average Billed Duration (ms)</h2>
-      <Bar data={chartData} options={options}/>
+      <div className='chart-wrapper'>
+        <Bar data={chartData} options={options}/>
+      </div>
     </div>
   )
 };

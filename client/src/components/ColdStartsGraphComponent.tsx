@@ -43,7 +43,9 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Total Cold Starts</h2>
-      <Pie data={chartData} options={options}/>
+      <div className='chart-wrapper'>
+        <Pie data={chartData} options={options}/>
+      </div>
     </div>
   );
 };

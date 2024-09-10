@@ -33,25 +33,39 @@ const DashboardContainer = () => {
     .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
     .slice(0, 10);
 
-  return (
-    <div className='dashboard-container'>
-      <div className='dashboard-header'>
-        <h1>Function Performance</h1>
-        <button className='refresh-button' onClick={handleRefresh}>&#x21bb;</button>
-      </div>
-      <div className='component-box'>
-        <ColdStartsMetricsContainer data={sortedData} />
-      </div>
-      <div className='dashboard-graphs'>
-        <div className='component-box graph-container'>
+    return (
+      <div className='grid'>
+        
+        {/* Quadrant 1 */}
+        <div className='quadrant'>
+          <div className='dashboard-header'>
+            <h1>Function Performance</h1>
+            <button className='refresh-button' onClick={handleRefresh}>&#x21bb;</button>
+          </div>
+          <div className='component-box'>
+            <AvgBilledDurGraph data={sortedData} />
+          </div>
+        </div>
+    
+        {/* Quadrant 2 */}
+        <div className='component-box'>
+          <ColdStartsMetricsContainer data={sortedData} />
+        </div>
+    
+        {/* Quadrant 3 */}
+        <div className='component-box'>
           <ColdStartsGraphComponent data={sortedData} />
         </div>
-        <div className='component-box graph-container'>
-          <AvgBilledDurGraph data={sortedData} />
+    
+        {/* Quadrant 4 */}
+        <div className='component-box'>
+          <h2>Bedrock Analysis</h2>
+          <p>Coming soon...</p>
         </div>
       </div>
-    </div>
-  );
+    );
 };
+
+
 
 export default DashboardContainer;
