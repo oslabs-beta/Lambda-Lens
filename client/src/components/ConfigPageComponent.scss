@@ -1,3 +1,4 @@
+// sass variables
 $element-h: #62accc;
 $element-s: #447a90;
 
@@ -7,16 +8,30 @@ $light-cont-s: #e1e1e1;
 $light-text-prim: #161616;
 $light-text-sec: #646464;
 
-$error: #d25d23;
+$dark-cont-l: #161616;
+$dark-cont-m: #2a2a2a;
+$dark-cont-s: #363636;
+$dark-text-prim: #ffffff;
+$dark-text-sec: #a2a2a2;
 
+$error: #d25d23;
+$medium: 550;
+
+$mui-boxshadow-2: 0px 4px 6px rgba(0, 0, 0, 0.1),
+  0px 1px 3px rgba(0, 0, 0, 0.08);
+
+// light mode settings
 .config-form {
   display: flex;
   flex-direction: column;
   background-color: $light-cont-m;
-  padding: 10px;
+  padding: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   border-radius: 10px;
   width: 600px;
   font-family: Helvetica, Arial, sans-serif;
+  box-shadow: $mui-boxshadow-2;
 
   input,
   select {
@@ -35,8 +50,7 @@ $error: #d25d23;
     padding: 10px;
     margin-bottom: 5px;
     color: $light-text-prim;
-    border: 2px solid #62accc;
-    outline: none;
+    border: none;
     background-color: $light-cont-m;
   }
 
@@ -52,23 +66,33 @@ $error: #d25d23;
   input:focus {
     background-color: $light-cont-m;
     border: 2px solid $element-h;
-    outline: none;
   }
 
   button {
     padding: 10px;
     border-radius: 4px;
+    border: none;
   }
 
   .config-submit-button {
     background-color: $element-s;
     color: $light-cont-l;
-    font-weight: bold;
+    font-weight: $medium;
   }
   .config-submit-button:hover {
     background-color: $element-h;
     color: $light-cont-l;
-    font-weight: bold;
+  }
+
+  .db-button {
+    background-color: darken($light-cont-s, 60);
+    color: lighten($light-cont-s, 0);
+    font-weight: $medium;
+  }
+
+  .db-button:hover {
+    background-color: darken($light-cont-s, 55);
+    color: lighten($light-cont-s, 5);
   }
 
   .config-error {
@@ -77,20 +101,18 @@ $error: #d25d23;
   }
 }
 
-$dark-cont-l: #161616;
-$dark-cont-m: #2a2a2a;
-$dark-cont-s: #363636;
-$dark-text-prim: #ffffff;
-$dark-text-sec: #a2a2a2;
-
+// dark mode settings
 body.darkmode .config-form {
   display: flex;
   flex-direction: column;
   background-color: $dark-cont-m;
-  padding: 10px;
+  padding: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   border-radius: 10px;
   width: 600px;
   font-family: Helvetica, Arial, sans-serif;
+  outline: none;
 
   input,
   select {
@@ -101,17 +123,16 @@ body.darkmode .config-form {
     color: $dark-text-sec;
     background-color: $dark-cont-s;
     font-family: Helvetica, Arial, sans-serif;
-    outline: none;
   }
 
   select:hover {
     border-radius: 4px;
     padding: 10px;
     margin-bottom: 5px;
-    color: $dark-cont-m;
+    color: $dark-text-sec;
     border: 2px solid $element-h;
-    outline: none;
     background-color: $dark-cont-m;
+    border: none;
   }
 
   input:hover {
@@ -126,23 +147,33 @@ body.darkmode .config-form {
   input:focus {
     background-color: $dark-cont-m;
     border: 2px solid $element-h;
-    outline: none;
   }
 
   button {
     padding: 10px;
     border-radius: 4px;
+    border: none;
   }
 
   .config-submit-button {
     background-color: $element-s;
-    color: #ffffff;
-    font-weight: bold;
+    color: $dark-text-prim;
+    font-weight: $medium;
   }
   .config-submit-button:hover {
     background-color: $element-h;
-    color: #ffffff;
-    font-weight: bold;
+    color: $dark-text-prim;
+  }
+
+  .db-button {
+    background-color: $light-cont-s;
+    color: $light-text-prim;
+    font-weight: $medium;
+  }
+
+  .db-button:hover {
+    background-color: lighten($light-cont-s, 5);
+    color: $light-text-sec;
   }
 
   .config-error {

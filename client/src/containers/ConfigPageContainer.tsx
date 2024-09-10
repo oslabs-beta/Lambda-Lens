@@ -10,7 +10,6 @@ type Config = {
 
 function ConfigPageContainer() {
   const handleSaveConfig = (config: Required<Config>) => {
-    console.log('Sending config', config);
     fetch('http://localhost:8080/api/config/save', {
       method: 'POST',
       headers: {
@@ -21,9 +20,8 @@ function ConfigPageContainer() {
       .then((res) => {
         if (res.ok) {
           alert(`Configuration saved`);
-          window.location.replace('http://localhost:3000');
         } else {
-          alert('Error: Configuration not saved \nMissing one or more fields');
+          alert('Error saving user information');
         }
       })
       .catch((err) => {
@@ -31,11 +29,31 @@ function ConfigPageContainer() {
       });
   };
 
+  const handleSaveDatabase = () => {
+    fetch('http://localhost:8080/api/config/db', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          window.location.replace('http://localhost:3000');
+        } else {
+          alert(
+            'Error connecting to database. Please check for valid URI input'
+          );
+        }
+      })
+      .catch((err) => {
+        console.log('Error in handleDatabase: ', err);
+      });
+  };
   return (
     <div className='config-page-container'>
       <h2>Configuration</h2>
       <div className='config-component'>
-        <ConfigForm onSave={handleSaveConfig} />
+        <ConfigForm onSave={handleSaveConfig} onDatabase={handleSaveDatabase} />
       </div>
     </div>
   );

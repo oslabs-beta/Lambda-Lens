@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './ConfigPageComponent.scss';
 import * as React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -12,17 +11,22 @@ type Config = {
 
 type ConfigFormProps = {
   onSave: (config: Config) => void;
+  onDatabase: () => void;
 };
 
-function ConfigForm({ onSave }: ConfigFormProps) {
+function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Config>();
-  //problem here:
   const onSubmit: SubmitHandler<Config> = (data) => {
     onSave(data);
+  };
+
+  const handleDatabase = (e: React.FormEvent) => {
+    e.preventDefault();
+    onDatabase();
   };
 
   return (
@@ -62,6 +66,9 @@ function ConfigForm({ onSave }: ConfigFormProps) {
       )}
 
       <input type='submit' className='config-submit-button' />
+      <button type='submit' className='db-button' onClick={handleDatabase}>
+        Connect to Database
+      </button>
     </form>
   );
 }
