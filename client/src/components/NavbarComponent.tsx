@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../NavbarComponent.css'; 
-// import logo from '../logo.png';
 import lambda from '../lambda.png';
 
 const LightModeIcon = () => (
