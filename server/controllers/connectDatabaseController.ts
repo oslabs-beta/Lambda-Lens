@@ -16,9 +16,6 @@ interface connectDatabaseController {
       next: NextFunction
     ): Promise<void> => {
         try{
-            // await connectToDatabase()
-            // setTimeout(console.log(process.env.MONGODB_URI), 5000)
-
             // console.log('MONGODB_URI from .env is: ', process.env.MONGODB_URI);
             await mongoose.connect(process.env.MONGODB_URI as string);
             console.log('Connected to MongoDB');
@@ -32,14 +29,3 @@ interface connectDatabaseController {
         }
     }
 }
-
-/*
-try {
-    await mongoose.connect(process.env.MONGODB_URI as string);
-    console.log('Connected to MongoDB');
-  } catch (err) {
-    console.error('Error connecting to MongoDB:', (err as Error).message);
-    process.exit(1); 
-  }
-
-  */
