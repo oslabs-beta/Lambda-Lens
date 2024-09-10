@@ -68,7 +68,7 @@ const ThrottleComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Total Number of Throttles (5min period)</h2>
-      <Line data={chartData} options={options} />
+      <Line data={chartData} options={options} className='line'/>
     </div>
   )
 };

@@ -67,7 +67,7 @@ const ConcurrExecComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Total Concurrent Executions (5min period)</h2>
-      <Bar data={chartData} options={options} />
+      <Bar data={chartData} options={options} className='bar'/>
     </div>
   )
 };

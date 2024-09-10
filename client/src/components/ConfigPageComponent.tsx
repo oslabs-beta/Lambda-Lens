@@ -16,7 +16,6 @@ type ConfigFormProps = {
 
 function ConfigForm({ onSave }: ConfigFormProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<Config>();
-  //problem here: 
   const onSubmit: SubmitHandler<Config> = data => {
     onSave(data);
   }

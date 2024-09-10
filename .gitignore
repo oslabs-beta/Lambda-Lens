@@ -15,3 +15,5 @@ server/node_modules/
 /server/tmp
 
 dist
+package-lock.json
+.DS_Store

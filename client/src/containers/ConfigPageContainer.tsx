@@ -23,7 +23,7 @@ function ConfigPageContainer() {
         alert(`Configuration saved`);
         window.location.replace("http://localhost:3000");
       } else {
-        alert('Error: Configuration not saved \nMissing one or more fields');
+        alert('Error: Configuration not saved \nMissing one or more fields'); //re-assess
       }
     })
     .catch((err) => {

@@ -40,7 +40,7 @@ const PercentileLatencyComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Percentile Latency (ms)</h2>
-      <Bar data={chartData} options={options} />
+      <Bar data={chartData} options={options} className='bar'/>
     </div>
   )
 
