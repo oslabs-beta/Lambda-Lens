@@ -12,7 +12,7 @@ body {
     margin-left: 2px;
     margin-right: 2px;
 }
-.dashboard-header {
+.dashboard-header-cw {
     font-family: Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: flex-start;
@@ -31,7 +31,15 @@ body {
     }
 }
 
-.component-box{
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+    padding: 20px;
+}
+
+.component-box-cw {
     background-color:$medium-container;
     h2{
         display: flex;
