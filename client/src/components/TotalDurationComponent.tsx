@@ -1,4 +1,4 @@
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 interface Props {
   data: {
@@ -52,7 +52,7 @@ const TotalDurationComponent = ({ data }: Props) => {
     plugins: {
       legend: {
         display: true,
-        position: 'left', // Legend appears on the left
+        position: 'left' as const,
         labels: {
           boxWidth: 20,
           padding: 10,
@@ -64,7 +64,7 @@ const TotalDurationComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Average Execution Duration (5min period)</h2>
-      <Pie data={chartData} options={options} className='pie' width={20} height={20}/>
+      <Doughnut data={chartData} options={options} className='pie' width={20} height={20}/>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 interface FunctionData {
   functionName: string;
@@ -47,7 +47,7 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
     <div>
       <h2>Total Cold Starts</h2>
       <div className='chart-wrapper'>
-        <Pie data={chartData} options={options}/>
+        <Doughnut data={chartData} options={options}/>
       </div>
     </div>
   );

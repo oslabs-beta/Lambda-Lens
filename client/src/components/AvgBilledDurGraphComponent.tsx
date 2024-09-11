@@ -26,15 +26,14 @@ const AvgBilledDurGraph = ({ data }: Props) => {
           display: false,
         },
         ticks: {
-          color: '#FFFFFF',
-          display: false,
+          color: '#A2A2A2',
+          display: true,
         },
         title: {
-          display: false,
+          display: true,
+          text: 'Milliseconds',
+          color: '#A2A2A2',
         },
-        border: {
-          display: false,
-        }
       },
       y: {
         grid: {
@@ -45,11 +44,10 @@ const AvgBilledDurGraph = ({ data }: Props) => {
           color: '#A2A2A2',
         },
         title: {
-          display: false,
+          display: true,
+          text: 'Function Name',
+          color: '#A2A2A2',
         },
-        border: {
-          display: false,
-        }
       },
     },
     plugins: {
