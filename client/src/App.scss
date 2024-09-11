@@ -1,0 +1,249 @@
+// element colors
+$element-h: #62accc;
+$element-s: #447a90;
+
+// light mode colors
+$light-cont-l: #ffffff;
+$light-cont-m: #f3f3f3;
+$light-cont-s: #e1e1e1;
+$light-text-prim: #161616;
+$light-text-sec: #646464;
+
+// dark mode colors
+$dark-cont-l: #161616;
+$dark-cont-m: #2a2a2a;
+$dark-cont-s: #363636;
+$dark-text-prim: #ffffff;
+$dark-text-sec: #a2a2a2;
+
+// misc
+$font-stack: Helvetica, Arial, sans-serif;
+$error: #d25d23;
+$reg: 300;
+$medium: 400;
+$bold: 500;
+
+$mui-boxshadow-2: 0px 4px 6px rgba(0, 0, 0, 0.1),
+  0px 1px 3px rgba(0, 0, 0, 0.08);
+
+body {
+  background-color: $light-cont-l;
+}
+
+body.darkmode body {
+  background-color: $dark-cont-l;
+}
+
+#root {
+  background-color: $light-cont-l;
+}
+body.darkmode #root {
+  background-color: $dark-cont-l;
+}
+
+.logo {
+  height: 2.7em;
+  //   filter: brightness(0) invert(1);
+  transition: filter 300ms;
+}
+
+body.darkmode .logo {
+  filter: brightness(0) invert(1);
+  transition: filter 300ms;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+// navbar container
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: $light-cont-m;
+  position: relative;
+  font-family: $font-stack;
+  //   box-shadow: $mui-boxshadow-2;
+}
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+// navbar links
+#navbarLinks {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+
+  li {
+    margin: 0;
+  }
+
+  // navbar links
+  a {
+    color: $light-text-sec;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: $reg;
+    font-size: 0.9em;
+
+    &:hover,
+    &:focus {
+      background-color: $light-cont-s;
+      color: $light-text-prim;
+      text-decoration: none;
+    }
+
+    &.active {
+      background-color: $light-cont-s;
+      color: $light-text-prim;
+      text-decoration: none;
+    }
+  }
+}
+
+body.darkmode #navbarLinks {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+
+  li {
+    margin: 0;
+  }
+
+  // navbar links
+  a {
+    color: $dark-text-sec;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: $reg;
+    font-size: 0.9em;
+
+    &:hover,
+    &:focus {
+      background-color: $dark-cont-s;
+      color: $dark-text-prim;
+      text-decoration: none;
+    }
+
+    &.active {
+      background-color: $dark-cont-s;
+      color: $dark-text-prim;
+      text-decoration: none;
+    }
+  }
+}
+
+// theme switch button
+#theme-switch {
+  height: 30px;
+  width: 30px;
+  padding: 7px;
+  border-radius: 50%;
+  background-color: var(--base-variant);
+  //   background-color: $light-text-sec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //   box-shadow: $mui-boxshadow-2;
+  cursor: pointer;
+  svg:hover,
+  svg:focus {
+    fill: darken($light-text-sec, 10%);
+  }
+}
+
+// dark mode styles
+.darkmode {
+  .navbar {
+    background-color: #222;
+  }
+
+  #navbarLinks a {
+    color: #fff;
+  }
+
+  .logo-container img {
+    // filter: brightness(0.8);
+    transition: filter 0.3s ease;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-container {
+    width: 15%;
+    max-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-container {
+    width: 20%;
+    max-width: 60px;
+  }
+}
+
+// #root {
+//   margin-top: 0;
+//   background-color: $light-cont-l;
+// }
+
+// // light mode settings
+// .navbar {
+//   background: $light-cont-m;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-size: 20px;
+//   //   z-index: 1000;
+//   color: rgb(122, 38, 38);
+//   border-radius: 15px;
+
+//   ul {
+//     text-align: center;
+//     margin: 0;
+//     padding: 15px;
+//     list-style: none;
+//   }
+
+//   .navbarLinks {
+//     color: red;
+//   }
+
+//   li {
+//     display: inline-block;
+//     font-family: $font-stack;
+//     color: black;
+//     a {
+//       color: black;
+//       text-decoration: none;
+//       padding: 14px;
+//     }
+//   }
+// }
+
+.config-error {
+  text-align: left;
+  color: red;
+  margin-left: 0;
+  padding-left: 10px;
+  font-size: 12px;
+  position: relative;
+}
+
+.config-error::before {
+  content: '⚠ ';
+  display: inline-block;
+  color: red;
+  margin-right: 5px;
+}

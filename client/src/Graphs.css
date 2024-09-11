@@ -1,0 +1,150 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+}
+
+/* Refresh Button */
+
+.refresh-button {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.refresh-button:hover {
+  background-color: #e0e0e0;
+}
+
+.refresh-button.clicked {
+  background-color: #62accc;
+}
+
+/* Component Boxes */
+
+.component-box {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  flex-grow: 1;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  padding-right: 20px;
+}
+
+/* Grid Layout */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  padding: 20px;
+}
+
+.quadrant {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Table */
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.table {
+  width: 100%;
+}
+
+.header-row, .table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.table-row {
+  background-color: #e1e1e1;
+  border-radius: 8px; 
+  margin-bottom: 10px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-row {
+  font-weight: bold;
+  color: #646464
+}
+
+.table-body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.table-row:hover {
+  background-color: #f0f0f0;
+}
+
+/* Graph */
+
+.chart-wrapper {
+  background-color: #e1e1e1;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+
+/* Darkmode */
+
+body.darkmode .refresh-button {
+  background-color: #a2a2a2;
+}
+
+body.darkmode .refresh-button:hover {
+  background-color: #ffffff;
+}
+
+body.darkmode .refresh-button.clicked {
+  background-color: #62accc;
+}
+
+body.darkmode .component-box {
+  background-color: #2a2a2a;
+  border-color: #363636;
+}
+
+body.darkmode .header-row {
+  color: #a2a2a2;
+}
+
+body.darkmode .table-row {
+  color: #ffffff;
+  background-color: #363636;
+}
+
+body.darkmode .table-row:hover {
+  background-color: #a2a2a2; 
+}
+
+body.darkmode .chart-wrapper {
+  background-color: #363636;
+}
+
+body.darkmode .table-header {
+  color: #a2a2a2; 
+}
+
