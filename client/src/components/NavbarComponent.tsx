@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../NavbarComponent.css';
-import lambda from '../lambda.png';
+import lambda from '../assets/lambda.png';
 
 const LightModeIcon = () => (
   <svg
