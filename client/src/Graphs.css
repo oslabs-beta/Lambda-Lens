@@ -106,20 +106,38 @@ h2 {
 
 /* Darkmode */
 
-body.darkmode .refresh-button:hover {
-  background-color: #555;
+body.darkmode .refresh-button {
+  background-color: #a2a2a2;
 }
+
+body.darkmode .refresh-button:hover {
+  background-color: #ffffff;
+}
+
 
 body.darkmode .component-box {
-  background-color: #2b2b2b;
-  border-color: #444;
+  background-color: #2a2a2a;
+  border-color: #363636;
 }
 
-body.darkmode .table-header {
-  background-color: #2e2e2e; 
-  color: #e0e0e0; 
+body.darkmode .header-row {
+  color: #a2a2a2;
+}
+
+body.darkmode .table-row {
+  color: #ffffff;
+  background-color: #363636;
 }
 
 body.darkmode .table-row:hover {
-  background-color: #444; 
+  background-color: #a2a2a2; 
 }
+
+body.darkmode .chart-wrapper {
+  background-color: #363636;
+}
+
+body.darkmode .table-header {
+  color: #a2a2a2; 
+}
+

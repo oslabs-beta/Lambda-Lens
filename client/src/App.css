@@ -1,6 +1,6 @@
 /* dark mode */
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -80,8 +80,8 @@ ul {
 
 /* Dark mode styles */
 body.darkmode {
-  background-color: #1e1e1e; 
-  color: #e0e0e0; 
+  background-color: #161616; 
+  color: #FFFFFF; 
 }
 
 body.darkmode .navbar {
@@ -91,16 +91,6 @@ body.darkmode .navbar {
 body.darkmode #navbarLinks a {
   color: #e0e0e0;
 }
-
-div.darkmode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
-
-/* body.darkmode .dashboard-container {
-  background-color: #1e1e1e; 
-  color: #e0e0e0; 
-} */
 
 body.darkmode .config-page-container {
   background-color: #1e1e1e; 
@@ -208,4 +198,8 @@ body.darkmode .chat-message.user {
 body.darkmode .chat-message.assistant {
   background-color: #2b2b2b; 
   color: #c0a1a1; 
+}
+
+body.darkmode .chat-title {
+  color: #a2a2a2;
 }

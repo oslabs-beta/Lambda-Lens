@@ -42,6 +42,7 @@ const AvgBilledDurGraph = ({ data }: Props) => {
         },
         ticks: {
           padding: 10,
+          color: '#A2A2A2',
         },
         title: {
           display: false,

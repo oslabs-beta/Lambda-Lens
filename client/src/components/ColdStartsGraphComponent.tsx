@@ -36,6 +36,9 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
       legend: {
         display: true,
         position: 'left' as const,
+        labels: {
+          color: '#A2A2A2'
+        }
       },
     },
   }
