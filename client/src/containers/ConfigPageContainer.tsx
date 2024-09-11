@@ -38,7 +38,7 @@ function ConfigPageContainer() {
     })
       .then((res) => {
         if (res.ok) {
-          window.location.replace('http://localhost:3000');
+          window.location.replace('http://localhost:3000/dash');
         } else {
           alert(
             'Error connecting to database. Please check for valid URI input'

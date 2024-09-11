@@ -3,7 +3,6 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-dotenv.config();
 
 interface connectDatabaseController {
     connectDatabase: RequestHandler;
@@ -16,6 +15,9 @@ interface connectDatabaseController {
       next: NextFunction
     ): Promise<void> => {
         try{
+            dotenv.config(); 
+            // await mongoose.connection.close();
+            // mongoose.disconnect();
             // console.log('MONGODB_URI from .env is: ', process.env.MONGODB_URI);
             await mongoose.connect(process.env.MONGODB_URI as string);
             console.log('Connected to MongoDB');

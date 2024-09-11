@@ -14,9 +14,9 @@ function App() {
       <div>
         <NavbarComponent />
         <Routes>
-          <Route path='/' element={<DashboardContainer />} />
+          <Route path='/' element={<ConfigPageContainer />} />
+          <Route path='/dash' element={<DashboardContainer />} />
           <Route path='/cloudwatchmetrics' element={<CloudwatchContainer />} />
-          <Route path='/configuration' element={<ConfigPageContainer />} />
           <Route path='/chat' element={<ChatContainer />}/>
         </Routes> 
       </div>

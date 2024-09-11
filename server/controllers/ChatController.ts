@@ -1,24 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 import { BedrockRuntimeClient, InvokeModelCommand, BedrockRuntimeClientConfig } from '@aws-sdk/client-bedrock-runtime';
 import ConversationModel from '../models/ConversationModel'; 
-import { awsconfig } from '../configs/awsconfig';
+import { getAwsConfig } from '../configs/awsconfig';
 
 interface ConversationEntry {
   role: 'user' | 'assistant';
   content: string;
 }
 
-const client = new BedrockRuntimeClient({
-  region: process.env.AWS_REGION,
-  endpoint: 'https://bedrock-runtime.us-east-1.amazonaws.com',
-  credentials: {
-    accessKeyId: awsconfig.credentials.accessKeyId,
-    secretAccessKey: awsconfig.credentials.secretAccessKey,
-  },
-} as BedrockRuntimeClientConfig);
+
 
 export const handleChat = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const awsconfig = getAwsConfig();
+    
+    const client = new BedrockRuntimeClient({
+      region: process.env.AWS_REGION,
+      endpoint: 'https://bedrock-runtime.us-east-1.amazonaws.com',
+      credentials: {
+        accessKeyId: awsconfig.credentials.accessKeyId,
+        secretAccessKey: awsconfig.credentials.secretAccessKey,
+      },
+    } as BedrockRuntimeClientConfig);
+
     const { message } = req.body;
 
     if (typeof message !== 'string' || message.trim() === '') {
@@ -43,13 +47,13 @@ export const handleChat = async (req: Request, res: Response, next: NextFunction
           role,
           content
         }));
-        console.log('Conversation parsed:', conversationHistory);
+        // console.log('Conversation parsed:', conversationHistory);
       } catch (parseError) {
         return res.status(500).json({ error: `Failed to parse conversation history: ${(parseError as Error).message}` });
       }
       conversationHistory.push({ role: 'user', content: message });
     } else {
-      console.log('No conversation found, creating new one');
+      // console.log('No conversation found, creating new one');
       conversationHistory = [{ role: 'user', content: message }];
     }
 
@@ -78,12 +82,12 @@ export const handleChat = async (req: Request, res: Response, next: NextFunction
       }
 
       const parsedResponse = JSON.parse(responseBody);
-      console.log('Bedrock response:', parsedResponse);
+      // console.log('Bedrock response:', parsedResponse);
 
       const contentArray = parsedResponse.content;
       if (Array.isArray(contentArray) && contentArray.length > 0) {
         const chatResponse = contentArray[0]?.text || 'No response';
-        console.log('Chat Response:', chatResponse);
+        // console.log('Chat Response:', chatResponse);
 
         const updatedConversation: ConversationEntry[] = [
           ...conversationHistory,

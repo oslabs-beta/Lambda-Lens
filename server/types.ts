@@ -6,6 +6,8 @@ export interface Config {
   region: string;
 }
 
+export type GetAwsConfig = () => Config;
+
 export interface FormattedLog {
   Date: string;
   Time: string;

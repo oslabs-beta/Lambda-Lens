@@ -3,12 +3,10 @@ import {
   GetMetricDataCommand,
   GetMetricDataCommandOutput,
 } from '@aws-sdk/client-cloudwatch';
-import dotenv from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
 import { getFunction } from './getFunctionsController';
-import { awsconfig } from '../configs/awsconfig';
+import { getAwsConfig } from '../configs/awsconfig';
 
-const client = new CloudWatchClient(awsconfig);
 
 const metricCommand = (funcName: string): GetMetricDataCommand => {
   // define time range for the metric data
@@ -88,6 +86,9 @@ export const getMetricData = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    const awsconfig = getAwsConfig();
+  
+    const client = new CloudWatchClient(awsconfig);
     // fetch existing AWS Lambda functions
     const functionNames = await getFunction();
 

@@ -57,13 +57,13 @@ const NavbarComponent = () => {
       <div className='navbar-right'>
         <ul id='navbarLinks'>
           <li>
-            <Link to='/'>Function Performance</Link>
+            <Link to='/dash'>Function Performance</Link>
           </li>
           <li>
             <Link to='/cloudwatchmetrics'>Cloudwatch Metrics</Link>
           </li>
           <li>
-            <Link to='/configuration'>Configuration</Link>
+            <Link to='/'>Configuration</Link>
           </li>
         </ul>
         <div id='theme-switch' onClick={toggleDarkMode}>

@@ -20,7 +20,9 @@ const DashboardContainer = () => {
     fetch('http://localhost:8080/data/req')
       .then((res) => res.json())
       .then((data) => setData(data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+    });
   };
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import fs from 'fs';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 interface EnvController {
   saveSecrets: RequestHandler;
@@ -12,8 +14,6 @@ export const envController: EnvController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    // console.log('Made it to the controller');
-
     const {
       awsAccessKeyID,
       awsSecretAccessKey,
@@ -25,7 +25,6 @@ export const envController: EnvController = {
       awsRegion: string;
       mongoURI: string;
     } = req.body;
-    // console.log('The req body is:', req.body);
     //Format .env:
     const writeToENV =
       `AWS_ACCESS_KEY_ID=${awsAccessKeyID}\n` +
@@ -51,6 +50,12 @@ export const envController: EnvController = {
       // console.log('Made it to the try block');
       fs.writeFileSync('./.env', writeToENV);
       res.locals.saved = 'Secrets successfuly saved';
+      console.log('Saved to .env');
+      dotenv.config();
+
+      // should close database connection so it can be reconnected when user presses "connect to db" button
+      // await mongoose.connection.close();
+      // mongoose.disconnect();
       return next();
     } catch (err) {
       return next({
