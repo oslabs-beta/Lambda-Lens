@@ -51,7 +51,7 @@ const ConcurrExecComponent = ({ data }: Props) => {
   };
 
   const options = {
-    indexAxis: 'y',
+    indexAxis: 'y' as const,
     scales: {
       x: {
         title: {

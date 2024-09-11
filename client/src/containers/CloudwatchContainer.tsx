@@ -59,7 +59,7 @@ const CloudwatchContainer = () => {
 
     return (
         <div>
-            <div className="dashboard-header">
+            <div className="dashboard-header-cw">
                 <h1>CloudWatch Metrics</h1>
                 <select
                     value={selectedFunction}
@@ -75,19 +75,19 @@ const CloudwatchContainer = () => {
             <div className="grid-container">
                 {filteredData && (
                     <>
-                        <div className="component-box">
+                        <div className="component-box-cw">
                             <ConcurrExecComponent data={filteredData}/>
                         </div>
-                        <div className="component-box">
+                        <div className="component-box-cw">
                             <ThrottleComponent data={filteredData}/>
                         </div>
-                        <div className="component-box">
+                        <div className="component-box-cw">
                             <TotalDurationComponent data={filteredData}/>
                         </div>
                     </>
                 )}
                 {filteredPercentileData && (
-                    <div className="component-box">
+                    <div className="component-box-cw">
                         <PercentileLatencyComponent data={filteredPercentileData} />
                     </div>
                 )}
