@@ -33,9 +33,6 @@ body {
 
 .component-box{
     background-color:$medium-container;
-    // display: flex;
-    // justify-content: flex-start;
-    // align-items: flex-start;
     h2{
         display: flex;
         justify-content: flex-start;
@@ -59,8 +56,56 @@ body {
         border-radius: 8px;
         padding: 8px;
         max-height: 300px;
-        
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
     }
 }
 
+body.darkmode {
+    .dashboard-header {
+        font-family: Helvetica, Arial, sans-serif;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        
+        h1{
+            margin-right: 16px;
+            font-weight: 400;
+        }
+        select{
+            border-radius: 8px;
+            padding: 8px;
+            border: 1px ;
+            background-color: #363636;
+            color: #A2A2A2;
+        }
+    }
+    
+    .component-box{
+        background-color:#2A2A2A;
+        h2{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-weight: 400;
+        }
+        .bar{
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .line{
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .pie{
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 8px;
+            max-height: 300px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    }
+}
