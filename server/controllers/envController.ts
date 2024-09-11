@@ -50,6 +50,7 @@ export const envController: EnvController = {
       // console.log('Made it to the try block');
       fs.writeFileSync('./.env', writeToENV);
       res.locals.saved = 'Secrets successfuly saved';
+      console.log('Saved to .env');
       dotenv.config();
 
       // should close database connection so it can be reconnected when user presses "connect to db" button

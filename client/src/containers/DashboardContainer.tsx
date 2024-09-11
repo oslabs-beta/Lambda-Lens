@@ -14,6 +14,7 @@ interface FunctionData {
 
 const DashboardContainer = () => {
   const [data, setData] = useState<FunctionData[]>([]);
+  const [isClicked, setClicked] = useState(false);
 
   const fetchData = () => {
     fetch('http://localhost:8080/data/req')
@@ -29,37 +30,53 @@ const DashboardContainer = () => {
   }, []);
 
   const handleRefresh = () => {
-    console.log(data);
+    setClicked(true);
     fetchData();
-    console.log(data);
+    setTimeout(() => setClicked(false), 1000);
   };
 
   const sortedData = data
     .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
-    .slice(0, 10);
+    .slice(0, 5);
 
-  return (
-    <div className='dashboard-container'>
-      <div className='dashboard-header'>
-        <h1>Function Performance</h1>
-        <button className='refresh-button' onClick={handleRefresh}>&#x21bb;</button>
-      </div>
-      <div className='component-box'>
-        <ColdStartsMetricsContainer data={sortedData} />
-      </div>
-      <div className='dashboard-graphs'>
-        <div className='component-box graph-container'>
+    return (
+      <div className='grid'>
+        
+        {/* Quadrant 1 */}
+        <div className='quadrant'>
+          <div className='dashboard-header'>
+            <h1>Function Performance</h1>
+            <button 
+              className={`refresh-button ${isClicked ? 'clicked' : ''}`}
+              onClick={handleRefresh}
+            >
+              &#x21bb;
+            </button>
+          </div>
+          <div className='component-box'>
+            <AvgBilledDurGraph data={sortedData} />
+          </div>
+        </div>
+    
+        {/* Quadrant 2 */}
+        <div className='component-box'>
+          <ColdStartsMetricsContainer data={sortedData} />
+        </div>
+    
+        {/* Quadrant 3 */}
+        <div className='component-box'>
           <ColdStartsGraphComponent data={sortedData} />
         </div>
-        <div className='component-box graph-container'>
-          <AvgBilledDurGraph data={sortedData} />
+    
+        {/* Quadrant 4 */}
+        <div className='component-box'>
+          <h2>Bedrock Analysis</h2>
+          <ChatContainer />
         </div>
       </div>
-      <div className='chat-container'>
-        <ChatContainer />
-      </div>
-    </div>
-  );
+    );
 };
+
+
 
 export default DashboardContainer;

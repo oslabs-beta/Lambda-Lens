@@ -18,7 +18,7 @@ interface connectDatabaseController {
             dotenv.config(); 
             // await mongoose.connection.close();
             // mongoose.disconnect();
-            console.log('MONGODB_URI from .env is: ', process.env.MONGODB_URI);
+            // console.log('MONGODB_URI from .env is: ', process.env.MONGODB_URI);
             await mongoose.connect(process.env.MONGODB_URI as string);
             console.log('Connected to MongoDB');
             return next();

@@ -38,7 +38,7 @@ dataRouter.get(
   '/metrics',
   metricsController.processMetrics, 
   (req: Request, res: Response, next: NextFunction) => {
-    console.log('Metric data:', res.locals.metricData); 
+    // console.log('Metric data:', res.locals.metricData); 
       return res.status(200).json(res.locals.metricData);
     }
 );
