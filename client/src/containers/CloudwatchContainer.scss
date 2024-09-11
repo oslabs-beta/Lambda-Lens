@@ -1,0 +1,111 @@
+$primary-text: #161616;
+$secondary-text: #646464;
+
+$highlight-element: #62ACCC;
+$standard-element: #447A90;
+
+$largest-container: #FFFFFF;
+$medium-container: #F3F3F3;
+$smallest-container: #E1E1E1;
+body {
+    background-color: $largest-container;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.dashboard-header {
+    font-family: Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+    h1{
+        margin-right: 16px;
+        font-weight: 400;
+    }
+    select{
+        border-radius: 8px;
+        padding: 8px;
+        border: 1px ;
+        background-color:$smallest-container;
+        color: $primary-text;
+    }
+}
+
+.component-box{
+    background-color:$medium-container;
+    h2{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-weight: 400;
+    }
+    .bar{
+        background-color: $smallest-container;
+        border-radius: 8px;
+        padding: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .line{
+        background-color: $smallest-container;
+        border-radius: 8px;
+        padding: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .pie{
+        background-color: $smallest-container;
+        border-radius: 8px;
+        padding: 8px;
+        max-height: 300px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+    }
+}
+
+body.darkmode {
+    .dashboard-header {
+        font-family: Helvetica, Arial, sans-serif;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        
+        h1{
+            margin-right: 16px;
+            font-weight: 400;
+        }
+        select{
+            border-radius: 8px;
+            padding: 8px;
+            border: 1px ;
+            background-color: #363636;
+            color: #A2A2A2;
+        }
+    }
+    
+    .component-box{
+        background-color:#2A2A2A;
+        h2{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-weight: 400;
+        }
+        .bar{
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .line{
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .pie{
+            background-color: #363636;
+            border-radius: 8px;
+            padding: 8px;
+            max-height: 300px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    }
+}
