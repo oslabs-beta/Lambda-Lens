@@ -12,9 +12,9 @@ interface Props {
 
 const PercentileLatencyComponent = ({ data }: Props) => {
   const colorPalette = [
-    'rgba(100, 150, 200, 1)',
-    'rgba(150, 100, 200, 1)',
-    'rgba(200, 150, 100, 1)',
+    '#4c88a1',
+    '#79abc0',
+    '#adccd8',
   ];
 
   const chartData = {
@@ -28,8 +28,9 @@ const PercentileLatencyComponent = ({ data }: Props) => {
   }
 
   const options = {
+    indexAxis: 'y',
     scales: {
-      y: {
+      x: {
         title: {
           display: true,
           text: 'Latency (ms)',

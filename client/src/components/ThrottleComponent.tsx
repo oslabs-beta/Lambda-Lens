@@ -34,8 +34,7 @@ const ThrottleComponent = ({ data }: Props) => {
         label: 'Throttles',
         data: data.throttles,
         borderColor: [
-          'rgba(60, 120, 180, 1)',
-          'rgba(140, 140, 140, 1)',
+          '#437990',
         ],
         fill: false,
       },
