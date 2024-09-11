@@ -1,21 +1,21 @@
 /* dark mode */
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
   transition: background-color 1s, color 1s; 
-}
+} */
 
-.logo {
-  height: 2.5em; 
-  padding: 1.5em; 
+/* .logo {
+  height: 2.5em;
+  padding: 1.5em;
   filter: brightness(0) invert(1);
   transition: filter 300ms;
-}
+} */
 
-body.darkmode .logo {
-  filter: brightness(0) invert(1); 
+/* body.darkmode .logo {
+  filter: brightness(0) invert(1);
 }
 
 .logo:hover {
@@ -24,22 +24,22 @@ body.darkmode .logo {
 
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
-}
+} */
 
-@keyframes logo-spin {
+/* @keyframes logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
+} */
 
 .card {
   padding: 2em;
@@ -49,7 +49,7 @@ body.darkmode .logo {
   color: #888;
 }
 
-.navbar {
+/* .navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -62,10 +62,10 @@ body.darkmode .logo {
   align-items: center;
   z-index: 1000;
   transition: background-color 0.3s;
-}
+} */
 
-ul {
-  list-style-type: none; 
+/* ul {
+  list-style-type: none;
   margin: 0;
   padding: 0;
 }
@@ -75,13 +75,13 @@ ul {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 34px;  
-}
+  padding: 0 34px;
+} */
 
 /* Dark mode styles */
 body.darkmode {
-  background-color: #1e1e1e; 
-  color: #e0e0e0; 
+  background-color: #1e1e1e;
+  color: #e0e0e0;
 }
 
 body.darkmode .navbar {
@@ -103,10 +103,9 @@ div.darkmode {
 } */
 
 body.darkmode .config-page-container {
-  background-color: #1e1e1e; 
-  color: #e0e0e0; 
+  background-color: #1e1e1e;
+  color: #e0e0e0;
 }
-
 
 /* chat style */
 
@@ -116,36 +115,35 @@ body.darkmode .config-page-container {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 16px;
-  margin-top: 20px; 
-  max-height: 500px; 
+  margin-top: 20px;
+  max-height: 500px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .chat-title {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
-
 
 .chat-window {
   margin-bottom: 10px;
-  max-height: 300px; 
-  overflow-y: auto; 
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .chat-message {
   margin-bottom: 8px;
   display: flex;
-  flex-direction: column; 
-  align-items: flex-start; 
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .chat-message .role {
   font-weight: bold;
-  margin-bottom: 4px; 
+  margin-bottom: 4px;
 }
 
 .chat-input {
@@ -189,22 +187,22 @@ body.darkmode .config-page-container {
 }
 
 body.darkmode .chat-container {
-  background-color:#2b2b2b;
-  color: #e0e0e0; 
+  background-color: #2b2b2b;
+  color: #e0e0e0;
   border-color: #444;
 }
 
 body.darkmode .chat-message {
-  background-color:  #2b2b2b;  
-  color: #140202;  
+  background-color: #2b2b2b;
+  color: #140202;
 }
 
 body.darkmode .chat-message.user {
-  background-color:  #2b2b2b;
-  color: #c0a1a1; 
+  background-color: #2b2b2b;
+  color: #c0a1a1;
 }
 
 body.darkmode .chat-message.assistant {
-  background-color: #2b2b2b; 
-  color: #c0a1a1; 
+  background-color: #2b2b2b;
+  color: #c0a1a1;
 }

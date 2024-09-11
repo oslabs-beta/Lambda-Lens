@@ -29,7 +29,8 @@ $mui-boxshadow-2: 0px 4px 6px rgba(0, 0, 0, 0.1),
   padding-top: 25px;
   padding-bottom: 25px;
   border-radius: 10px;
-  width: 600px;
+  width: 700px;
+  max-width: 100%;
   font-family: Helvetica, Arial, sans-serif;
   box-shadow: $mui-boxshadow-2;
 
@@ -110,7 +111,8 @@ body.darkmode .config-form {
   padding-top: 25px;
   padding-bottom: 25px;
   border-radius: 10px;
-  width: 600px;
+  width: 700px;
+  max-width: 100%;
   font-family: Helvetica, Arial, sans-serif;
   outline: none;
 
@@ -140,7 +142,7 @@ body.darkmode .config-form {
     border-radius: 4px;
     padding: 10px;
     margin-bottom: 5px;
-    color: $dark-cont-m;
+    color: $dark-text-sec;
     background-color: $dark-cont-m;
   }
 
