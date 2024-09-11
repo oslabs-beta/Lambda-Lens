@@ -41,6 +41,11 @@ body {
 
 .component-box-cw {
     background-color:$medium-container;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    border-radius: 8px;
+    flex-grow: 1;
     h2{
         display: flex;
         justify-content: flex-start;
@@ -69,7 +74,7 @@ body {
 }
 
 body.darkmode {
-    .dashboard-header {
+    .dashboard-header-cw {
         font-family: Helvetica, Arial, sans-serif;
         display: flex;
         justify-content: flex-start;
@@ -88,8 +93,9 @@ body.darkmode {
         }
     }
     
-    .component-box{
+    .component-box-cw {
         background-color:#2A2A2A;
+        border-color: #363636;
         h2{
             display: flex;
             justify-content: flex-start;

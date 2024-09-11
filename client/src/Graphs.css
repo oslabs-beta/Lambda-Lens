@@ -25,7 +25,7 @@ body {
   padding: 16px;
   background-color: #f3f3f3;
   border-radius: 8px;
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 .dashboard-header {
