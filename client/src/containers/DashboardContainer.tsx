@@ -19,7 +19,9 @@ const DashboardContainer = () => {
     fetch('http://localhost:8080/data/req')
       .then((res) => res.json())
       .then((data) => setData(data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+    });
   };
 
   useEffect(() => {
@@ -27,7 +29,9 @@ const DashboardContainer = () => {
   }, []);
 
   const handleRefresh = () => {
+    console.log(data);
     fetchData();
+    console.log(data);
   };
 
   const sortedData = data

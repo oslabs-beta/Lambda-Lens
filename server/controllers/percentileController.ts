@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { CloudWatchClient, GetMetricDataCommand, GetMetricDataCommandOutput } from '@aws-sdk/client-cloudwatch';
 import { getFunction } from './getFunctionsController';
-import { awsconfig } from '../configs/awsconfig';
+import { getAwsConfig } from '../configs/awsconfig';
 
-const client = new CloudWatchClient(awsconfig);
 
 interface MetricData {
   [functionName: string]: {
@@ -47,6 +46,9 @@ const fetchMetrics = async (functionNames: string[]): Promise<GetMetricDataComma
   });
 
   try {
+    const awsconfig = getAwsConfig();
+    const client = new CloudWatchClient(awsconfig);
+
     const data: GetMetricDataCommandOutput = await client.send(command);
     return data;
   } catch (error) {

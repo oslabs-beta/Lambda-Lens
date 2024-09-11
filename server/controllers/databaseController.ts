@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import visData from '../models/visDataModel';
-import { awsconfig } from '../configs/awsconfig';
+import { getAwsConfig } from '../configs/awsconfig';
 
-const { region } = awsconfig;
 
 interface Log {
   Date: string;
@@ -25,6 +24,9 @@ export const databaseController = {
     next: NextFunction
   ): Promise<void> => {
     try {
+      const awsconfig = getAwsConfig();
+      const { region } = awsconfig;
+      
       const rawData: RawData[] = res.locals.allData;
 
       for (let func of rawData) {
@@ -70,6 +72,9 @@ export const databaseController = {
     next: NextFunction
   ): Promise<void> => {
     try {
+      const awsconfig = getAwsConfig();
+      const { region } = awsconfig;
+
       res.locals.data = await visData.find({ region });
       return next();
     } catch (err) {

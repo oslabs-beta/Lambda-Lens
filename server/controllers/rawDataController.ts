@@ -6,9 +6,8 @@ import {
 } from '@aws-sdk/client-cloudwatch-logs';
 import { getFunction } from './getFunctionsController';
 import { FormattedLog } from '../types';
-import { awsconfig } from '../configs/awsconfig';
+import { getAwsConfig } from '../configs/awsconfig';
 
-const client = new CloudWatchLogsClient(awsconfig);
 
 interface LogEvent {
   message: string;
@@ -50,6 +49,9 @@ const fetchAndSaveLogs = async (functionName: string) => {
   const allLogs: { log: LogEvent; functionName: string }[] = [];
 
   try {
+    const awsconfig = getAwsConfig();
+    const client = new CloudWatchLogsClient(awsconfig);
+    
     const describeResponse = await client.send(
       new DescribeLogStreamsCommand({ logGroupName: formattedFunc })
     );

@@ -1,24 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 import { BedrockRuntimeClient, InvokeModelCommand, BedrockRuntimeClientConfig } from '@aws-sdk/client-bedrock-runtime';
 import ConversationModel from '../models/ConversationModel'; 
-import { awsconfig } from '../configs/awsconfig';
+import { getAwsConfig } from '../configs/awsconfig';
 
 interface ConversationEntry {
   role: 'user' | 'assistant';
   content: string;
 }
 
-const client = new BedrockRuntimeClient({
-  region: process.env.AWS_REGION,
-  endpoint: 'https://bedrock-runtime.us-east-1.amazonaws.com',
-  credentials: {
-    accessKeyId: awsconfig.credentials.accessKeyId,
-    secretAccessKey: awsconfig.credentials.secretAccessKey,
-  },
-} as BedrockRuntimeClientConfig);
+
 
 export const handleChat = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const awsconfig = getAwsConfig();
+    
+    const client = new BedrockRuntimeClient({
+      region: process.env.AWS_REGION,
+      endpoint: 'https://bedrock-runtime.us-east-1.amazonaws.com',
+      credentials: {
+        accessKeyId: awsconfig.credentials.accessKeyId,
+        secretAccessKey: awsconfig.credentials.secretAccessKey,
+      },
+    } as BedrockRuntimeClientConfig);
+
     const { message } = req.body;
 
     if (typeof message !== 'string' || message.trim() === '') {

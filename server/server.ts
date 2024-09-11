@@ -1,11 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import configRoutes from './routes/configRoutes';
 import dataRoutes from './routes/dataRoutes';
 
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 
