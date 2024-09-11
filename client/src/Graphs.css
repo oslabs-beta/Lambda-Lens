@@ -17,6 +17,10 @@ body {
   background-color: #e0e0e0;
 }
 
+.refresh-button.clicked {
+  background-color: #62accc;
+}
+
 /* Component Boxes */
 
 .component-box {
@@ -114,6 +118,9 @@ body.darkmode .refresh-button:hover {
   background-color: #ffffff;
 }
 
+body.darkmode .refresh-button.clicked {
+  background-color: #62accc;
+}
 
 body.darkmode .component-box {
   background-color: #2a2a2a;

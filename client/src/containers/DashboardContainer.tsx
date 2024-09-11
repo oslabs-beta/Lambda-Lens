@@ -14,6 +14,7 @@ interface FunctionData {
 
 const DashboardContainer = () => {
   const [data, setData] = useState<FunctionData[]>([]);
+  const [isClicked, setClicked] = useState(false);
 
   const fetchData = () => {
     fetch('http://localhost:8080/data/req')
@@ -27,7 +28,9 @@ const DashboardContainer = () => {
   }, []);
 
   const handleRefresh = () => {
+    setClicked(true);
     fetchData();
+    setTimeout(() => setClicked(false), 1000);
   };
 
   const sortedData = data
@@ -41,7 +44,12 @@ const DashboardContainer = () => {
         <div className='quadrant'>
           <div className='dashboard-header'>
             <h1>Function Performance</h1>
-            <button className='refresh-button' onClick={handleRefresh}>&#x21bb;</button>
+            <button 
+              className={`refresh-button ${isClicked ? 'clicked' : ''}`}
+              onClick={handleRefresh}
+            >
+              &#x21bb;
+            </button>
           </div>
           <div className='component-box'>
             <AvgBilledDurGraph data={sortedData} />
