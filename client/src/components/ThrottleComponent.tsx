@@ -34,8 +34,7 @@ const ThrottleComponent = ({ data }: Props) => {
         label: 'Throttles',
         data: data.throttles,
         borderColor: [
-          'rgba(60, 120, 180, 1)',
-          'rgba(140, 140, 140, 1)',
+          '#437990',
         ],
         fill: false,
       },
@@ -48,6 +47,9 @@ const ThrottleComponent = ({ data }: Props) => {
         title: {
           display: true,
           text: 'End time'
+        },
+        grid: {
+          display: false
         }
       },
       y: {
@@ -55,6 +57,9 @@ const ThrottleComponent = ({ data }: Props) => {
         title: {
           display: true,
           text: 'Throttles'
+        },
+        grid: {
+          display: false
         }
       },
     },
@@ -68,7 +73,7 @@ const ThrottleComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Total Number of Throttles (5min period)</h2>
-      <Line data={chartData} options={options} />
+      <Line data={chartData} options={options} className='line'/>
     </div>
   )
 };

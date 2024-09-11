@@ -34,26 +34,42 @@ const ConcurrExecComponent = ({ data }: Props) => {
         label: 'Executions',
         data: data.concurrentExecutions,
         backgroundColor: [
-          'rgba(60, 120, 180, 1)',
-          'rgba(140, 140, 140, 1)',
+          '#437990',
+          '#4c88a1',
+          '#5796af',
+          '#68a0b7',
+          '#79abc0',
+          '#8bb6c8',
+          '#9cc1d0',
+          '#adccd8',
+          '#bfd7e0',
+          '#d0e1e9'
         ],
+        borderRadius: 4
       },
     ],
   };
 
   const options = {
+    indexAxis: 'y',
     scales: {
       x: {
         title: {
           display: true,
-          text: 'End time'
+          text: 'Executions'
+        },
+        grid: {
+          display: false
         }
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Executions'
+          text: 'End time'
+        },
+        grid: {
+          display: false
         }
       },
     },
@@ -67,7 +83,7 @@ const ConcurrExecComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Total Concurrent Executions (5min period)</h2>
-      <Bar data={chartData} options={options} />
+      <Bar data={chartData} options={options} className='bar'/>
     </div>
   )
 };

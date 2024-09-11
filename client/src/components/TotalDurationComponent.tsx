@@ -33,17 +33,38 @@ const TotalDurationComponent = ({ data }: Props) => {
       {
         data: data.duration,
         backgroundColor: [
-          'rgba(60, 120, 180, 1)',
-          'rgba(140, 140, 140, 1)',
+          '#437990',
+          '#4c88a1',
+          '#5796af',
+          '#68a0b7',
+          '#79abc0',
+          '#8bb6c8',
+          '#9cc1d0',
+          '#adccd8',
+          '#bfd7e0',
+          '#d0e1e9'
         ],
       },
     ],
   };
 
+  const options = {
+    plugins: {
+      legend: {
+        display: true,
+        position: 'left', // Legend appears on the left
+        labels: {
+          boxWidth: 20,
+          padding: 10,
+        },
+      },
+    },
+  };
+
   return (
     <div>
       <h2>Average Execution Duration (5min period)</h2>
-      <Pie data={chartData} />
+      <Pie data={chartData} options={options} className='pie' width={20} height={20}/>
     </div>
   )
 }
