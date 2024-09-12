@@ -1,6 +1,6 @@
 .config-page-container {
   display: flex;
-  margin-top: -15px;
+  // margin-top: -15px;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 4px;
@@ -9,8 +9,10 @@
   align-items: center;
 
   h2 {
-    font-size: 48px;
+    margin-right: 16px;
     font-weight: 400;
+    padding-left: 20px;
+    font-size: 48px;
     align-self: flex-start;
   }
 

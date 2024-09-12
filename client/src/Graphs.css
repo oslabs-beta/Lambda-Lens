@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   background-color: #ffffff;
 }
 
@@ -23,33 +23,66 @@ body {
 
 /* Component Boxes */
 
+.grid {
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  grid-template-rows: repeat(2, 400px); /* Two equal rows with fixed height */
+  gap: 20px; /* Space between boxes */
+  padding: 20px; /* Space inside the container */
+  box-sizing: border-box;
+}
+
 .component-box {
+  /* border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  flex-grow: 1; */
+
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
   background-color: #f3f3f3;
   border-radius: 8px;
-  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .component-box-cont {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+    grid-template-rows: repeat(
+      auto-fill,
+      minmax(200px, 1fr)
+    ); /* Adjust row size for better fit */
+  }
 }
 
 .dashboard-header {
   display: flex;
   align-items: center;
+  font-weight: 400;
 }
 
 .dashboard-header h1 {
+  padding-left: 20px;
   padding-right: 20px;
+  font-weight: 400;
+  font-size: 48px;
 }
 
 /* Grid Layout */
 
-.grid {
+/* .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
   gap: 20px;
   padding: 20px;
-}
+} */
 
 .quadrant {
   display: flex;
@@ -62,14 +95,18 @@ h2 {
   margin-top: 0;
   margin-bottom: 20px;
   display: flex;
-  align-items: flex-start;
+  /* align-items: flex-start; */
+  align-self: flex-start;
+  font-weight: 500;
+  font-size: 32px;
 }
 
 .table {
   width: 100%;
 }
 
-.header-row, .table-row {
+.header-row,
+.table-row {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 10px;
@@ -79,14 +116,14 @@ h2 {
 
 .table-row {
   background-color: #e1e1e1;
-  border-radius: 8px; 
-  margin-bottom: 10px; 
+  border-radius: 8px;
+  margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-row {
   font-weight: bold;
-  color: #646464
+  color: #646464;
 }
 
 .table-body {
@@ -106,7 +143,6 @@ h2 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 16px;
 }
-
 
 /* Darkmode */
 
@@ -137,7 +173,7 @@ body.darkmode .table-row {
 }
 
 body.darkmode .table-row:hover {
-  background-color: #a2a2a2; 
+  background-color: #a2a2a2;
 }
 
 body.darkmode .chart-wrapper {
@@ -145,6 +181,5 @@ body.darkmode .chart-wrapper {
 }
 
 body.darkmode .table-header {
-  color: #a2a2a2; 
+  color: #a2a2a2;
 }
-

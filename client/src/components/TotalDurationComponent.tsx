@@ -4,7 +4,7 @@ interface Props {
   data: {
     duration: number[];
     timestamps: string[];
-  }
+  };
 }
 
 const formatTimestamp = (timestamp: string) => {
@@ -18,7 +18,7 @@ const formatTimestamp = (timestamp: string) => {
 
   const formattedTime = date.toLocaleTimeString([], {
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 
   return `${formattedDate} ${formattedTime}`;
@@ -26,7 +26,7 @@ const formatTimestamp = (timestamp: string) => {
 
 const TotalDurationComponent = ({ data }: Props) => {
   const labels = data.timestamps.map(formatTimestamp);
-  
+
   const chartData = {
     labels,
     datasets: [
@@ -42,7 +42,7 @@ const TotalDurationComponent = ({ data }: Props) => {
           '#9cc1d0',
           '#adccd8',
           '#bfd7e0',
-          '#d0e1e9'
+          '#d0e1e9',
         ],
       },
     ],
@@ -64,9 +64,15 @@ const TotalDurationComponent = ({ data }: Props) => {
   return (
     <div>
       <h2>Average Execution Duration (5min period)</h2>
-      <Doughnut data={chartData} options={options} className='pie' width={20} height={20}/>
+      <Doughnut
+        data={chartData}
+        options={options}
+        className='pie'
+        width={20}
+        height={20}
+      />
     </div>
-  )
-}
+  );
+};
 
 export default TotalDurationComponent;
