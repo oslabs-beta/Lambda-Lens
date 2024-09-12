@@ -11,10 +11,10 @@ interface Props {
 
 const ColdStartsGraphComponent = ({ data }: Props) => {
   const chartData = {
-    labels: data.map(fn => fn.functionName),
+    labels: data.map((fn) => fn.functionName),
     datasets: [
       {
-        data: data.map(fn => fn.numColdStarts),
+        data: data.map((fn) => fn.numColdStarts),
         backgroundColor: [
           '#437990',
           '#4c88a1',
@@ -25,8 +25,8 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
           '#9cc1d0',
           '#adccd8',
           '#bfd7e0',
-          '#d0e1e9'
-        ],        
+          '#d0e1e9',
+        ],
       },
     ],
   };
@@ -37,18 +37,23 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
         display: true,
         position: 'left' as const,
         labels: {
-          color: '#A2A2A2'
-        }
+          color: '#A2A2A2',
+        },
       },
     },
-  }
+  };
 
   return (
     <div>
       <h2>Total Cold Starts</h2>
-      <div className='chart-wrapper'>
-        <Doughnut data={chartData} options={options}/>
-      </div>
+
+      <Doughnut
+        data={chartData}
+        options={options}
+        className='pie'
+        width={20}
+        height={20}
+      />
     </div>
   );
 };
