@@ -21,8 +21,8 @@ const DashboardContainer = () => {
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => {
-        console.log(err)
-    });
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -39,44 +39,45 @@ const DashboardContainer = () => {
     .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
     .slice(0, 5);
 
-    return (
-      <div className='grid'>
-        
-        {/* Quadrant 1 */}
-        <div className='quadrant'>
-          <div className='dashboard-header'>
-            <h1>Function Performance</h1>
-            <button 
-              className={`refresh-button ${isClicked ? 'clicked' : ''}`}
-              onClick={handleRefresh}
-            >
-              &#x21bb;
-            </button>
-          </div>
-          <div className='component-box'>
-            <AvgBilledDurGraph data={sortedData} />
-          </div>
+  return (
+    <div>
+      {/* Quadrant 1 */}
+      {/* <div className='quadrant'> */}
+      <div className='dashboard-header-cw'>
+        <h1>Function Performance</h1>
+        <button
+          className={`refresh-button ${isClicked ? 'clicked' : ''}`}
+          onClick={handleRefresh}
+        >
+          &#x21bb;
+        </button>
+      </div>
+      <div className='grid-container'>
+        {/* <div className='component-box-cont'> */}
+        <div className='component-box-cw'>
+          <AvgBilledDurGraph data={sortedData} />
         </div>
-    
+        {/* </div> */}
+
         {/* Quadrant 2 */}
-        <div className='component-box'>
+        <div className='component-box-cw'>
           <ColdStartsMetricsContainer data={sortedData} />
         </div>
-    
+
         {/* Quadrant 3 */}
-        <div className='component-box'>
+        <div className='component-box-cw'>
           <ColdStartsGraphComponent data={sortedData} />
         </div>
-    
+
         {/* Quadrant 4 */}
-        <div className='component-box'>
+        <div className='component-box-cw'>
           <h2>Bedrock Analysis</h2>
           <ChatContainer />
         </div>
       </div>
-    );
+      {/* </div> */}
+    </div>
+  );
 };
-
-
 
 export default DashboardContainer;

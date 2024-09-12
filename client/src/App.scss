@@ -64,8 +64,9 @@ body.darkmode .logo {
   background-color: $light-cont-m;
   position: relative;
   font-family: $font-stack;
-  //   box-shadow: $mui-boxshadow-2;
+  box-shadow: $mui-boxshadow-2;
 }
+
 .navbar-right {
   display: flex;
   align-items: center;
