@@ -19,7 +19,7 @@ const NavbarComponent = () => {
     if (savedTheme === 'dark') {
       setDarkMode(true);
       document.body.classList.add('darkmode');
-    }
+     } 
   }, []);
 
   const toggleDarkMode = () => {
@@ -49,7 +49,7 @@ const NavbarComponent = () => {
           <Link to='/configuration'>Configuration</Link>
         </li>
       </ul>
-      <div id='theme-switch' onClick={toggleDarkMode}>
+      <div id='theme-switch' data-testid='theme-switch' onClick={toggleDarkMode}>
         {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
       </div>
     </nav>

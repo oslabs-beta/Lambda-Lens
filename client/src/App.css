@@ -208,3 +208,10 @@ body.darkmode .chat-message.assistant {
   background-color: #2b2b2b; 
   color: #c0a1a1; 
 }
+
+/* configuration text h2 */
+.config-page-container h2 {
+  text-align: center; 
+  margin-bottom: 2rem; 
+}
+
