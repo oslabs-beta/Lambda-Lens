@@ -183,18 +183,25 @@ body.darkmode .chat-container {
 }
 
 body.darkmode .chat-message {
-  background-color: #2b2b2b;
-  color: #140202;
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+body.darkmode .chat-message.user p {
+  background-color: #444;
 }
 
 body.darkmode .chat-message.user {
   background-color: #2b2b2b;
-  color: #c0a1a1;
+  color: #e0e0e0;
 }
 
+body.darkmode .chat-message.assistant p {
+  background-color: #444;
+}
 body.darkmode .chat-message.assistant {
   background-color: #2b2b2b;
-  color: #c0a1a1;
+  color: #e0e0e0;
 }
 
 body.darkmode .chat-title {
