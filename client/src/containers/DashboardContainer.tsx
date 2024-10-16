@@ -42,7 +42,6 @@ const DashboardContainer = () => {
   return (
     <div>
       {/* Quadrant 1 */}
-      {/* <div className='quadrant'> */}
       <div className='dashboard-header-cw'>
         <h1>Function Performance</h1>
         <button
@@ -53,11 +52,9 @@ const DashboardContainer = () => {
         </button>
       </div>
       <div className='grid-container'>
-        {/* <div className='component-box-cont'> */}
         <div className='component-box-cw'>
           <AvgBilledDurGraph data={sortedData} />
         </div>
-        {/* </div> */}
 
         {/* Quadrant 2 */}
         <div className='component-box-cw'>
@@ -75,7 +72,6 @@ const DashboardContainer = () => {
           <ChatContainer />
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 };

@@ -1,0 +1,20 @@
+.table {
+  width: 100%;
+}
+
+.header-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 12px 16px;
+  align-items: center;
+  font-weight: bold;
+  color: #646464;
+}
+
+.table-body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* All classes accounted for but need to import*/
