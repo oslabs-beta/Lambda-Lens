@@ -23,70 +23,14 @@ body {
 
 /* Component Boxes */
 
-.grid {
-  display: grid; /* Use grid layout */
-  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-  grid-template-rows: repeat(2, 400px); /* Two equal rows with fixed height */
-  gap: 20px; /* Space between boxes */
-  padding: 20px; /* Space inside the container */
-  box-sizing: border-box;
-}
-
-.component-box {
-  /* border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  background-color: #f3f3f3;
-  border-radius: 8px;
-  flex-grow: 1; */
-
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  background-color: #f3f3f3;
-  border-radius: 8px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 @media (max-width: 600px) {
   .component-box-cont {
-    grid-template-columns: 1fr; /* Single column layout on small screens */
+    grid-template-columns: 1fr; 
     grid-template-rows: repeat(
       auto-fill,
       minmax(200px, 1fr)
-    ); /* Adjust row size for better fit */
+    );
   }
-}
-
-.dashboard-header {
-  display: flex;
-  align-items: center;
-  font-weight: 400;
-}
-
-.dashboard-header h1 {
-  padding-left: 20px;
-  padding-right: 20px;
-  font-weight: 400;
-  font-size: 48px;
-}
-
-/* Grid Layout */
-
-/* .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 20px;
-  padding: 20px;
-} */
-
-.quadrant {
-  display: flex;
-  flex-direction: column;
 }
 
 /* Table */
@@ -95,7 +39,6 @@ h2 {
   margin-top: 0;
   margin-bottom: 20px;
   display: flex;
-  /* align-items: flex-start; */
   align-self: flex-start;
   font-weight: 500;
   font-size: 32px;
@@ -156,11 +99,6 @@ body.darkmode .refresh-button:hover {
 
 body.darkmode .refresh-button.clicked {
   background-color: #62accc;
-}
-
-body.darkmode .component-box {
-  background-color: #2a2a2a;
-  border-color: #363636;
 }
 
 body.darkmode .header-row {

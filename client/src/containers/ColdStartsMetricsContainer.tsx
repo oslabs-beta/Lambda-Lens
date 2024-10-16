@@ -14,7 +14,7 @@ interface Props {
 const ColdStartsMetricsContainer = ({ data }: Props) => {
   
   return (
-    <div className="cold-starts-container">
+    <div>
       <h2>Cold Start Performance Metrics</h2>
       <div className="table">
         <div className="header-row">
