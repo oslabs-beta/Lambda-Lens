@@ -1,4 +1,4 @@
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut } from "react-chartjs-2";
 
 interface FunctionData {
   functionName: string;
@@ -16,16 +16,16 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
       {
         data: data.map((fn) => fn.numColdStarts),
         backgroundColor: [
-          '#437990',
-          '#4c88a1',
-          '#5796af',
-          '#68a0b7',
-          '#79abc0',
-          '#8bb6c8',
-          '#9cc1d0',
-          '#adccd8',
-          '#bfd7e0',
-          '#d0e1e9',
+          "#437990",
+          "#4c88a1",
+          "#5796af",
+          "#68a0b7",
+          "#79abc0",
+          "#8bb6c8",
+          "#9cc1d0",
+          "#adccd8",
+          "#bfd7e0",
+          "#d0e1e9",
         ],
       },
     ],
@@ -35,9 +35,9 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
     plugins: {
       legend: {
         display: true,
-        position: 'left' as const,
+        position: "left" as const,
         labels: {
-          color: '#A2A2A2',
+          color: "#A2A2A2",
         },
       },
     },
@@ -50,7 +50,7 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
       <Doughnut
         data={chartData}
         options={options}
-        className='pie'
+        className="pie"
         width={20}
         height={20}
       />
