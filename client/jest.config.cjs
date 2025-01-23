@@ -9,12 +9,10 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": ["ts-jest", { tsconfig: "tsconfig.jest.json" }],
   },
-
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
   coverageDirectory: "coverage",
   coverageReporters: ["html", "text", "lcov"],
-
   coverageThreshold: {
     global: {
       branches: 80,

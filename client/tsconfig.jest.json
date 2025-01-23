@@ -2,11 +2,18 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "esModuleInterop": true,
-    "types": ["jest", "node", "@testing-library/jest-dom"]
+    "types": [
+      "jest",
+      "node",
+      "@testing-library/jest-dom",
+      "@testing-library/user-event"
+    ],
+    "typeRoots": ["./src/types", "./node_modules/@types"]
   },
   "include": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
-    "src/**/*.{spec,test}.{ts,tsx}"
+    "src/**/*.{spec,test}.{ts,tsx}",
+    "src/types/**/*.d.ts"
   ]
 }
