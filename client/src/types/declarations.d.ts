@@ -10,7 +10,7 @@ declare module "react-chartjs-2" {
     datasets: {
       label: string;
       data: number[];
-      backgroundColor: string;
+      backgroundColor: string | string[];
       borderRadius: number;
     }[];
   }

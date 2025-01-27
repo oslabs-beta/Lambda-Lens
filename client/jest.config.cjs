@@ -7,7 +7,15 @@ module.exports = {
     "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
   },
   transform: {
-    "^.+\\.tsx?$": ["ts-jest", { tsconfig: "tsconfig.jest.json" }],
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.jest.json",
+        diagnostics: {
+          ignoreCodes: [2307], // Ignore "Cannot find module" errors
+        },
+      },
+    ],
   },
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
@@ -21,4 +29,5 @@ module.exports = {
       statements: 80,
     },
   },
+  globalSetup: "<rootDir>/jest.global-setup.cjs",
 };

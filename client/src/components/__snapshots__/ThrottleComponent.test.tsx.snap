@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ThrottleComponent matches the snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h2>
+      Total Number of Throttles (5min period)
+    </h2>
+  </div>
+</DocumentFragment>
+`;
