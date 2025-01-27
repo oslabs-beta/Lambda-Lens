@@ -29,4 +29,5 @@ module.exports = {
       statements: 80,
     },
   },
+  globalSetup: "<rootDir>/jest.global-setup.cjs",
 };
