@@ -18,7 +18,13 @@ module.exports = {
     ],
   },
   collectCoverage: true,
-  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/**/*.test.{ts,tsx}",
+    "!src/**/__fixtures__/**",
+    "!src/**/test-utils.tsx",
+  ],
   coverageDirectory: "coverage",
   coverageReporters: ["html", "text", "lcov"],
   coverageThreshold: {
