@@ -7,6 +7,7 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 interface MockResponse<T = unknown> {
   ok: boolean;
@@ -20,6 +21,7 @@ const customRender = (ui: React.ReactElement, options?: RenderOptions) => {
 
 export { render, screen, fireEvent, waitFor };
 export { customRender };
+export { userEvent };
 
 export const sendMessage = async (message: string) => {
   const input = screen.getByPlaceholderText("Type your message here...");
