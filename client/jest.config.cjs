@@ -24,6 +24,8 @@ module.exports = {
     "!src/**/*.test.{ts,tsx}",
     "!src/**/__fixtures__/**",
     "!src/**/test-utils.tsx",
+    "!src/chartSetup.ts",
+    "!src/main.tsx",
   ],
   coverageDirectory: "coverage",
   coverageReporters: ["html", "text", "lcov"],
