@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import ColdStartsGraphComponent from '../components/ColdStartsGraphComponent';
-import ColdStartsMetricsContainer from './ColdStartsMetricsContainer';
-import AvgBilledDurGraph from '../components/AvgBilledDurGraphComponent';
-import ChatContainer from './ChatContainer';
-import '../Graphs.css';
+import { useState, useEffect } from "react";
+import ColdStartsGraphComponent from "../components/ColdStartsGraphComponent";
+import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
+import AvgBilledDurGraph from "../components/AvgBilledDurGraphComponent";
+import ChatContainer from "./ChatContainer";
+import "../Graphs.css";
 
 interface FunctionData {
   functionName: string;
@@ -17,7 +17,7 @@ const DashboardContainer = () => {
   const [isClicked, setClicked] = useState(false);
 
   const fetchData = () => {
-    fetch('http://localhost:8080/data/req')
+    fetch("http://localhost:8080/data/req")
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => {
@@ -42,32 +42,33 @@ const DashboardContainer = () => {
   return (
     <div>
       {/* Quadrant 1 */}
-      <div className='dashboard-header-cw'>
+      <div className="dashboard-header-cw">
         <h1>Function Performance</h1>
         <button
-          className={`refresh-button ${isClicked ? 'clicked' : ''}`}
+          className={`refresh-button ${isClicked ? "clicked" : ""}`}
           onClick={handleRefresh}
+          aria-label="Refresh"
         >
           &#x21bb;
         </button>
       </div>
-      <div className='grid-container'>
-        <div className='component-box-cw'>
+      <div className="grid-container">
+        <div className="component-box-cw">
           <AvgBilledDurGraph data={sortedData} />
         </div>
 
         {/* Quadrant 2 */}
-        <div className='component-box-cw'>
+        <div className="component-box-cw">
           <ColdStartsMetricsContainer data={sortedData} />
         </div>
 
         {/* Quadrant 3 */}
-        <div className='component-box-cw'>
+        <div className="component-box-cw">
           <ColdStartsGraphComponent data={sortedData} />
         </div>
 
         {/* Quadrant 4 */}
-        <div className='component-box-cw'>
+        <div className="component-box-cw">
           <h2>Bedrock Analysis</h2>
           <ChatContainer />
         </div>
