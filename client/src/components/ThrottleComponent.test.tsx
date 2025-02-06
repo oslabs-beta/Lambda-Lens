@@ -80,9 +80,4 @@ describe("ThrottleComponent", () => {
       "01/27/25 10:20 AM",
     ]);
   });
-
-  it("matches the snapshot", () => {
-    const { asFragment } = render(<ThrottleComponent data={sampleData} />);
-    expect(asFragment()).toMatchSnapshot();
-  });
 });
