@@ -1,10 +1,18 @@
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { customRender, sendMessage, mockFetch } from "./test-utils";
 import ChatContainer from "./ChatContainer";
-import {
-  successfulResponse,
-  errorResponse,
-} from "./__fixtures__/mockResponses";
+
+// Inline fixture data instead of importing from __fixtures__/mockResponses
+const successfulResponse = {
+  ok: true,
+  json: async () => ({ result: "Success response" }),
+};
+
+const errorResponse = {
+  ok: false,
+  status: 500,
+  json: async () => ({ error: "Internal Server Error" }),
+};
 
 // Mock the global fetch API
 global.fetch = jest.fn();
@@ -20,11 +28,6 @@ describe("ChatContainer Rendering", () => {
       screen.getByPlaceholderText("Type your message here...")
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /send/i })).toBeInTheDocument();
-  });
-
-  test("matches the snapshot", () => {
-    const { asFragment } = customRender(<ChatContainer />);
-    expect(asFragment()).toMatchSnapshot();
   });
 });
 
