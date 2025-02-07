@@ -3,8 +3,8 @@ import { fireEvent } from "@testing-library/react";
 import { customRender } from "./test-utils";
 import CloudwatchContainer from "./CloudwatchContainer";
 
-// Mock all chart components to avoid canvas rendering issues in tests
-// Replace each with a simple div containing the component name
+// The following mocks replace the actual chart components with simple divs.
+// This prevents canvas/rendering issues during tests and lets us focus on the logic.
 jest.mock("../components/ConcurrExecComponent", () => ({
   __esModule: true,
   default: () => <div>Concurrent Executions</div>,
@@ -25,18 +25,19 @@ jest.mock("../components/PercentileLatencyComponent", () => ({
   default: () => <div>Percentile Latency</div>,
 }));
 
-// Setup global fetch mock for API calls
+// Global mock for the fetch API, used to simulate API calls throughout the tests.
 global.fetch = jest.fn();
 
 describe("CloudwatchContainer", () => {
-  // Reset fetch mock before each test
+  // Reset the global fetch mock before each test to avoid cross-test interference.
   beforeEach(() => {
     (fetch as jest.Mock).mockClear();
   });
 
-  // Test basic rendering with valid initial data
   test("renders with initial data", async () => {
-    // Mock successful API responses
+    // Mock implementations for successive API calls:
+    // 1st API call: Returns an array with one function's metrics.
+    // 2nd API call: Returns an empty object (could be for additional metadata or config).
     (fetch as jest.Mock)
       .mockImplementationOnce(() =>
         Promise.resolve({
@@ -60,40 +61,46 @@ describe("CloudwatchContainer", () => {
         })
       );
 
+    // Render the component asynchronously inside act to ensure proper state resolution.
     await act(async () => {
       customRender(<CloudwatchContainer />);
     });
 
-    // Verify initial render state
+    // Wait and verify:
+    // - The container title ("CloudWatch Metrics") renders.
+    // - The function selection dropdown (combobox) defaults to "testFunction".
     await waitFor(() => {
       expect(screen.getByText("CloudWatch Metrics")).toBeInTheDocument();
       expect(screen.getByRole("combobox")).toHaveValue("testFunction");
     });
   });
 
-  // Test error handling for failed API calls
   test("handles fetch errors gracefully", async () => {
+    // Spy on the console.log function; we expect errors to be logged.
     const consoleSpy = jest.spyOn(console, "log").mockImplementation();
 
-    // Mock failed API calls
+    // Simulate API failure by having fetch reject with an error.
     (fetch as jest.Mock)
       .mockImplementationOnce(() => Promise.reject("API error"))
       .mockImplementationOnce(() => Promise.reject("API error"));
 
+    // Render the CloudwatchContainer, expecting that error conditions are handled.
     await act(async () => {
       customRender(<CloudwatchContainer />);
     });
 
-    // Verify error was logged
+    // Wait for the error to be logged in the console.
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalled();
     });
+    // Restore the original console.log behavior after the test.
     consoleSpy.mockRestore();
   });
 
-  // Test handling of null/undefined percentile data
   test("handles undefined percentile data", async () => {
-    // Mock API response with null percentile values
+    // Simulate an API response where percentile metrics are null.
+    // First fetch returns standard function metric data.
+    // Second fetch returns percentile data with all null values.
     (fetch as jest.Mock)
       .mockImplementationOnce(() =>
         Promise.resolve({
@@ -126,21 +133,22 @@ describe("CloudwatchContainer", () => {
         })
       );
 
+    // Render the CloudwatchContainer component using the above mocks.
     await act(async () => {
       customRender(<CloudwatchContainer />);
     });
 
-    // Verify component renders with null data
+    // Verify that the function selection dropdown is set to "testFunction".
     await waitFor(() => {
       expect(screen.getByRole("combobox")).toHaveValue("testFunction");
     });
+    // Also verify that placeholder chart components are rendered for other metrics.
     expect(screen.getByText("Concurrent Executions")).toBeInTheDocument();
     expect(screen.getByText("Duration")).toBeInTheDocument();
   });
 
-  // Test function selection dropdown behavior
   test("handles function selection change", async () => {
-    // Mock API response with multiple functions
+    // Simulate API return with multiple functions.
     (fetch as jest.Mock)
       .mockImplementationOnce(() =>
         Promise.resolve({
@@ -171,18 +179,20 @@ describe("CloudwatchContainer", () => {
         })
       );
 
+    // Render the CloudwatchContainer component.
     await act(async () => {
       customRender(<CloudwatchContainer />);
     });
 
+    // Locate the function selection dropdown (combobox).
     const select = (await screen.findByRole("combobox")) as HTMLSelectElement;
 
-    // Simulate user selecting a different function
+    // Simulate the user changing the selection to "testFunction2".
     await act(async () => {
       fireEvent.change(select, { target: { value: "testFunction2" } });
     });
 
-    // Verify selection changed
+    // Verify that the dropdown's value updates accordingly to the new selection.
     expect(select).toHaveValue("testFunction2");
   });
 });

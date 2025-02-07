@@ -15,7 +15,10 @@ jest.mock("react-chartjs-2", () => {
   };
 });
 
+// Test suite for TotalDurationComponent which renders a doughnut chart
+// to visualize execution duration data.
 describe("TotalDurationComponent", () => {
+  // Sample data representing execution durations and corresponding timestamps.
   const sampleData = {
     duration: [120, 240, 360],
     timestamps: [
@@ -26,24 +29,31 @@ describe("TotalDurationComponent", () => {
   };
 
   test("renders header and doughnut chart container", () => {
+    // Render the TotalDurationComponent with the sample data.
     render(<TotalDurationComponent data={sampleData} />);
 
-    // Check that the header is rendered
+    // Verify that the header text is rendered. This ensures that the component's title
+    // ("Average Execution Duration (5min period)") is visible to the user.
     expect(
       screen.getByText("Average Execution Duration (5min period)")
     ).toBeInTheDocument();
 
-    // Check that the mocked Doughnut component is rendered
+    // Verify that the mocked Doughnut component is rendered.
+    // The doughnut chart is identified by the data-testid "doughnut-chart".
     expect(screen.getByTestId("doughnut-chart")).toBeInTheDocument();
   });
 
   test("passes correct data props to Doughnut component", () => {
+    // Render the component again with the sample data.
     render(<TotalDurationComponent data={sampleData} />);
 
+    // Retrieve the mocked Doughnut chart element by its test id.
+    // The component uses JSON.stringify to output its props.
     const doughnutChart = screen.getByTestId("doughnut-chart");
     const props = JSON.parse(doughnutChart.textContent || "{}");
 
-    // Check that labels are formatted timestamps
+    // Build the expected labels by transforming each ISO timestamp into a user-friendly string.
+    // The formatting includes a 2-digit year, month, day, and a 2-digit hour and minute.
     const expectedLabels = sampleData.timestamps.map((timestamp) => {
       const date = new Date(timestamp);
       const formattedDate = date.toLocaleDateString([], {
@@ -58,12 +68,14 @@ describe("TotalDurationComponent", () => {
       return `${formattedDate} ${formattedTime}`;
     });
 
+    // Validate that the doughnut chart's labels (x-axis) match the expected formatted timestamps.
     expect(props.data.labels).toEqual(expectedLabels);
 
-    // Verify the data array
+    // Confirm that the Doughnut chart's data array matches the duration values from sampleData.
     expect(props.data.datasets[0].data).toEqual(sampleData.duration);
 
-    // Verify background colors
+    // Verify that the background colors for the data segments are correctly set.
+    // This array of hex color codes defines the colors of the chart segments.
     expect(props.data.datasets[0].backgroundColor).toEqual([
       "#437990",
       "#4c88a1",
@@ -77,7 +89,10 @@ describe("TotalDurationComponent", () => {
       "#d0e1e9",
     ]);
 
-    // Validate chart options
+    // Validate chart options:
+    // - The legend should be displayed.
+    // - The legend should be positioned on the left.
+    // - Legend labels should have a box width of 20 and padding of 10.
     expect(props.options.plugins.legend.display).toBe(true);
     expect(props.options.plugins.legend.position).toBe("left");
     expect(props.options.plugins.legend.labels.boxWidth).toBe(20);
