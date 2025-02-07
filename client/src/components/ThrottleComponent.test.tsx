@@ -1,14 +1,14 @@
-// src/components/ThrottleComponent.test.tsx
-
 import { render, screen } from "@testing-library/react";
 import ThrottleComponent from "./ThrottleComponent";
 import { Line } from "react-chartjs-2";
 
-// Mock the Line component
+// Mock the Line component to avoid rendering an actual chart during tests.
+// This allows us to inspect the props being passed to the Line component without dealing with chart internals.
 jest.mock("react-chartjs-2", () => ({
   Line: jest.fn(() => null),
 }));
 
+// Sample data simulating throttle count and corresponding timestamps.
 const sampleData = {
   throttles: [10, 20, 30, 40, 50],
   timestamps: [
@@ -22,27 +22,30 @@ const sampleData = {
 
 describe("ThrottleComponent", () => {
   beforeEach(() => {
-    // Clear all instances and calls to constructor and all methods:
+    // Clear any previous calls to the mocked Line component to ensure each test starts with a clean state.
     (Line as jest.Mock).mockClear();
   });
 
   it("renders without crashing", () => {
+    // Render the ThrottleComponent using the sample data.
     render(<ThrottleComponent data={sampleData} />);
+    // Confirm that the component renders the expected heading text.
     expect(
       screen.getByText("Total Number of Throttles (5min period)")
     ).toBeInTheDocument();
   });
 
   it("renders the Line chart with correct data and options", () => {
+    // Render the component to capture the data and configuration passed to the Line chart.
     render(<ThrottleComponent data={sampleData} />);
 
-    // Ensure the Line component is called once
+    // Verify the mocked Line component is called exactly once.
     expect(Line).toHaveBeenCalledTimes(1);
 
-    // Extract the props passed to the Line component
+    // Retrieve the properties passed to the Line component from its first call.
     const lineProps = (Line as jest.Mock).mock.calls[0][0];
 
-    // Check if 'data' prop is correctly formatted
+    // Validate that the 'data.labels' property contains correctly formatted timestamp labels.
     expect(lineProps.data.labels).toEqual([
       "01/27/25 10:00 AM",
       "01/27/25 10:05 AM",
@@ -51,6 +54,7 @@ describe("ThrottleComponent", () => {
       "01/27/25 10:20 AM",
     ]);
 
+    // Check that the 'data.datasets' array includes a dataset with the provided throttle values and style options.
     expect(lineProps.data.datasets).toEqual([
       {
         label: "Throttles",
@@ -60,7 +64,7 @@ describe("ThrottleComponent", () => {
       },
     ]);
 
-    // Optionally, check if 'options' prop contains expected configuration
+    // Verify that the options provided to the chart set the correct titles and disable the legend display.
     expect(lineProps.options).toHaveProperty("scales.x.title.text", "End time");
     expect(lineProps.options).toHaveProperty(
       "scales.y.title.text",
@@ -70,7 +74,9 @@ describe("ThrottleComponent", () => {
   });
 
   it("formats timestamps correctly", () => {
+    // Render the component again to specifically test the timestamp formatting.
     render(<ThrottleComponent data={sampleData} />);
+    // Retrieve the Line component props and ensure the labels match the expected format.
     const lineProps = (Line as jest.Mock).mock.calls[0][0];
     expect(lineProps.data.labels).toEqual([
       "01/27/25 10:00 AM",

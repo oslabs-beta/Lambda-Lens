@@ -10,11 +10,12 @@ const mockOnDatabase = jest.fn();
 
 describe("ConfigPageComponent", () => {
   beforeEach(() => {
-    // Clear all mock function calls before each test
+    // Clear all previous mock calls before each test to ensure tests are isolated.
     mockOnSave.mockClear();
     mockOnDatabase.mockClear();
   });
 
+  // Helper function to render ConfigPageComponent with the required callback props.
   const renderComponent = () => {
     render(
       <ConfigPageComponent onSave={mockOnSave} onDatabase={mockOnDatabase} />
@@ -24,24 +25,24 @@ describe("ConfigPageComponent", () => {
   test("renders all input fields and buttons", () => {
     renderComponent();
 
-    // Check for AWS Access Key ID input
+    // Verify that the AWS Access Key input field is present.
     expect(screen.getByPlaceholderText("AWS Access Key")).toBeInTheDocument();
 
-    // Check for AWS Secret Access Key input
+    // Verify that the AWS Secret Access Key input field is present.
     expect(
       screen.getByPlaceholderText("AWS Secret Access Key")
     ).toBeInTheDocument();
 
-    // Check for AWS Region select
+    // Verify that a combobox (for AWS Region selection) is rendered.
     expect(screen.getByRole("combobox")).toBeInTheDocument();
 
-    // Check for MongoDB URI input
+    // Verify that the MongoDB URI input field is present.
     expect(screen.getByPlaceholderText("MongoDB URI")).toBeInTheDocument();
 
-    // Check for Submit button
+    // Verify that the Submit button is rendered.
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
 
-    // Check for Connect to Database button
+    // Verify that the "Connect to Database" button is rendered.
     expect(
       screen.getByRole("button", { name: /connect to database/i })
     ).toBeInTheDocument();
@@ -50,13 +51,13 @@ describe("ConfigPageComponent", () => {
   test("shows validation errors when submitting empty form", async () => {
     renderComponent();
 
-    // Find the submit button
+    // Find the submit button element by its accessible name.
     const submitButton = screen.getByRole("button", { name: /submit/i });
 
-    // Submit the form without filling any fields
+    // Simulate a user clicking the submit button without entering any input data.
     fireEvent.click(submitButton);
 
-    // Check for validation error messages
+    // Check that the appropriate validation errors are displayed, waiting if necessary for asynchronous rendering.
     expect(
       await screen.findByText("AWS Access Key ID is required")
     ).toBeInTheDocument();
@@ -70,35 +71,36 @@ describe("ConfigPageComponent", () => {
       await screen.findByText("MongoDB URI is required")
     ).toBeInTheDocument();
 
-    // Ensure onSave was not called
+    // Ensure that the onSave callback is not invoked when required fields are missing.
     expect(mockOnSave).not.toHaveBeenCalled();
   });
 
   test("calls onSave with correct data when form is submitted with valid inputs", async () => {
     renderComponent();
 
-    // Fill out the form fields
+    // Simulate typing into the AWS Access Key field.
     await userEvent.type(
       screen.getByPlaceholderText("AWS Access Key"),
       "AKIAEXAMPLE"
     );
+    // Simulate typing into the AWS Secret Access Key field.
     await userEvent.type(
       screen.getByPlaceholderText("AWS Secret Access Key"),
       "SECRETEXAMPLE"
     );
+    // Simulate selecting "us-east-1" from the AWS Region dropdown.
     await userEvent.selectOptions(screen.getByRole("combobox"), "us-east-1");
+    // Simulate typing into the MongoDB URI input field.
     await userEvent.type(
       screen.getByPlaceholderText("MongoDB URI"),
       "mongodb://localhost:27017"
     );
 
-    // Find the submit button
+    // Identify the submit button and simulate its click event.
     const submitButton = screen.getByRole("button", { name: /submit/i });
-
-    // Submit the form
     fireEvent.click(submitButton);
 
-    // Wait for the onSave to be called
+    // Wait for the onSave function to be called asynchronously, verifying its arguments.
     await waitFor(() => {
       expect(mockOnSave).toHaveBeenCalledTimes(1);
       expect(mockOnSave).toHaveBeenCalledWith({
@@ -109,7 +111,7 @@ describe("ConfigPageComponent", () => {
       });
     });
 
-    // Ensure no validation errors are present
+    // Confirm that validation error messages do not exist after a valid form submission.
     expect(
       screen.queryByText("AWS Access Key ID is required")
     ).not.toBeInTheDocument();
@@ -127,37 +129,37 @@ describe("ConfigPageComponent", () => {
   test('calls onDatabase when "Connect to Database" button is clicked', async () => {
     renderComponent();
 
-    // Find the "Connect to Database" button
+    // Find the "Connect to Database" button by its accessible name.
     const connectButton = screen.getByRole("button", {
       name: /connect to database/i,
     });
 
-    // Click the button
+    // Simulate a click event on the "Connect to Database" button.
     await userEvent.click(connectButton);
 
-    // Ensure onDatabase was called once
+    // Verify that the onDatabase callback is invoked exactly once.
     expect(mockOnDatabase).toHaveBeenCalledTimes(1);
   });
 
   test('does not call onSave when "Connect to Database" button is clicked', async () => {
     renderComponent();
 
-    // Find the "Connect to Database" button
+    // Find the "Connect to Database" button by its accessible name.
     const connectButton = screen.getByRole("button", {
       name: /connect to database/i,
     });
 
-    // Click the button
+    // Simulate a click event on the button.
     await userEvent.click(connectButton);
 
-    // Ensure onSave was not called
+    // Confirm that the onSave callback is not triggered when connecting to the database.
     expect(mockOnSave).not.toHaveBeenCalled();
   });
 
   test("formats and submits the form data correctly", async () => {
     renderComponent();
 
-    // Fill out the form fields
+    // Simulate entering valid data into each form field with new test values.
     await userEvent.type(
       screen.getByPlaceholderText("AWS Access Key"),
       "AKIA123456"
@@ -166,19 +168,18 @@ describe("ConfigPageComponent", () => {
       screen.getByPlaceholderText("AWS Secret Access Key"),
       "SECRET123456"
     );
+    // Select "eu-west-1" from the region dropdown.
     await userEvent.selectOptions(screen.getByRole("combobox"), "eu-west-1");
     await userEvent.type(
       screen.getByPlaceholderText("MongoDB URI"),
       "mongodb://example.com:27017"
     );
 
-    // Find the submit button
+    // Identify the submit button and simulate clicking it.
     const submitButton = screen.getByRole("button", { name: /submit/i });
-
-    // Submit the form
     fireEvent.click(submitButton);
 
-    // Wait for the onSave to be called
+    // Wait for the onSave callback, and verify it is called with the correctly formatted data.
     await waitFor(() => {
       expect(mockOnSave).toHaveBeenCalledWith({
         awsAccessKeyID: "AKIA123456",
