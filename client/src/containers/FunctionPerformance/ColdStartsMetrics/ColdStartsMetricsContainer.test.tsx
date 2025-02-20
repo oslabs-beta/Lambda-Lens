@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
-import { customRender } from "./test-utils";
-import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
+import { customRender } from "../../test-utils";
+import ColdStartsMetricsContainer from "../../ColdStartsMetricsContainer";
 
 interface RowProps {
   functionName: string;
@@ -12,7 +12,7 @@ interface RowProps {
 // The RowComponent is mocked to simplify the tests and to isolate the container's behavior.
 // Instead of rendering the full implementation of RowComponent, it renders a simple div with a test id.
 // This allows the test to verify the container's logic without being coupled to the RowComponent's internals.
-jest.mock("../components/RowComponent", () => ({
+jest.mock("../../../components/RowComponent", () => ({
   __esModule: true,
   default: (props: RowProps) => (
     <div data-testid="row">

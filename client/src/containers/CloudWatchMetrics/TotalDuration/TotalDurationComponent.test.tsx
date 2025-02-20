@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import TotalDurationComponent from "./TotalDurationComponent";
+import TotalDurationComponent from "../../../components/TotalDurationComponent";
 
 import type { Doughnut as ImportedDoughnut } from "react-chartjs-2";
 type DoughnutProps = React.ComponentProps<typeof ImportedDoughnut>;
