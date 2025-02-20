@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import RowComponent from "./RowComponent";
+import RowComponent from "../RowComponent";
 
 describe("RowComponent", () => {
   // Define sample props that represent typical, non-edge-case values.

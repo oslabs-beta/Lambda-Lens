@@ -1,26 +1,26 @@
 import { screen, waitFor, act, within } from "@testing-library/react";
-import { customRender } from "./test-utils";
-import DashboardContainer from "./DashboardContainer";
+import { customRender } from "../test-utils";
+import DashboardContainer from "../DashboardContainer";
 
 // We are replacing child components with simple mocks to isolate DashboardContainer's behavior.
 // This prevents the complexity of the child components (like chart rendering) from interfering with the tests.
-jest.mock("../components/ColdStartsGraphComponent", () => ({
+jest.mock("../../components/ColdStartsGraphComponent", () => ({
   __esModule: true,
   default: () => <div>Cold Starts Graph</div>,
 }));
 
-jest.mock("./ColdStartsMetricsContainer", () => ({
+jest.mock("../ColdStartsMetricsContainer", () => ({
   __esModule: true,
   default: () => <div>Cold Starts Metrics</div>,
 }));
 
-jest.mock("./ChatContainer", () => ({
+jest.mock("../ChatContainer", () => ({
   __esModule: true,
   default: () => <div>Chat Container</div>,
 }));
 
 // Mock the Average Billed Duration Graph by simulating a component that renders a header and a sorted list.
-jest.mock("../components/AvgBilledDurGraphComponent", () => {
+jest.mock("../../components/AvgBilledDurGraphComponent", () => {
   return function AvgBilledDurGraphMock(props: {
     data: Array<{
       functionName: string;

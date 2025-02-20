@@ -1,26 +1,26 @@
 import { screen, waitFor, act } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
-import { customRender } from "./test-utils";
-import CloudwatchContainer from "./CloudwatchContainer";
+import { customRender } from "../test-utils";
+import CloudwatchContainer from "../CloudwatchContainer";
 
 // The following mocks replace the actual chart components with simple divs.
 // This prevents canvas/rendering issues during tests and lets us focus on the logic.
-jest.mock("../components/ConcurrExecComponent", () => ({
+jest.mock("../../components/ConcurrExecComponent", () => ({
   __esModule: true,
   default: () => <div>Concurrent Executions</div>,
 }));
 
-jest.mock("../components/ThrottleComponent", () => ({
+jest.mock("../../components/ThrottleComponent", () => ({
   __esModule: true,
   default: () => <div>Throttles</div>,
 }));
 
-jest.mock("../components/TotalDurationComponent", () => ({
+jest.mock("../../components/TotalDurationComponent", () => ({
   __esModule: true,
   default: () => <div>Duration</div>,
 }));
 
-jest.mock("../components/PercentileLatencyComponent", () => ({
+jest.mock("../../components/PercentileLatencyComponent", () => ({
   __esModule: true,
   default: () => <div>Percentile Latency</div>,
 }));

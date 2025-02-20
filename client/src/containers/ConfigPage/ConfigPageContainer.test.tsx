@@ -1,7 +1,7 @@
 import { screen, waitFor, act } from "@testing-library/react";
-import { customRender } from "./test-utils";
-import ConfigPageContainer from "./ConfigPageContainer";
-import type { Config } from "./ConfigPageContainer";
+import { customRender } from "../test-utils";
+import ConfigPageContainer from "../ConfigPageContainer";
+import type { Config } from "../ConfigPageContainer";
 
 interface MockConfigFormProps {
   onSave: (config: Config) => void;
@@ -10,7 +10,7 @@ interface MockConfigFormProps {
 
 // Here we mock the ConfigPageComponent to avoid testing its internal implementation.
 // Instead, we simulate a basic version that provides buttons to trigger the onSave and onDatabase callbacks.
-jest.mock("../components/ConfigPageComponent", () => ({
+jest.mock("../../components/ConfigPageComponent", () => ({
   __esModule: true,
   default: ({ onSave, onDatabase }: MockConfigFormProps) => (
     <div>
