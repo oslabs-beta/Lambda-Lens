@@ -1,10 +1,10 @@
-import RowComponent from "../components/RowComponent";
+import RowComponent from "../components/Row/RowComponent";
 
 interface FunctionData {
-    functionName: string; 
-    avgBilledDur: number;
-    numColdStarts: number;
-    percentColdStarts: number;
+  functionName: string;
+  avgBilledDur: number;
+  numColdStarts: number;
+  percentColdStarts: number;
 }
 
 interface Props {
@@ -12,7 +12,6 @@ interface Props {
 }
 
 const ColdStartsMetricsContainer = ({ data }: Props) => {
-  
   return (
     <div>
       <h2>Cold Start Performance Metrics</h2>

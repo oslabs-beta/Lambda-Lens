@@ -2,7 +2,7 @@
 
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import AvgBilledDurGraph from "../../../components/AvgBilledDurGraphComponent";
+import AvgBilledDurGraph from "./AvgBilledDurGraphComponent";
 import type { Bar as ImportedBar } from "react-chartjs-2";
 
 type BarProps = React.ComponentProps<typeof ImportedBar>;
