@@ -4,7 +4,7 @@ import DashboardContainer from "../DashboardContainer";
 
 // We are replacing child components with simple mocks to isolate DashboardContainer's behavior.
 // This prevents the complexity of the child components (like chart rendering) from interfering with the tests.
-jest.mock("../../components/ColdStartsGraphComponent", () => ({
+jest.mock("./ColdStartsGraph/ColdStartsGraphComponent", () => ({
   __esModule: true,
   default: () => <div>Cold Starts Graph</div>,
 }));
@@ -20,7 +20,7 @@ jest.mock("../ChatContainer", () => ({
 }));
 
 // Mock the Average Billed Duration Graph by simulating a component that renders a header and a sorted list.
-jest.mock("../../components/AvgBilledDurGraphComponent", () => {
+jest.mock("./AvgBilledDurGraph/AvgBilledDurGraphComponent", () => {
   return function AvgBilledDurGraphMock(props: {
     data: Array<{
       functionName: string;

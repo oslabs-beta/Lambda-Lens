@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import ColdStartsGraphComponent from "../components/ColdStartsGraphComponent";
+import ColdStartsGraphComponent from "./FunctionPerformance/ColdStartsGraph/ColdStartsGraphComponent";
 import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
-import AvgBilledDurGraph from "../components/AvgBilledDurGraphComponent";
+import AvgBilledDurGraph from "./FunctionPerformance/AvgBilledDurGraph/AvgBilledDurGraphComponent";
 import ChatContainer from "./ChatContainer";
 import "../Graphs.css";
 
