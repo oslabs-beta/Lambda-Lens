@@ -5,7 +5,7 @@ import CloudwatchContainer from "../CloudwatchContainer";
 
 // The following mocks replace the actual chart components with simple divs.
 // This prevents canvas/rendering issues during tests and lets us focus on the logic.
-jest.mock("../../components/ConcurrExecComponent", () => ({
+jest.mock("./ConcurrExec/ConcurrExecComponent", () => ({
   __esModule: true,
   default: () => <div>Concurrent Executions</div>,
 }));
