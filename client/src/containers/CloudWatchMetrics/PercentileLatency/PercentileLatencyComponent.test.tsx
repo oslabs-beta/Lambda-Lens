@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import PercentileLatencyComponent from "../../../components/PercentileLatencyComponent";
+import PercentileLatencyComponent from "./PercentileLatencyComponent";
 
 import type { Bar as ImportedBar } from "react-chartjs-2";
 

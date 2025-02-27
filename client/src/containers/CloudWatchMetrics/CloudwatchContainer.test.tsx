@@ -10,17 +10,17 @@ jest.mock("./ConcurrExec/ConcurrExecComponent", () => ({
   default: () => <div>Concurrent Executions</div>,
 }));
 
-jest.mock("../../components/ThrottleComponent", () => ({
+jest.mock("./Throttle/ThrottleComponent", () => ({
   __esModule: true,
   default: () => <div>Throttles</div>,
 }));
 
-jest.mock("../../components/TotalDurationComponent", () => ({
+jest.mock("./TotalDuration/TotalDurationComponent", () => ({
   __esModule: true,
   default: () => <div>Duration</div>,
 }));
 
-jest.mock("../../components/PercentileLatencyComponent", () => ({
+jest.mock("./PercentileLatency/PercentileLatencyComponent", () => ({
   __esModule: true,
   default: () => <div>Percentile Latency</div>,
 }));
