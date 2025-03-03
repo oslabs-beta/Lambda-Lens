@@ -1,6 +1,10 @@
 import { screen, fireEvent, waitFor } from "@testing-library/react";
-import { customRender, sendMessage, mockFetch } from "../../test-utils";
-import ChatContainer from "../../ChatContainer";
+import {
+  customRender,
+  sendMessage,
+  mockFetch,
+} from "../../../utils/test-utils";
+import ChatContainer from "./ChatContainer";
 
 // This response object mimics a successful fetch where the JSON result is "Success response".
 const successfulResponse = {

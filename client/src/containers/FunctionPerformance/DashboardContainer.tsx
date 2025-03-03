@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import ColdStartsGraphComponent from "./FunctionPerformance/ColdStartsGraph/ColdStartsGraphComponent";
-import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
-import AvgBilledDurGraph from "./FunctionPerformance/AvgBilledDurGraph/AvgBilledDurGraphComponent";
-import ChatContainer from "./ChatContainer";
-import "../Graphs.css";
+import ColdStartsGraphComponent from "./ColdStartsGraph/ColdStartsGraphComponent";
+import ColdStartsMetricsContainer from "./ColdStartsMetrics/ColdStartsMetricsContainer";
+import AvgBilledDurGraph from "./AvgBilledDurGraph/AvgBilledDurGraphComponent";
+import ChatContainer from "./Chat/ChatContainer";
+import "../../Graphs.css";
 
 interface FunctionData {
   functionName: string;
