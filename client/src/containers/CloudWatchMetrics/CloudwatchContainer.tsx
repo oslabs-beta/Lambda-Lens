@@ -1,7 +1,7 @@
-import ConcurrExecComponent from "./CloudWatchMetrics/ConcurrExec/ConcurrExecComponent";
-import ThrottleComponent from "./CloudWatchMetrics/Throttle/ThrottleComponent";
-import TotalDurationComponent from "./CloudWatchMetrics/TotalDuration/TotalDurationComponent";
-import PercentileLatencyComponent from "./CloudWatchMetrics/PercentileLatency/PercentileLatencyComponent";
+import ConcurrExecComponent from "./ConcurrExec/ConcurrExecComponent";
+import ThrottleComponent from ".//Throttle/ThrottleComponent";
+import TotalDurationComponent from ".//TotalDuration/TotalDurationComponent";
+import PercentileLatencyComponent from ".//PercentileLatency/PercentileLatencyComponent";
 import { useState, useEffect } from "react";
 import "./CloudwatchContainer.scss";
 

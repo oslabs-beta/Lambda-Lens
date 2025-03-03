@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
-import { customRender } from "../../test-utils";
-import ColdStartsMetricsContainer from "../../ColdStartsMetricsContainer";
+import { customRender } from "../../../utils/test-utils";
+import ColdStartsMetricsContainer from "./ColdStartsMetricsContainer";
 
 interface RowProps {
   functionName: string;

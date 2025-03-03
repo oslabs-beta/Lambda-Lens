@@ -2,7 +2,7 @@
 
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ConfigPageComponent from "../../../components/ConfigPageComponent";
+import ConfigPageComponent from "./ConfigPageComponent";
 
 // Define mock functions for onSave and onDatabase
 const mockOnSave = jest.fn();

@@ -1,6 +1,6 @@
 import { screen, waitFor, act, within } from "@testing-library/react";
-import { customRender } from "../test-utils";
-import DashboardContainer from "../DashboardContainer";
+import { customRender } from "../../utils/test-utils";
+import DashboardContainer from "./DashboardContainer";
 
 // We are replacing child components with simple mocks to isolate DashboardContainer's behavior.
 // This prevents the complexity of the child components (like chart rendering) from interfering with the tests.
@@ -9,12 +9,12 @@ jest.mock("./ColdStartsGraph/ColdStartsGraphComponent", () => ({
   default: () => <div>Cold Starts Graph</div>,
 }));
 
-jest.mock("../ColdStartsMetricsContainer", () => ({
+jest.mock("./ColdStartsMetrics/ColdStartsMetricsContainer", () => ({
   __esModule: true,
   default: () => <div>Cold Starts Metrics</div>,
 }));
 
-jest.mock("../ChatContainer", () => ({
+jest.mock("./Chat/ChatContainer", () => ({
   __esModule: true,
   default: () => <div>Chat Container</div>,
 }));

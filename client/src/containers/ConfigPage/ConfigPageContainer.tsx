@@ -1,4 +1,4 @@
-import ConfigForm from "../components/ConfigPageComponent";
+import ConfigForm from "./ConfigForm/ConfigPageComponent";
 import "./ConfigPageContainer.scss";
 
 export type Config = {
