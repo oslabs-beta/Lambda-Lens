@@ -3,7 +3,7 @@ import ColdStartsGraphComponent from "./ColdStartsGraph/ColdStartsGraphComponent
 import ColdStartsMetricsContainer from "./ColdStartsMetrics/ColdStartsMetricsContainer";
 import AvgBilledDurGraph from "./AvgBilledDurGraph/AvgBilledDurGraphComponent";
 import ChatContainer from "./Chat/ChatContainer";
-import "../../Graphs.css";
+import "../../styles/Graphs.css";
 
 interface FunctionData {
   functionName: string;

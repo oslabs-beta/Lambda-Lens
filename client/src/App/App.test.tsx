@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import App from "../App";
+import App from "./App";
 
 // Smoke test to ensure the App component renders correctly.
 test("smoke test: App renders without crashing", () => {
