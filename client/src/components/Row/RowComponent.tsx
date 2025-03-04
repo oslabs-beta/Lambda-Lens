@@ -1,4 +1,4 @@
-import "../../Graphs.css";
+import "../../styles/Graphs.css";
 
 const RowComponent = ({
   functionName,
