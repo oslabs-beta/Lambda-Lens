@@ -1,20 +1,22 @@
-/* Missing classes:
-  navbar
-  logo-container
-  logo
-  navbar-right
-Missing ids:
-  navbarLinks
-  theme-switch
-
-Need to migrate over from NavbarComponent sheet in src folder */
+/* Navbar light/dark mode styles */
+:root {
+  --light-cont-m: #f3f3f3;
+  --light-cont-s: #e1e1e1;
+  --light-text-prim: #161616;
+  --light-text-sec: #646464;
+  --dark-cont-m: #2a2a2a;
+  --dark-cont-s: #363636;
+  --dark-text-prim: #ffffff;
+  --dark-text-sec: #a2a2a2;
+}
 
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #333;
+  background-color: var(--light-cont-m); /* Light mode background */
   padding: 10px 20px;
   position: relative;
+  border-radius: 10px;
 }
 
 #navbarLinks {
@@ -30,13 +32,14 @@ Need to migrate over from NavbarComponent sheet in src folder */
 }
 
 #navbarLinks a {
-  color: #fff;
+  color: var(--light-text-sec); /* Light mode text */
   text-decoration: none;
   padding: 10px;
 }
 
 #navbarLinks a:hover {
   text-decoration: underline;
+  color: var(--light-text-prim);
 }
 
 #theme-switch {
@@ -51,17 +54,25 @@ Need to migrate over from NavbarComponent sheet in src folder */
   cursor: pointer;
 }
 
-.darkmode .navbar {
+/* Logo styling */
+.logo {
+  height: 2.7em;
+  transition: filter 300ms;
+}
+
+/* Dark mode styles - only apply when body has darkmode class */
+body.darkmode .navbar {
   background-color: #222;
 }
 
-.darkmode #navbarLinks a {
+body.darkmode #navbarLinks a {
   color: #fff;
 }
 
-.darkmode .logo-container img {
-  filter: brightness(0.8);
-  transition: filter 0.3s ease;
+/* Fix for logo in dark mode - use brightness(0) invert(1) to make it visible on dark bg */
+body.darkmode .logo {
+  filter: brightness(0) invert(1);
+  transition: filter 300ms;
 }
 
 @media (max-width: 768px) {
