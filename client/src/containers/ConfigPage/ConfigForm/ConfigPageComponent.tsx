@@ -1,5 +1,4 @@
 import "./ConfigForm.css";
-// import "./ConfigPageComponent.scss"
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
