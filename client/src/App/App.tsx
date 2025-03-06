@@ -4,7 +4,6 @@ import CloudwatchContainer from "../containers/CloudWatchMetrics/CloudwatchConta
 import NavbarComponent from "../components/Navbar/NavbarComponent";
 import ConfigPageContainer from "../containers/ConfigPage/ConfigPageContainer";
 import ChatContainer from "../containers/FunctionPerformance/Chat/ChatContainer";
-import "./App.css";
 import "../utils/chartSetup";
 
 function App() {
