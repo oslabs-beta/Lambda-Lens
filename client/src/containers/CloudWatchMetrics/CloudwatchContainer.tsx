@@ -3,7 +3,7 @@ import ThrottleComponent from ".//Throttle/ThrottleComponent";
 import TotalDurationComponent from ".//TotalDuration/TotalDurationComponent";
 import PercentileLatencyComponent from ".//PercentileLatency/PercentileLatencyComponent";
 import { useState, useEffect } from "react";
-import "./CloudwatchContainer.scss";
+import "./CloudwatchContainer.css";
 
 interface FunctionData {
   functionName: string;
