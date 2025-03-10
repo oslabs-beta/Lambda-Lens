@@ -2,7 +2,7 @@
 
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import NavbarComponent from "./NavbarComponent";
+import NavbarComponent from "./Navbar";
 import { MemoryRouter } from "react-router-dom";
 
 // Mock the image import
