@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import ColdStartsGraphComponent from "./ColdStartsGraphComponent";
+import ColdStartsGraphComponent from "./ColdStart";
 
 import type { Doughnut as ImportedDoughnut } from "react-chartjs-2";
 

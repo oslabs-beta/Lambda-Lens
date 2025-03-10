@@ -1,9 +1,9 @@
-import ConcurrExecComponent from "./ConcurrExec/ConcurrExecComponent";
-import ThrottleComponent from ".//Throttle/ThrottleComponent";
-import TotalDurationComponent from ".//TotalDuration/TotalDurationComponent";
-import PercentileLatencyComponent from ".//PercentileLatency/PercentileLatencyComponent";
+import ConcurrExecComponent from "./ConcurrentExecutions/ConcurrentExecutions";
+import ThrottleComponent from "./Throttle/Throttle";
+import TotalDurationComponent from "./TotalDuration/TotalDuration";
+import PercentileLatencyComponent from "./PercentileLatency/PercentileLatency";
 import { useState, useEffect } from "react";
-import "./CloudwatchContainer.css";
+import "./CloudWatchMetrics.css";
 import "../../styles/Graphs.css";
 
 interface FunctionData {

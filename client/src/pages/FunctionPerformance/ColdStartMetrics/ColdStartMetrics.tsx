@@ -1,4 +1,4 @@
-import RowComponent from "../../../components/Row/RowComponent";
+import RowComponent from "../../../components/Row/Row";
 
 interface FunctionData {
   functionName: string;

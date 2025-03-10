@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import DashboardContainer from "../containers/FunctionPerformance//DashboardContainer";
-import CloudwatchContainer from "../containers/CloudWatchMetrics/CloudwatchContainer";
+import DashboardContainer from "../pages/FunctionPerformance/FunctionPerformance";
+import CloudwatchContainer from "../pages/CloudWatchMetrics/CloudWatchMetrics";
 import NavbarComponent from "../components/Navbar/Navbar";
-import ConfigPageContainer from "../containers/ConfigPage/ConfigPageContainer";
-import ChatContainer from "../containers/FunctionPerformance/Chat/ChatContainer";
+import ConfigPageContainer from "../pages/ConfigPage/Config";
+import ChatContainer from "../pages/FunctionPerformance/Chat/Chat";
 import "../utils/chartSetup";
 
 function App() {

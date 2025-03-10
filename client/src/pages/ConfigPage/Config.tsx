@@ -1,5 +1,5 @@
-import ConfigForm from "./ConfigForm/ConfigPageComponent";
-import "./ConfigPage.css";
+import ConfigForm from "./ConfigForm/ConfigForm";
+import "./Config.css";
 
 export type Config = {
   awsAccessKeyID: string;

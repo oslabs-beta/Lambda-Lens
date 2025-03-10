@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import ColdStartsGraphComponent from "./ColdStartsGraph/ColdStartsGraphComponent";
-import ColdStartsMetricsContainer from "./ColdStartsMetrics/ColdStartsMetricsContainer";
-import AvgBilledDurGraph from "./AvgBilledDurGraph/AvgBilledDurGraphComponent";
-import ChatContainer from "./Chat/ChatContainer";
+import ColdStartsGraphComponent from "./ColdStart/ColdStart";
+import ColdStartsMetricsContainer from "./ColdStartMetrics/ColdStartMetrics";
+import AvgBilledDurGraph from "./AverageBilledDuration/AverageBilledDuration";
+import ChatContainer from "./Chat/Chat";
 import "../../styles/Graphs.css";
 
 interface FunctionData {

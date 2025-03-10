@@ -4,7 +4,7 @@ import {
   sendMessage,
   mockFetch,
 } from "../../../utils/test-utils";
-import ChatContainer from "./ChatContainer";
+import ChatContainer from "./Chat";
 
 // This response object mimics a successful fetch where the JSON result is "Success response".
 const successfulResponse = {

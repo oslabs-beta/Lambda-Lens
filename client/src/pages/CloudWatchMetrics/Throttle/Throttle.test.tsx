@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import ThrottleComponent from "./ThrottleComponent";
+import ThrottleComponent from "./Throttle";
 import { Line } from "react-chartjs-2";
 
 // Mock the Line component to avoid rendering an actual chart during tests.
