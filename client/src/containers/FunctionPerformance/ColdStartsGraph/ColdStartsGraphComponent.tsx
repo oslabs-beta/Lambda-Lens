@@ -1,4 +1,5 @@
 import { Doughnut } from "react-chartjs-2";
+import "../../../styles/Graphs.css";
 
 interface FunctionData {
   functionName: string;

@@ -1,4 +1,5 @@
 import { Bar } from 'react-chartjs-2';
+import "../../../styles/Graphs.css";
 
 interface PercentileData {
   p90: number[];

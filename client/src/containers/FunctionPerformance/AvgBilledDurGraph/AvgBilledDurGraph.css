@@ -9,4 +9,4 @@ body.darkmode .chart-wrapper {
   background-color: #363636;
 }
 
-/* All classes accounted for but need to import*/
+/* All graph-related styles have been moved to Graphs.css */
