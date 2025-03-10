@@ -84,14 +84,14 @@
 }
 
 .config-form .db-button {
-  background-color: #3e3e3e;  /* darken of light-cont-s */
+  background-color: #3e3e3e;  
   color: var(--light-cont-s);
   font-weight: 550;
 }
 
 .config-form .db-button:hover {
-  background-color: #494949;  /* slightly lighter version */
-  color: #eaeaea;  /* slightly lighter version of light-cont-s */
+  background-color: #494949;  
+  color: #eaeaea;  
 }
 
 .config-form .config-error {
@@ -159,7 +159,7 @@ body.darkmode .config-form .db-button {
 }
 
 body.darkmode .config-form .db-button:hover {
-  background-color: #eaeaea; /* slightly lighter version of light-cont-s */
+  background-color: #eaeaea; 
   color: var(--light-text-sec);
 }
 

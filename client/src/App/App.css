@@ -36,39 +36,8 @@ body.darkmode #root {
   background-color: var(--dark-cont-l);
 }
 
-/* Logo styles */
-.logo {
-  height: 2.7em;
-  transition: filter 300ms;
-}
-
-body.darkmode .logo {
-  filter: brightness(0) invert(1);
-  transition: filter 300ms;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
 /* Global dark mode styles */
 body.darkmode {
   background-color: #1e1e1e;
   color: #e0e0e0;
-}
-
-/* Media queries */
-@media (max-width: 768px) {
-  .logo-container {
-    width: 15%;
-    max-width: 80px;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo-container {
-    width: 20%;
-    max-width: 60px;
-  }
 }

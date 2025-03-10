@@ -127,7 +127,6 @@ body.darkmode #navbarLinks a.active {
   transition: filter 300ms;
 }
 
-/* Fix for logo in dark mode - use brightness(0) invert(1) to make it visible on dark bg */
 body.darkmode .logo {
   filter: brightness(0) invert(1);
   transition: filter 300ms;
