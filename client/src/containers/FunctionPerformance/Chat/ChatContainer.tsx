@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../../App/App.css";
+import "./Chat.css";
 
 const ChatContainer = () => {
   const [messages, setMessages] = useState<
@@ -14,9 +14,10 @@ const ChatContainer = () => {
   const handleSendMessage = async () => {
     if (input.trim() === "") return;
 
+    const userMessage = input.trim();
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: "user", content: input },
+      { role: "user", content: userMessage },
     ]);
     setInput("");
     setLoading(true);
@@ -25,7 +26,7 @@ const ChatContainer = () => {
       const response = await fetch("http://localhost:8080/data/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: userMessage }),
       });
 
       if (!response.ok) {
@@ -33,27 +34,36 @@ const ChatContainer = () => {
       }
 
       const data = await response.json();
-      // console.log('Server response:', data);
-
       setMessages((prevMessages) => [
         ...prevMessages,
-        // { role: 'user', content: input },
-        { role: "assistant", content: data.result || "No response" },
+        { 
+          role: "assistant", 
+          content: data.result || "I'm sorry, I couldn't process your request. Please try again." 
+        },
       ]);
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { role: "assistant", content: "Assistant went wrong" },
+        { 
+          role: "assistant", 
+          content: "I apologize, but I encountered an error processing your request. Please try again or check your connection." 
+        },
       ]);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !loading && input.trim() !== "") {
+      handleSendMessage();
+    }
+  };
+
   return (
     <div className="chat-container">
-      <div className="chat-title">Explore Your Metrics: Ask Me How! </div>
+      <div className="chat-title">Explore Your Metrics: Ask Me How!</div>
       <div id="chat" className="chat-window">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
@@ -64,7 +74,7 @@ const ChatContainer = () => {
         {loading && (
           <div className="chat-message assistant">
             <strong>Assistant:</strong>
-            <p>...</p>
+            <p>Thinking...</p>
           </div>
         )}
       </div>
@@ -73,10 +83,12 @@ const ChatContainer = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Type your message here..."
+          disabled={loading}
         />
         <button onClick={handleSendMessage} disabled={loading}>
-          Send
+          {loading ? 'Sending...' : 'Send'}
         </button>
       </div>
     </div>

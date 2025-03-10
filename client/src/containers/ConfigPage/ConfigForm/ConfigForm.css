@@ -99,6 +99,22 @@
   font-family: Helvetica, Arial, sans-serif;
 }
 
+.config-error {
+  text-align: left;
+  color: red;
+  margin-left: 0;
+  padding-left: 10px;
+  font-size: 12px;
+  position: relative;
+}
+
+.config-error::before {
+  content: '⚠ ';
+  display: inline-block;
+  color: red;
+  margin-right: 5px;
+}
+
 /* dark mode settings */
 body.darkmode .config-form {
   background-color: var(--dark-cont-m);
