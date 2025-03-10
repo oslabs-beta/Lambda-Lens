@@ -139,8 +139,7 @@ describe("ChatContainer User Interactions", () => {
     // Validate that the success response from the server is rendered.
     await waitFor(() => {
       expect(screen.getByText("Success response")).toBeInTheDocument();
-      // Confirm that any loading indication (e.g., a "..." text) is removed.
-      expect(screen.queryByText("...")).not.toBeInTheDocument();
+      expect(screen.queryByText("Thinking...")).not.toBeInTheDocument();
     });
   });
 
@@ -163,7 +162,7 @@ describe("ChatContainer User Interactions", () => {
     // Wait for the fallback "No response" message to be displayed,
     // which indicates the component handled empty server response gracefully.
     await waitFor(() => {
-      expect(screen.getByText("No response")).toBeInTheDocument();
+      expect(screen.getByText("I'm sorry, I couldn't process your request. Please try again.")).toBeInTheDocument();
     });
   });
 });
@@ -195,10 +194,9 @@ describe("ChatContainer Error Handling", () => {
 
     // Verify that the component displays an error message when the assistant's response fails.
     await waitFor(() => {
-      const errorMessages = screen.getAllByText(/Assistant went wrong/);
-      expect(errorMessages.length).toBeGreaterThan(0);
+      expect(screen.getByText("I apologize, but I encountered an error processing your request. Please try again or check your connection.")).toBeInTheDocument();
       // Ensure that any temporary loading indicator is no longer visible.
-      expect(screen.queryByText("...")).not.toBeInTheDocument();
+      expect(screen.queryByText("Thinking...")).not.toBeInTheDocument();
     });
 
     // Confirm that fetch was called with the correct request configuration.
@@ -226,9 +224,9 @@ describe("ChatContainer Error Handling", () => {
 
     // Wait for the error message to be displayed, indicating the assistant encountered an error.
     await waitFor(() => {
-      expect(screen.getByText("Assistant went wrong")).toBeInTheDocument();
+      expect(screen.getByText("I apologize, but I encountered an error processing your request. Please try again or check your connection.")).toBeInTheDocument();
       // Confirm that the loading indicator is removed.
-      expect(screen.queryByText("...")).not.toBeInTheDocument();
+      expect(screen.queryByText("Thinking...")).not.toBeInTheDocument();
     });
   });
 });

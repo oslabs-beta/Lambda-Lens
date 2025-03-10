@@ -28,7 +28,7 @@ body.darkmode .refresh-button.clicked {
   background-color: #62accc;
 }
 
-/* Missing classes:
-  dashboard-header-cw
-  grid-container
-  component-box-cw */
+/* Dashboard-specific styles that aren't related to graphs */
+/* Note: All graph-related styles have been moved to Graphs.css */
+
+

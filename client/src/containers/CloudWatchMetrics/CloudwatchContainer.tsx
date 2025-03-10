@@ -4,6 +4,7 @@ import TotalDurationComponent from ".//TotalDuration/TotalDurationComponent";
 import PercentileLatencyComponent from ".//PercentileLatency/PercentileLatencyComponent";
 import { useState, useEffect } from "react";
 import "./CloudwatchContainer.css";
+import "../../styles/Graphs.css";
 
 interface FunctionData {
   functionName: string;

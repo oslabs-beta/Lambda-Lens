@@ -13,10 +13,19 @@
 .navbar {
   display: flex;
   align-items: center;
-  background-color: var(--light-cont-m); /* Light mode background */
-  padding: 10px 20px;
-  position: relative;
+  justify-content: space-between;
   border-radius: 10px;
+  background-color: var(--light-cont-m);
+  position: relative;
+  font-family: Helvetica, Arial, sans-serif;
+  box-shadow: var(--mui-boxshadow-2);
+  padding: 10px 20px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 #navbarLinks {
@@ -32,16 +41,29 @@
 }
 
 #navbarLinks a {
-  color: var(--light-text-sec); /* Light mode text */
+  color: var(--light-text-sec);
   text-decoration: none;
-  padding: 10px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: 300;
+  font-size: 0.9em;
 }
 
-#navbarLinks a:hover {
-  text-decoration: underline;
+#navbarLinks a:hover,
+#navbarLinks a:focus {
+  background-color: var(--light-cont-s);
   color: var(--light-text-prim);
+  text-decoration: none;
 }
 
+#navbarLinks a.active {
+  background-color: var(--light-cont-s);
+  color: var(--light-text-prim);
+  text-decoration: none;
+}
+
+/* theme switch button */
 #theme-switch {
   height: 30px;
   width: 30px;
@@ -54,22 +76,57 @@
   cursor: pointer;
 }
 
+#theme-switch svg:hover,
+#theme-switch svg:focus {
+  fill: #4b4b4b; /* darken of light-text-sec by 10% */
+}
+
+/* Dark mode styles */
+body.darkmode .navbar {
+  background-color: #222;
+}
+
+body.darkmode #navbarLinks {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+body.darkmode #navbarLinks li {
+  margin: 0;
+}
+
+body.darkmode #navbarLinks a {
+  color: var(--dark-text-sec);
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+body.darkmode #navbarLinks a:hover,
+body.darkmode #navbarLinks a:focus {
+  background-color: var(--dark-cont-s);
+  color: var(--dark-text-prim);
+  text-decoration: none;
+}
+
+body.darkmode #navbarLinks a.active {
+  background-color: var(--dark-cont-s);
+  color: var(--dark-text-prim);
+  text-decoration: none;
+}
+
 /* Logo styling */
 .logo {
   height: 2.7em;
   transition: filter 300ms;
 }
 
-/* Dark mode styles - only apply when body has darkmode class */
-body.darkmode .navbar {
-  background-color: #222;
-}
-
-body.darkmode #navbarLinks a {
-  color: #fff;
-}
-
-/* Fix for logo in dark mode - use brightness(0) invert(1) to make it visible on dark bg */
 body.darkmode .logo {
   filter: brightness(0) invert(1);
   transition: filter 300ms;
