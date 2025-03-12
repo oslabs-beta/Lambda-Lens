@@ -1,27 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { BedrockRuntimeClient, InvokeModelCommand, BedrockRuntimeClientConfig } from '@aws-sdk/client-bedrock-runtime';
-import ConversationModel from '../models/ConversationModel'; 
-import { getAwsConfig } from '../configs/awsconfig';
-
-interface ConversationEntry {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
+import ConversationModel from '../models/ConversationModel';
+import { AwsClientService } from '../services/AwsClientService';
 
 export const handleChat = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const awsconfig = getAwsConfig();
-    
-    const client = new BedrockRuntimeClient({
-      region: process.env.AWS_REGION,
-      endpoint: 'https://bedrock-runtime.us-east-1.amazonaws.com',
-      credentials: {
-        accessKeyId: awsconfig.credentials.accessKeyId,
-        secretAccessKey: awsconfig.credentials.secretAccessKey,
-      },
-    } as BedrockRuntimeClientConfig);
+    const awsClientService = AwsClientService.getInstance();
+    const client = awsClientService.getClient<BedrockRuntimeClient>('BedrockRuntimeClient');
 
     const { message } = req.body;
 
@@ -29,10 +14,9 @@ export const handleChat = async (req: Request, res: Response, next: NextFunction
       return res.status(400).json({ error: 'Invalid or empty message format' });
     }
 
-    // console.log('Starting request handler');
-
-    let conversationHistory: ConversationEntry[] = [];
-    const conversationId = '2'; 
+    // Process conversation and response
+    let conversationHistory = [];
+    const conversationId = '2';
 
     let historyDoc;
     try {
@@ -43,7 +27,7 @@ export const handleChat = async (req: Request, res: Response, next: NextFunction
 
     if (historyDoc) {
       try {
-        conversationHistory = historyDoc.conversation.map(({ role, content }: ConversationEntry) => ({
+        conversationHistory = historyDoc.conversation.map(({ role, content }) => ({
           role,
           content
         }));
@@ -89,7 +73,7 @@ export const handleChat = async (req: Request, res: Response, next: NextFunction
         const chatResponse = contentArray[0]?.text || 'No response';
         // console.log('Chat Response:', chatResponse);
 
-        const updatedConversation: ConversationEntry[] = [
+        const updatedConversation = [
           ...conversationHistory,
           { role: 'assistant', content: chatResponse },
         ];
@@ -113,6 +97,10 @@ export const handleChat = async (req: Request, res: Response, next: NextFunction
       return res.status(500).json({ error: 'Failed to invoke Bedrock model', details: error instanceof Error ? error.message : 'Unknown error' });
     }
   } catch (error) {
-    return res.status(500).json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : 'Unknown error' });
+    next({
+      log: 'Error in ChatController.handleChat',
+      status: 500,
+      message: { err: 'An error occurred during chat processing.' },
+    });
   }
 };

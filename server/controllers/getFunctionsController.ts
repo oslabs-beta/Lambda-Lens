@@ -1,11 +1,11 @@
 import { LambdaClient, ListFunctionsCommand, ListFunctionsCommandOutput } from '@aws-sdk/client-lambda';
-import { getAwsConfig } from '../configs/awsconfig';
-
+import { AwsClientService } from '../services/AwsClientService';
 
 export const getFunction = async (): Promise<string[]> => {
-  const awsconfig = getAwsConfig();
+  const awsClientService = AwsClientService.getInstance();
+  const lambdaClient = awsClientService.getClient<LambdaClient>('LambdaClient');
   const command = new ListFunctionsCommand({});
-  const lambdaClient = new LambdaClient(awsconfig);
+  
   try {
     const data: ListFunctionsCommandOutput = await lambdaClient.send(command);
     const funcObjectArray = data.Functions || [];

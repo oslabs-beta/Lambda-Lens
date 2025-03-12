@@ -1,12 +1,11 @@
 import {
-  CloudWatchClient,
   GetMetricDataCommand,
   GetMetricDataCommandOutput,
+  CloudWatchClient,
 } from '@aws-sdk/client-cloudwatch';
 import { Request, Response, NextFunction } from 'express';
 import { getFunction } from './getFunctionsController';
-import { getAwsConfig } from '../configs/awsconfig';
-
+import { AwsClientService } from '../services/AwsClientService';
 
 const metricCommand = (funcName: string): GetMetricDataCommand => {
   // define time range for the metric data
@@ -86,9 +85,9 @@ export const getMetricData = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const awsconfig = getAwsConfig();
-  
-    const client = new CloudWatchClient(awsconfig);
+    const awsClientService = AwsClientService.getInstance();
+    const client = awsClientService.getClient<CloudWatchClient>('CloudWatchClient');
+    
     // fetch existing AWS Lambda functions
     const functionNames = await getFunction();
 
@@ -97,7 +96,7 @@ export const getMetricData = async (
       metricCommand(functionName)
     );
 
-    // helper function that sends indivual commands to be sent to AWS Client
+    // helper function that sends individual commands to be sent to AWS Client
     const fetchData = async (
       command: GetMetricDataCommand
     ): Promise<GetMetricDataCommandOutput> => {
@@ -113,18 +112,10 @@ export const getMetricData = async (
     const mappedMetricsArray = functionNames.map((functionName, index) => {
       const metricData = dataArr[index];
 
-      // if metric data results don't exist, then return an empty data set
       if (!metricData.MetricDataResults) {
         throw new Error(
           `Metric data for ${functionName} is missing or incomplete.`
         );
-        return {
-          functionName,
-          duration: [],
-          concurrentExecutions: [],
-          throttles: [],
-          timestamps: [],
-        };
       }
 
       // if any Values do not exist, set variable to an empty array
@@ -148,7 +139,7 @@ export const getMetricData = async (
     return next({
       log: 'Error in cloudWatchController.getMetricData',
       status: 500,
-      message: { err: 'Error occured when retrieving Cloudwatch Metrics.' },
+      message: { err: 'Error occurred when retrieving Cloudwatch Metrics.' },
     });
   }
 };
