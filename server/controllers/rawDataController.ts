@@ -7,18 +7,18 @@ import {
 import { getFunction } from './getFunctionsController';
 import { FormattedLog } from '../types';
 import { getAwsConfig } from '../configs/awsconfig';
-
+import { AwsClientService } from '../services/AwsClientService';
+import { MetricsValidator } from '../utils/validators';
 
 interface LogEvent {
   message: string;
   timestamp: number;
 }
 
-// formats report message string into useable key-value pairs
-const formatLogs = (
-  logs: { log: LogEvent; functionName: string }[]
-): FormattedLog[] => {
-  return logs.map(({ log, functionName }) => {
+class LogProcessor {
+  private static readonly BATCH_SIZE = 6;
+
+  private static formatLog(log: LogEvent, functionName: string): FormattedLog {
     const dateObject = new Date(log.timestamp);
     const formattedDate = dateObject
       .toLocaleString('en-US', { timeZone: 'UTC' })
@@ -31,7 +31,6 @@ const formatLogs = (
     };
 
     const parts = log.message.split(/\s+/);
-
     parts.forEach((part, index) => {
       if (part === 'Billed')
         currentFormattedLog.BilledDuration = parts[index + 2];
@@ -40,94 +39,83 @@ const formatLogs = (
     });
 
     return currentFormattedLog;
-  });
-};
-
-// fetches report data from aws
-const fetchAndSaveLogs = async (functionName: string) => {
-  const formattedFunc = `/aws/lambda/${functionName}`;
-  const allLogs: { log: LogEvent; functionName: string }[] = [];
-
-  try {
-    const awsconfig = getAwsConfig();
-    const client = new CloudWatchLogsClient(awsconfig);
-    
-    const describeResponse = await client.send(
-      new DescribeLogStreamsCommand({ logGroupName: formattedFunc })
-    );
-    const streams = describeResponse.logStreams || [];
-
-    // takes the 6 most recent streams
-    for (const stream of streams.slice(-6)) {
-      const params = {
-        logGroupName: formattedFunc,
-        logStreamName: stream.logStreamName,
-        startFromHead: true,
-      };
-
-      try {
-        const logsResponse = await client.send(new GetLogEventsCommand(params));
-        const events = logsResponse.events || [];
-
-        // loops through all the events, finding messages that start with REPORT
-        for (const event of events) {
-          if (event.message && event.message.startsWith('REPORT')) {
-            allLogs.push({
-              log: {
-                message: event.message,
-                timestamp: event.timestamp || Date.now(),
-              },
-              functionName: functionName,
-            });
-          }
-        }
-      } catch (err) {
-        console.error(
-          `Error retrieving log events for stream ${stream.logStreamName}: ${
-            (err as Error).message
-          }`
-        );
-      }
-    }
-  } catch (err) {
-    console.error(
-      `Error retrieving log streams for log group ${functionName}: ${
-        (err as Error).message
-      }`
-    );
   }
-  return formatLogs(allLogs);
-};
 
-// processes the logs retrieved from the above functions and passes the data to the frontend
+  private static async fetchLogStream(client: CloudWatchLogsClient, functionName: string, stream: any) {
+    const params = {
+      logGroupName: `/aws/lambda/${functionName}`,
+      logStreamName: stream.logStreamName,
+      startFromHead: true,
+    };
+
+    try {
+      const logsResponse = await client.send(new GetLogEventsCommand(params));
+      return (logsResponse.events || [])
+        .filter(event => event.message?.startsWith('REPORT'))
+        .map(event => ({
+          log: {
+            message: event.message!,
+            timestamp: event.timestamp || Date.now(),
+          },
+          functionName,
+        }));
+    } catch (err) {
+      console.error(
+        `Error retrieving log events for stream ${stream.logStreamName}: ${
+          (err as Error).message
+        }`
+      );
+      return [];
+    }
+  }
+
+  public static async fetchAndFormatLogs(functionName: string): Promise<FormattedLog[]> {
+    const formattedFunc = `/aws/lambda/${functionName}`;
+    const allLogs: { log: LogEvent; functionName: string }[] = [];
+
+    try {
+      const awsClientService = AwsClientService.getInstance();
+      const client = awsClientService.getClient<CloudWatchLogsClient>('CloudWatchLogsClient');
+      
+      const describeResponse = await client.send(
+        new DescribeLogStreamsCommand({ 
+          logGroupName: formattedFunc,
+          orderBy: 'LastEventTime',
+          descending: true,
+          limit: this.BATCH_SIZE
+        })
+      );
+
+      const streams = describeResponse.logStreams || [];
+      const streamPromises = streams.map(stream => this.fetchLogStream(client, functionName, stream));
+      const streamResults = await Promise.all(streamPromises);
+      
+      allLogs.push(...streamResults.flat());
+      
+      return allLogs.map(({ log, functionName }) => this.formatLog(log, functionName));
+    } catch (err) {
+      console.error(
+        `Error processing logs for function ${functionName}: ${
+          (err as Error).message
+        }`
+      );
+      return [];
+    }
+  }
+}
+
 const lambdaController = {
   async processLogs(req: Request, res: Response, next: NextFunction) {
     try {
-      // retrieves the array of function names
-      const functionNames: string[] = await getFunction();
+      const functionNames = await getFunction();
+      MetricsValidator.validateFunctionNames(functionNames);
 
-      if (functionNames.length === 0) {
-        return res.status(404).json({ error: 'No Lambda functions found' });
-      }
+      const logPromises = functionNames.map(async (functionName) => ({
+        functionName,
+        logs: await LogProcessor.fetchAndFormatLogs(functionName),
+      }));
 
-      // helper function that maps and fetches the log data to a schema
-      const helper = async (functionNames: string[]) => {
-        const fetchPromises = functionNames.map(async (functionName) => {
-          return {
-            functionName,
-            logs: await fetchAndSaveLogs(functionName),
-          };
-        });
-
-        // resolves all the promises
-        const dataArr = await Promise.all(fetchPromises);
-
-        return dataArr;
-      };
-
-      // invokes the helper function and stores the data in a new variable
-      const dataArr = await helper(functionNames);
-
+      const dataArr = await Promise.all(logPromises);
       res.locals.allData = dataArr;
 
       return next();

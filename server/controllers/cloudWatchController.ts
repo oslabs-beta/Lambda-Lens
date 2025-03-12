@@ -1,145 +1,39 @@
-import {
-  GetMetricDataCommand,
-  GetMetricDataCommandOutput,
-  CloudWatchClient,
-} from '@aws-sdk/client-cloudwatch';
 import { Request, Response, NextFunction } from 'express';
 import { getFunction } from './getFunctionsController';
-import { AwsClientService } from '../services/AwsClientService';
+import { MetricsProcessingService } from '../services/MetricsProcessingService';
+import { CacheService } from '../services/CacheService';
+import { MetricsValidator } from '../utils/validators';
 
-const metricCommand = (funcName: string): GetMetricDataCommand => {
-  // define time range for the metric data
-  const endTime = new Date();
-  // 90 day period
-  const startTime = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
-
-  return new GetMetricDataCommand({
-    MetricDataQueries: [
-      // duration metric
-      {
-        Id: 'm1',
-        MetricStat: {
-          Metric: {
-            Namespace: 'AWS/Lambda',
-            MetricName: 'Duration',
-            Dimensions: [
-              {
-                Name: 'FunctionName',
-                Value: funcName,
-              },
-            ],
-          },
-          Period: 300,
-          Stat: 'Average',
-        },
-        ReturnData: true,
-      },
-      // concurrent executions metric
-      {
-        Id: 'm2',
-        MetricStat: {
-          Metric: {
-            Namespace: 'AWS/Lambda',
-            MetricName: 'ConcurrentExecutions',
-            Dimensions: [
-              {
-                Name: 'FunctionName',
-                Value: funcName,
-              },
-            ],
-          },
-          Period: 300,
-          Stat: 'Sum',
-        },
-        ReturnData: true,
-      },
-      // throttle metric
-      {
-        Id: 'm3',
-        MetricStat: {
-          Metric: {
-            Namespace: 'AWS/Lambda',
-            MetricName: 'Throttles',
-            Dimensions: [
-              {
-                Name: 'FunctionName',
-                Value: funcName,
-              },
-            ],
-          },
-          Period: 300,
-          Stat: 'Sum',
-        },
-        ReturnData: true,
-      },
-    ],
-    StartTime: startTime,
-    EndTime: endTime,
-  });
-};
-
-// fetch metric data
 export const getMetricData = async (
   _req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const awsClientService = AwsClientService.getInstance();
-    const client = awsClientService.getClient<CloudWatchClient>('CloudWatchClient');
-    
-    // fetch existing AWS Lambda functions
     const functionNames = await getFunction();
+    MetricsValidator.validateFunctionNames(functionNames);
 
-    // create an array of commands to be sent to the CloudWatch Client
-    const commandArr = functionNames.map((functionName) =>
-      metricCommand(functionName)
-    );
+    const cacheService = CacheService.getInstance();
+    const cacheKey = 'cloudwatch_metrics';
+    const cachedData = cacheService.get(cacheKey);
 
-    // helper function that sends individual commands to be sent to AWS Client
-    const fetchData = async (
-      command: GetMetricDataCommand
-    ): Promise<GetMetricDataCommandOutput> => {
-      return await client.send(command);
-    };
+    if (cachedData) {
+      res.locals.cloudData = cachedData;
+      return next();
+    }
 
-    // resolves all promises into a data array
-    const dataArr = await Promise.all(
-      commandArr.map((command) => fetchData(command))
-    );
+    const metricsService = MetricsProcessingService.getInstance();
+    const metricsData = await metricsService.getCloudWatchMetrics(functionNames);
 
-    // map function names to metric reports (functionName array is in same order as dataArr)
-    const mappedMetricsArray = functionNames.map((functionName, index) => {
-      const metricData = dataArr[index];
-
-      if (!metricData.MetricDataResults) {
-        throw new Error(
-          `Metric data for ${functionName} is missing or incomplete.`
-        );
-      }
-
-      // if any Values do not exist, set variable to an empty array
-      const duration = metricData.MetricDataResults[0].Values ?? [];
-      const concurrent = metricData.MetricDataResults[1].Values ?? [];
-      const throttles = metricData.MetricDataResults[2].Values ?? [];
-      const timestamps = metricData.MetricDataResults[0].Timestamps ?? [];
-
-      return {
-        functionName: functionName,
-        duration: duration,
-        concurrentExecutions: concurrent,
-        throttles: throttles,
-        timestamps: timestamps,
-      };
-    });
-
-    res.locals.cloudData = mappedMetricsArray;
+    cacheService.set(cacheKey, metricsData);
+    res.locals.cloudData = metricsData;
+    
     return next();
   } catch (error) {
     return next({
       log: 'Error in cloudWatchController.getMetricData',
       status: 500,
-      message: { err: 'Error occurred when retrieving Cloudwatch Metrics.' },
+      message: { err: error instanceof Error ? error.message : 'Error occurred when retrieving Cloudwatch Metrics.' },
     });
   }
 };
