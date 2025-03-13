@@ -27,28 +27,52 @@ const CloudwatchContainer = () => {
   const [percentileData, setPercentileData] = useState<{
     [key: string]: { percentiles: PercentileData };
   }>({});
-  const [filteredPercentileData, setFilteredPercentileData] =
-    useState<PercentileData | null>(null);
+  const [filteredPercentileData, setFilteredPercentileData] = useState<PercentileData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:8080/data/cloud")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(err => {
+            throw new Error(err.err || 'Failed to fetch CloudWatch metrics');
+          });
+        }
+        return res.json();
+      })
       .then((data: FunctionData[]) => {
-        setFunctionData(data);
-        if (data.length > 0) {
+        setFunctionData(Array.isArray(data) ? data : []);
+        if (data && data.length > 0) {
           setSelectedFunction(data[0].functionName);
         }
+        setError(null);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error('CloudWatch metrics error:', err);
+        setError(err.message);
+        setFunctionData([]);
+      });
   }, []);
 
   useEffect(() => {
     fetch("http://localhost:8080/data/metrics")
-      .then((res) => res.json())
-      .then((data: { [key: string]: { percentiles: PercentileData } }) => {
-        setPercentileData(data);
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(err => {
+            throw new Error(err.err || 'Failed to fetch percentile metrics');
+          });
+        }
+        return res.json();
       })
-      .catch((err) => console.log(err));
+      .then((data: { [key: string]: { percentiles: PercentileData } }) => {
+        setPercentileData(data || {});
+        setError(null);
+      })
+      .catch((err) => {
+        console.error('Percentile metrics error:', err);
+        setError(err.message);
+        setPercentileData({});
+      });
   }, []);
 
   useEffect(() => {
@@ -67,16 +91,25 @@ const CloudwatchContainer = () => {
     <div>
       <div className="dashboard-header-cw">
         <h1>CloudWatch Metrics</h1>
-        <select
-          value={selectedFunction}
-          onChange={(e) => setSelectedFunction(e.target.value)}
-        >
-          {functionData.map((func) => (
-            <option key={func.functionName} value={func.functionName}>
-              {func.functionName}
-            </option>
-          ))}
-        </select>
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+        {functionData.length > 0 ? (
+          <select
+            value={selectedFunction}
+            onChange={(e) => setSelectedFunction(e.target.value)}
+          >
+            {functionData.map((func) => (
+              <option key={func.functionName} value={func.functionName}>
+                {func.functionName}
+              </option>
+            ))}
+          </select>
+        ) : !error && (
+          <div>Loading functions...</div>
+        )}
       </div>
       <div className="grid-container">
         {filteredData && (

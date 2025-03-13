@@ -1,48 +1,65 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { databaseController } from '../controllers/databaseController';
-import { getMetricData } from '../controllers/cloudWatchController';
-import lambdaController from '../controllers/rawDataController';
-import { handleChat } from '../controllers/ChatController';
-import metricsController from '../controllers/percentileController';
+import { databaseController } from '../controllers/DatabaseController';
+import metricsController from '../controllers/MetricsController';
+import chatController from '../controllers/ChatController';
 
 const dataRouter = Router();
 
 dataRouter.get(
   '/update',
-  lambdaController.processLogs,
+  metricsController.getProcessedLogs,
   databaseController.processData,
   (_req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).send(res.locals.allData);
+    try {
+      return res.status(200).json(res.locals.allData);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
 dataRouter.get(
   '/req',
-  lambdaController.processLogs,
+  metricsController.getProcessedLogs,
   databaseController.processData,
-  databaseController.getProccessedData,
-  (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).send(res.locals.data);
+  databaseController.getProcessedData,
+  (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(200).json(res.locals.data);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
 dataRouter.get(
   '/cloud',
-  getMetricData,
-  (req: Request, res: Response, next: NextFunction) => {
+  metricsController.getCloudWatchMetrics,
+  (_req: Request, res: Response) => {
     return res.status(200).send(res.locals.cloudData);
   }
 );
 
 dataRouter.get(
   '/metrics',
-  metricsController.processMetrics, 
-  (req: Request, res: Response, next: NextFunction) => {
-    // console.log('Metric data:', res.locals.metricData); 
-      return res.status(200).json(res.locals.metricData);
-    }
+  metricsController.getPercentileMetrics,
+  (_req: Request, res: Response) => {
+    return res.status(200).json(res.locals.metricData);
+  }
 );
 
-dataRouter.post('/chat', handleChat);
+dataRouter.post('/chat', chatController.handleChat);
+
+dataRouter.get('/health', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const isHealthy = await databaseController.checkHealth();
+    if (isHealthy) {
+      return res.status(200).json({ status: 'healthy' });
+    }
+    return res.status(503).json({ status: 'unhealthy' });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default dataRouter;

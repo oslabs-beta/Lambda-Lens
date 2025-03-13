@@ -1,88 +1,65 @@
 import { Request, Response, NextFunction } from 'express';
-import visData from '../models/visDataModel';
-import { getAwsConfig } from '../configs/awsconfig';
+import { DatabaseService } from '../services/DatabaseService';
+import { RawMetricsData } from '../types/metrics';
 
+class DatabaseController {
+  private static instance: DatabaseController;
+  private databaseService: DatabaseService;
 
-interface Log {
-  Date: string;
-  Time: string;
-  FunctionName: string;
-  BilledDuration: string;
-  InitDuration?: string;
-  MaxMemUsed: string;
-}
+  private constructor() {
+    this.databaseService = DatabaseService.getInstance();
+  }
 
-interface RawData {
-  functionName: string;
-  logs: Log[];
-}
+  public static getInstance(): DatabaseController {
+    if (!DatabaseController.instance) {
+      DatabaseController.instance = new DatabaseController();
+    }
+    return DatabaseController.instance;
+  }
 
-export const databaseController = {
-  processData: async (
+  public processData = async (
     _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
-      const awsconfig = getAwsConfig();
-      const { region } = awsconfig;
-      
-      const rawData: RawData[] = res.locals.allData;
-
-      for (let func of rawData) {
-        let totalStarts = func.logs.length + 1;
-        let billed = 0;
-        let cold = 0;
-
-        for (const log of func.logs) {
-          billed += parseInt(log.BilledDuration, 10);
-          if (log.InitDuration) cold++;
-        }
-
-        const percentCold = totalStarts > 0 ? (cold / totalStarts) * 100 : 0;
-
-        await visData.findOneAndUpdate(
-          { functionName: func.functionName, region: region },
-          {
-            region: region,
-            functionName: func.functionName,
-            avgBilledDur: billed,
-            numColdStarts: cold,
-            percentColdStarts: percentCold.toFixed(2),
-          },
-          {
-            upsert: true,
-            returnNewDocument: true,
-          }
-        );
-      }
+      const rawData: RawMetricsData[] = res.locals.allData;
+      await this.databaseService.processAndSaveMetrics(rawData);
       return next();
     } catch (err) {
       next({
-        log: 'Error in databaseController.processData',
+        log: 'Error in DatabaseController.processData',
         status: 500,
-        message: { err: 'Error occurred when finding/updating database.' },
+        message: { 
+          err: err instanceof Error ? err.message : 'Error occurred when processing and saving metrics data.'
+        },
       });
     }
-  },
+  };
 
-  getProccessedData: async (
+  public getProcessedData = async (
     _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
-      const awsconfig = getAwsConfig();
-      const { region } = awsconfig;
-
-      res.locals.data = await visData.find({ region });
+      res.locals.data = await this.databaseService.getMetricsByRegion();
       return next();
     } catch (err) {
       next({
-        log: 'Error in databaseController.getProcessedData',
+        log: 'Error in DatabaseController.getProcessedData',
         status: 500,
-        message: { err: 'Error occurred when finding from database' },
+        message: { 
+          err: err instanceof Error ? err.message : 'Error occurred when retrieving metrics data'
+        },
       });
     }
-  },
-};
+  };
+
+  public async checkHealth(): Promise<boolean> {
+    return await this.databaseService.healthCheck();
+  }
+}
+
+const databaseController = DatabaseController.getInstance();
+export { databaseController };

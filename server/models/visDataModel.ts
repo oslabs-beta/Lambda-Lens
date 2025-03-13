@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
+import { MetricsDocument } from '../types/metrics';
 
-const visDataSchema = new Schema(
+const visDataSchema = new Schema<MetricsDocument>(
   {
     region: { type: String, required: true },
     functionName: { type: String, required: true },
@@ -11,6 +12,6 @@ const visDataSchema = new Schema(
   { timestamps: true }
 );
 
-const visData = model('visData', visDataSchema);
+const visData = model<MetricsDocument>('visData', visDataSchema);
 
 export default visData;
