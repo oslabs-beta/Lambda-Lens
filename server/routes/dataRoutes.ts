@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { databaseController } from '../controllers/databaseController';
+import { databaseController } from '../controllers/DatabaseController';
 import metricsController from '../controllers/MetricsController';
 import chatController from '../controllers/ChatController';
 
