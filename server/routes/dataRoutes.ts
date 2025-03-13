@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
 import metricsController from '../controllers/MetricsController';
-import { handleChat } from '../controllers/ChatController';
+import chatController from '../controllers/ChatController';
 
 const dataRouter = Router();
 
@@ -48,7 +48,7 @@ dataRouter.get(
   }
 );
 
-dataRouter.post('/chat', handleChat);
+dataRouter.post('/chat', chatController.handleChat);
 
 dataRouter.get('/health', async (_req: Request, res: Response, next: NextFunction) => {
   try {
