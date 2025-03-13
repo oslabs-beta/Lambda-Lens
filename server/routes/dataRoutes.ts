@@ -1,26 +1,25 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import { databaseController } from '../controllers/databaseController';
-import lambdaController from '../controllers/rawDataController';
-import { handleChat } from '../controllers/ChatController';
 import metricsController from '../controllers/MetricsController';
+import { handleChat } from '../controllers/ChatController';
 
 const dataRouter = Router();
 
 dataRouter.get(
   '/update',
-  lambdaController.processLogs,
+  metricsController.getProcessedLogs,
   databaseController.processData,
-  (_req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response) => {
     return res.status(200).send(res.locals.allData);
   }
 );
 
 dataRouter.get(
   '/req',
-  lambdaController.processLogs,
+  metricsController.getProcessedLogs,
   databaseController.processData,
   databaseController.getProccessedData,
-  (req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response) => {
     return res.status(200).send(res.locals.data);
   }
 );
@@ -28,7 +27,7 @@ dataRouter.get(
 dataRouter.get(
   '/cloud',
   metricsController.getCloudWatchMetrics,
-  (req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response) => {
     return res.status(200).send(res.locals.cloudData);
   }
 );
@@ -36,7 +35,7 @@ dataRouter.get(
 dataRouter.get(
   '/metrics',
   metricsController.getPercentileMetrics,
-  (req: Request, res: Response, next: NextFunction) => {
+  (_req: Request, res: Response) => {
     return res.status(200).json(res.locals.metricData);
   }
 );

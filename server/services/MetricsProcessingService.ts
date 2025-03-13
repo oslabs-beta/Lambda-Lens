@@ -1,5 +1,8 @@
-import { GetMetricDataCommandOutput, GetMetricDataCommand, CloudWatchClient } from '@aws-sdk/client-cloudwatch';
+import { CloudWatchClient, GetMetricDataCommand, GetMetricDataCommandOutput } from '@aws-sdk/client-cloudwatch';
+import { CloudWatchLogsClient, DescribeLogStreamsCommand, GetLogEventsCommand } from '@aws-sdk/client-cloudwatch-logs';
+import { FormattedLog } from '../types';
 import { AwsClientService } from './AwsClientService';
+import { MetricsValidator } from '../utils/validators';
 
 export interface MetricData {
   functionName: string;
@@ -17,9 +20,9 @@ export interface PercentileData {
 
 export class MetricsProcessingService {
   private static instance: MetricsProcessingService;
-  private readonly cloudWatchClient: CloudWatchClient;
-  private readonly BATCH_SIZE = 10;
+  private readonly BATCH_SIZE = 6;
   private readonly TIME_WINDOW = 90 * 24 * 60 * 60 * 1000; // 90 days
+  private readonly cloudWatchClient: CloudWatchClient;
 
   private constructor() {
     const awsClientService = AwsClientService.getInstance();
@@ -143,5 +146,99 @@ export class MetricsProcessingService {
       if (i % size === 0) acc.push(array.slice(i, i + size));
       return acc;
     }, [] as T[][]);
+  }
+
+  private formatLog(log: { message: string; timestamp: number }, functionName: string): FormattedLog {
+    const dateObject = new Date(log.timestamp);
+    const formattedDate = dateObject
+      .toLocaleString('en-US', { timeZone: 'UTC' })
+      .split(', ');
+
+    const currentFormattedLog: FormattedLog = {
+      Date: formattedDate[0],
+      Time: formattedDate[1],
+      FunctionName: functionName,
+    };
+
+    const parts = log.message.split(/\s+/);
+    parts.forEach((part, index) => {
+      if (part === 'Billed')
+        currentFormattedLog.BilledDuration = parts[index + 2];
+      if (part === 'Init') currentFormattedLog.InitDuration = parts[index + 2];
+      if (part === 'Max') currentFormattedLog.MaxMemUsed = parts[index + 3];
+    });
+
+    return currentFormattedLog;
+  }
+
+  private async fetchLogStream(client: CloudWatchLogsClient, functionName: string, stream: any) {
+    const params = {
+      logGroupName: `/aws/lambda/${functionName}`,
+      logStreamName: stream.logStreamName,
+      startFromHead: true,
+    };
+
+    try {
+      const logsResponse = await client.send(new GetLogEventsCommand(params));
+      return (logsResponse.events || [])
+        .filter(event => event.message?.startsWith('REPORT'))
+        .map(event => ({
+          message: event.message!,
+          timestamp: event.timestamp || Date.now(),
+          functionName,
+        }));
+    } catch (err) {
+      console.error(
+        `Error retrieving log events for stream ${stream.logStreamName}: ${
+          (err as Error).message
+        }`
+      );
+      return [];
+    }
+  }
+
+  private async fetchAndFormatLogs(functionName: string): Promise<FormattedLog[]> {
+    const formattedFunc = `/aws/lambda/${functionName}`;
+    const allLogs: { message: string; timestamp: number; functionName: string }[] = [];
+
+    try {
+      const awsClientService = AwsClientService.getInstance();
+      const client = awsClientService.getClient<CloudWatchLogsClient>('CloudWatchLogsClient');
+      
+      const describeResponse = await client.send(
+        new DescribeLogStreamsCommand({ 
+          logGroupName: formattedFunc,
+          orderBy: 'LastEventTime',
+          descending: true,
+          limit: this.BATCH_SIZE
+        })
+      );
+
+      const streams = describeResponse.logStreams || [];
+      const streamPromises = streams.map(stream => this.fetchLogStream(client, functionName, stream));
+      const streamResults = await Promise.all(streamPromises);
+      
+      allLogs.push(...streamResults.flat());
+      
+      return allLogs.map(log => this.formatLog(log, log.functionName));
+    } catch (err) {
+      console.error(
+        `Error processing logs for function ${functionName}: ${
+          (err as Error).message
+        }`
+      );
+      return [];
+    }
+  }
+
+  public async getProcessedLogs(functionNames: string[]): Promise<{ functionName: string; logs: FormattedLog[] }[]> {
+    MetricsValidator.validateFunctionNames(functionNames);
+
+    const logPromises = functionNames.map(async (functionName) => ({
+      functionName,
+      logs: await this.fetchAndFormatLogs(functionName),
+    }));
+
+    return Promise.all(logPromises);
   }
 }

@@ -3,8 +3,8 @@ import { getFunction } from './getFunctionsController';
 import { MetricsProcessingService, MetricData, PercentileData } from '../services/MetricsProcessingService';
 import { CacheService } from '../services/CacheService';
 import { MetricsValidator } from '../utils/validators';
+import { FormattedLog } from '../types';
 
-// Strategy interface with generic return type
 interface MetricProcessingStrategy<T> {
   process(functionNames: string[]): Promise<T>;
   getCacheKey(): string;
@@ -14,6 +14,16 @@ abstract class BaseMetricStrategy<T> implements MetricProcessingStrategy<T> {
   constructor(protected metricsService: MetricsProcessingService) {}
   abstract process(functionNames: string[]): Promise<T>;
   abstract getCacheKey(): string;
+}
+
+class LogProcessingStrategy extends BaseMetricStrategy<{ functionName: string; logs: FormattedLog[] }[]> {
+  process(functionNames: string[]) {
+    return this.metricsService.getProcessedLogs(functionNames);
+  }
+
+  getCacheKey() {
+    return 'log_data';
+  }
 }
 
 class CloudWatchMetricsStrategy extends BaseMetricStrategy<MetricData[]> {
@@ -46,15 +56,15 @@ class MetricsController {
     this.metricsService = MetricsProcessingService.getInstance();
     this.cacheService = CacheService.getInstance();
     
-    // Initialize strategies separately to help type inference
     const strategies = new Map<string, MetricProcessingStrategy<any>>();
     strategies.set('cloudwatch', new CloudWatchMetricsStrategy(this.metricsService));
     strategies.set('percentile', new PercentileMetricsStrategy(this.metricsService));
+    strategies.set('logs', new LogProcessingStrategy(this.metricsService));
     this.strategies = strategies;
 
-    // Bind methods to this instance
     this.getCloudWatchMetrics = this.getCloudWatchMetrics.bind(this);
     this.getPercentileMetrics = this.getPercentileMetrics.bind(this);
+    this.getProcessedLogs = this.getProcessedLogs.bind(this);
   }
 
   public static getInstance(): MetricsController {
@@ -75,6 +85,27 @@ class MetricsController {
     const metricsData = await strategy.process(functionNames);
     this.cacheService.set(cacheKey, metricsData);
     return metricsData;
+  }
+
+  public async getProcessedLogs(_req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const functionNames = await getFunction();
+      MetricsValidator.validateFunctionNames(functionNames);
+      
+      const strategy = this.strategies.get('logs') as LogProcessingStrategy;
+      if (!strategy) {
+        throw new Error('Log processing strategy not found');
+      }
+
+      res.locals.allData = await this.processMetrics(strategy, functionNames);
+      return next();
+    } catch (error) {
+      next({
+        log: 'Error in MetricsController.getProcessedLogs',
+        status: 500,
+        message: { err: error instanceof Error ? error.message : 'Error occurred when retrieving log data' },
+      });
+    }
   }
 
   public async getCloudWatchMetrics(_req: Request, res: Response, next: NextFunction): Promise<void> {
