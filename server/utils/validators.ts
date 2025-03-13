@@ -40,13 +40,11 @@ export class MetricsValidator {
     }
 
     if (functionNames.length === 0) {
-      throw new Error('No Lambda functions provided');
+      throw new Error('No Lambda functions found. Please check your AWS credentials and region configuration.');
     }
 
-    functionNames.forEach(name => {
-      if (typeof name !== 'string' || name.trim().length === 0) {
-        throw new Error('Invalid function name provided');
-      }
-    });
+    if (functionNames.some(name => typeof name !== 'string' || name.trim() === '')) {
+      throw new Error('Invalid function names found. All function names must be non-empty strings.');
+    }
   }
 }

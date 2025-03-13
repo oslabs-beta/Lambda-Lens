@@ -1,12 +1,17 @@
 import { Config, GetAwsConfig } from '../types.js';
 import dotenv from 'dotenv';
-// import path from 'path';
 
-// Load environment variables
-// dotenv.config({ path: path.resolve(__dirname, '../.env') });
+// Load environment variables early
+dotenv.config();
 
-//typescript recognizes process.env as undefined
-//use ! to signify that it's NOT null even though it looks like it
+// Validate required environment variables
+const requiredEnvVars = ['AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'AWS_REGION'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  throw new Error(`Missing required environment variables: ${missingVars.join(', ')}. Please check your .env file or environment configuration.`);
+}
+
 export const awsconfig: Config = {
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
@@ -16,8 +21,6 @@ export const awsconfig: Config = {
 };
 
 export const getAwsConfig: GetAwsConfig = () => {
-  dotenv.config();
-
   return {
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID!,

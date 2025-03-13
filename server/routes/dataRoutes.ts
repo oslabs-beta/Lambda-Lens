@@ -1,9 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
-import { getMetricData } from '../controllers/cloudWatchController';
 import lambdaController from '../controllers/rawDataController';
 import { handleChat } from '../controllers/ChatController';
-import metricsController from '../controllers/percentileController';
+import metricsController from '../controllers/MetricsController';
 
 const dataRouter = Router();
 
@@ -28,7 +27,7 @@ dataRouter.get(
 
 dataRouter.get(
   '/cloud',
-  getMetricData,
+  metricsController.getCloudWatchMetrics,
   (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).send(res.locals.cloudData);
   }
@@ -36,11 +35,10 @@ dataRouter.get(
 
 dataRouter.get(
   '/metrics',
-  metricsController.processMetrics, 
+  metricsController.getPercentileMetrics,
   (req: Request, res: Response, next: NextFunction) => {
-    // console.log('Metric data:', res.locals.metricData); 
-      return res.status(200).json(res.locals.metricData);
-    }
+    return res.status(200).json(res.locals.metricData);
+  }
 );
 
 dataRouter.post('/chat', handleChat);

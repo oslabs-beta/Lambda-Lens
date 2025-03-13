@@ -9,9 +9,16 @@ export const getFunction = async (): Promise<string[]> => {
   try {
     const data: ListFunctionsCommandOutput = await lambdaClient.send(command);
     const funcObjectArray = data.Functions || [];
-    return funcObjectArray.map(func => func.FunctionName || '');
+    const functionNames = funcObjectArray.map(func => func.FunctionName || '').filter(name => name !== '');
+    
+    if (functionNames.length === 0) {
+      throw new Error('No Lambda functions found in the configured AWS region');
+    }
+    
+    return functionNames;
   } catch (err) {
-    console.error('Error fetching Lambda functions:', err);
-    return [];
+    const error = err instanceof Error ? err : new Error('Unknown error fetching Lambda functions');
+    console.error('Error fetching Lambda functions:', error);
+    throw error;
   }
 };
