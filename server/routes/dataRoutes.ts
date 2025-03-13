@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
 import metricsController from '../controllers/MetricsController';
 import { handleChat } from '../controllers/ChatController';
@@ -9,8 +9,12 @@ dataRouter.get(
   '/update',
   metricsController.getProcessedLogs,
   databaseController.processData,
-  (_req: Request, res: Response) => {
-    return res.status(200).send(res.locals.allData);
+  (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(200).json(res.locals.allData);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
@@ -18,9 +22,13 @@ dataRouter.get(
   '/req',
   metricsController.getProcessedLogs,
   databaseController.processData,
-  databaseController.getProccessedData,
-  (_req: Request, res: Response) => {
-    return res.status(200).send(res.locals.data);
+  databaseController.getProcessedData,
+  (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(200).json(res.locals.data);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
@@ -41,5 +49,17 @@ dataRouter.get(
 );
 
 dataRouter.post('/chat', handleChat);
+
+dataRouter.get('/health', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const isHealthy = await databaseController.checkHealth();
+    if (isHealthy) {
+      return res.status(200).json({ status: 'healthy' });
+    }
+    return res.status(503).json({ status: 'unhealthy' });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default dataRouter;
