@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getFunction } from './getFunctionsController';
+import { lambdaController } from './LambdaController';
 import { MetricsProcessingService, MetricData, PercentileData } from '../services/MetricsProcessingService';
 import { CacheService } from '../services/CacheService';
 import { MetricsValidator } from '../utils/validators';
@@ -17,7 +17,7 @@ abstract class BaseMetricStrategy<T> implements MetricProcessingStrategy<T> {
 }
 
 class LogProcessingStrategy extends BaseMetricStrategy<{ functionName: string; logs: FormattedLog[] }[]> {
-  process(functionNames: string[]) {
+  async process(functionNames: string[]): Promise<{ functionName: string; logs: FormattedLog[] }[]> {
     return this.metricsService.getProcessedLogs(functionNames);
   }
 
@@ -27,7 +27,7 @@ class LogProcessingStrategy extends BaseMetricStrategy<{ functionName: string; l
 }
 
 class CloudWatchMetricsStrategy extends BaseMetricStrategy<MetricData[]> {
-  process(functionNames: string[]) {
+  async process(functionNames: string[]): Promise<MetricData[]> {
     return this.metricsService.getCloudWatchMetrics(functionNames);
   }
 
@@ -37,7 +37,7 @@ class CloudWatchMetricsStrategy extends BaseMetricStrategy<MetricData[]> {
 }
 
 class PercentileMetricsStrategy extends BaseMetricStrategy<PercentileData> {
-  process(functionNames: string[]) {
+  async process(functionNames: string[]): Promise<PercentileData> {
     return this.metricsService.getPercentileMetrics(functionNames);
   }
 
@@ -89,7 +89,7 @@ class MetricsController {
 
   public async getProcessedLogs(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const functionNames = await getFunction();
+      const functionNames = await lambdaController.listFunctions() as string[];
       MetricsValidator.validateFunctionNames(functionNames);
       
       const strategy = this.strategies.get('logs') as LogProcessingStrategy;
@@ -110,7 +110,7 @@ class MetricsController {
 
   public async getCloudWatchMetrics(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const functionNames = await getFunction();
+      const functionNames = await lambdaController.listFunctions() as string[];
       MetricsValidator.validateFunctionNames(functionNames);
       
       const strategy = this.strategies.get('cloudwatch') as CloudWatchMetricsStrategy;
@@ -131,7 +131,7 @@ class MetricsController {
 
   public async getPercentileMetrics(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const functionNames = await getFunction();
+      const functionNames = await lambdaController.listFunctions() as string[];
       MetricsValidator.validateFunctionNames(functionNames);
       
       const strategy = this.strategies.get('percentile') as PercentileMetricsStrategy;
