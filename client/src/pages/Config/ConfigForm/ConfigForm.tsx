@@ -91,9 +91,32 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
         <p className="config-error">MongoDB URI is required</p>
       )}
 
-      <input type="submit" className="config-submit-button" value="Submit" />
+      <input
+        type="submit"
+        className="config-submit-button"
+        value="Submit"
+        disabled
+        title="Submissions disabled pending authentication implementation"
+        style={{
+          cursor: "not-allowed",
+          opacity: 0.6,
+          position: "relative",
+        }}
+      />
+      {/* Add a small info message below the submit button */}
+      <small
+        style={{
+          color: "var(--light-text-sec)",
+          fontSize: "12px",
+          marginTop: "-5px",
+          marginBottom: "10px",
+          textAlign: "center",
+        }}
+      >
+        ⓘ Submissions temporarily disabled pending authentication implementation
+      </small>
       <button type="button" className="db-button" onClick={handleDatabase}>
-        Connect to Database
+        View as guest
       </button>
     </form>
   );

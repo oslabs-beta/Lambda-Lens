@@ -27,15 +27,16 @@ const CloudwatchContainer = () => {
   const [percentileData, setPercentileData] = useState<{
     [key: string]: { percentiles: PercentileData };
   }>({});
-  const [filteredPercentileData, setFilteredPercentileData] = useState<PercentileData | null>(null);
+  const [filteredPercentileData, setFilteredPercentileData] =
+    useState<PercentileData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/data/cloud")
+    fetch(`${import.meta.env.VITE_API_URL}/api/data/cloud`)
       .then((res) => {
         if (!res.ok) {
-          return res.json().then(err => {
-            throw new Error(err.err || 'Failed to fetch CloudWatch metrics');
+          return res.json().then((err) => {
+            throw new Error(err.err || "Failed to fetch CloudWatch metrics");
           });
         }
         return res.json();
@@ -48,18 +49,18 @@ const CloudwatchContainer = () => {
         setError(null);
       })
       .catch((err) => {
-        console.error('CloudWatch metrics error:', err);
+        console.error("CloudWatch metrics error:", err);
         setError(err.message);
         setFunctionData([]);
       });
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/data/metrics")
+    fetch(`${import.meta.env.VITE_API_URL}/api/data/metrics`)
       .then((res) => {
         if (!res.ok) {
-          return res.json().then(err => {
-            throw new Error(err.err || 'Failed to fetch percentile metrics');
+          return res.json().then((err) => {
+            throw new Error(err.err || "Failed to fetch percentile metrics");
           });
         }
         return res.json();
@@ -69,7 +70,7 @@ const CloudwatchContainer = () => {
         setError(null);
       })
       .catch((err) => {
-        console.error('Percentile metrics error:', err);
+        console.error("Percentile metrics error:", err);
         setError(err.message);
         setPercentileData({});
       });
@@ -91,11 +92,7 @@ const CloudwatchContainer = () => {
     <div>
       <div className="dashboard-header-cw">
         <h1>CloudWatch Metrics</h1>
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
         {functionData.length > 0 ? (
           <select
             value={selectedFunction}
@@ -107,8 +104,8 @@ const CloudwatchContainer = () => {
               </option>
             ))}
           </select>
-        ) : !error && (
-          <div>Loading functions...</div>
+        ) : (
+          !error && <div>Loading functions...</div>
         )}
       </div>
       <div className="grid-container">

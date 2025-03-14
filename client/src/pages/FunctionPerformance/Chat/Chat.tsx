@@ -23,11 +23,14 @@ const ChatContainer = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8080/api/data/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/data/chat`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMessage }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -36,18 +39,21 @@ const ChatContainer = () => {
       const data = await response.json();
       setMessages((prevMessages) => [
         ...prevMessages,
-        { 
-          role: "assistant", 
-          content: data.result || "I'm sorry, I couldn't process your request. Please try again." 
+        {
+          role: "assistant",
+          content:
+            data.result ||
+            "I'm sorry, I couldn't process your request. Please try again.",
         },
       ]);
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { 
-          role: "assistant", 
-          content: "I apologize, but I encountered an error processing your request. Please try again or check your connection." 
+        {
+          role: "assistant",
+          content:
+            "I apologize, but I encountered an error processing your request. Please try again or check your connection.",
         },
       ]);
     } finally {
@@ -56,7 +62,7 @@ const ChatContainer = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !loading && input.trim() !== "") {
+    if (e.key === "Enter" && !loading && input.trim() !== "") {
       handleSendMessage();
     }
   };
@@ -88,7 +94,7 @@ const ChatContainer = () => {
           disabled={loading}
         />
         <button onClick={handleSendMessage} disabled={loading}>
-          {loading ? 'Sending...' : 'Send'}
+          {loading ? "Sending..." : "Send"}
         </button>
       </div>
     </div>
