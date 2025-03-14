@@ -9,46 +9,56 @@ export type Config = {
 };
 
 function ConfigPageContainer() {
-  const handleSaveConfig = (config: Required<Config>) => {
-    fetch("http://localhost:8080/api/config/save", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(config),
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert(`Configuration saved`);
-        } else {
-          alert("Error saving user information");
+  const handleSaveConfig = async (config: Required<Config>) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/config/save`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(config),
         }
-      })
-      .catch((err) => {
-        console.log("The following error occurred:", err);
-      });
+      );
+      if (response.ok) {
+        alert(`Configuration saved`);
+      } else {
+        alert("Error saving user information");
+      }
+    } catch (err) {
+      console.log("The following error occurred:", err);
+    }
   };
 
-  const handleSaveDatabase = () => {
-    fetch("http://localhost:8080/api/config/db", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          window.location.replace("http://localhost:3000/dash");
-        } else {
-          alert(
-            "Error connecting to database. Please check for valid URI input"
-          );
+  const handleSaveDatabase = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/config/db`,
+        {
+          method: "POST",
         }
-      })
-      .catch((err) => {
-        console.log("Error in handleDatabase: ", err);
-      });
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        window.location.replace(
+          `${import.meta.env.VITE_API_URL.replace("8080", "3000")}/dash`
+        );
+      } else {
+        alert(
+          data.message?.err ||
+            "Error connecting to database. Please check for valid URI input"
+        );
+      }
+    } catch (err) {
+      console.error("Error in handleDatabase: ", err);
+      alert(
+        "Failed to connect to database. Please check your connection and try again."
+      );
+    }
   };
+
   return (
     <div className="config-page-container">
       <h2>Configuration</h2>

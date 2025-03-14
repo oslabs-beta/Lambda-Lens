@@ -17,7 +17,7 @@ const DashboardContainer = () => {
   const [isClicked, setClicked] = useState(false);
 
   const fetchData = () => {
-    fetch("http://localhost:8080/api/data/req")
+    fetch(`${import.meta.env.VITE_API_URL}/api/data/req`)
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => {
