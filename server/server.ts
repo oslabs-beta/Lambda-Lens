@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import configRoutes from './routes/configRoutes';
 import dataRoutes from './routes/dataRoutes';
+import healthRoutes from './routes/healthRoutes';
+import chatRoutes from './routes/chatRoutes';
 import { AwsClientService } from './services/AwsClientService';
 
 // Load environment variables, but don't throw if .env is missing
@@ -35,15 +37,10 @@ try {
   console.error('Error initializing AWS configuration:', error);
 }
 
-app.use(
-  '/api/config',
-  configRoutes,
-  (_req: Request, res: Response, _next: NextFunction) => {
-    return res.status(200).json(res.locals.saved);
-  }
-);
-
-app.use('/data', dataRoutes);
+app.use('/api/config', configRoutes);
+app.use('/api/data', dataRoutes);
+app.use('/api/health', healthRoutes);
+app.use('/api/chat', chatRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello');
