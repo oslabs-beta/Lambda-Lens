@@ -42,9 +42,8 @@ function ConfigPageContainer() {
       const data = await response.json();
 
       if (response.ok) {
-        window.location.replace(
-          `${import.meta.env.VITE_API_URL.replace("8080", "3000")}/dash`
-        );
+        // Use window.location.origin to make it work in all environments
+        window.location.href = "/dash";
       } else {
         alert(
           data.message?.err ||

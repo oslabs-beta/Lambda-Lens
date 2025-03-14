@@ -8,4 +8,6 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: false,
   },
+  // Add base URL configuration for Vercel
+  base: "/",
 });

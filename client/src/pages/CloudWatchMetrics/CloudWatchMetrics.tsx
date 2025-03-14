@@ -56,7 +56,7 @@ const CloudwatchContainer = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/data/metrics")
+    fetch(`${import.meta.env.VITE_API_URL}/api/data/metrics`)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
