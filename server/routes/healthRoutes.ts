@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { databaseController } from '../controllers/DatabaseController';
+import { databaseController } from '../controllers/databaseController';
 
 const healthRouter = Router();
 
