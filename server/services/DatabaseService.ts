@@ -1,4 +1,4 @@
-import visData from '../models/visDataModel';
+import visData from '../models/lambdaMetrics';
 import { getAwsConfig } from '../configs/awsconfig';
 import { RawMetricsData, ProcessedMetricsResult } from '../types/metrics';
 import mongoose from 'mongoose';

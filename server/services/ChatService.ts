@@ -1,5 +1,5 @@
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
-import ConversationModel from '../models/ConversationModel';
+import ConversationModel from '../models/chatConversation';
 import { AwsClientService } from './AwsClientService';
 
 class ChatServiceError extends Error {
