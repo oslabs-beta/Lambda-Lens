@@ -22,7 +22,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? "https://lambda-lens.vercel.app/" // Replace with your actual frontend URL
+        ? "https://lambda-lens.vercel.app" // Replace with your actual frontend URL
         : "http://localhost:3000",
     credentials: true,
   })
