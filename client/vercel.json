@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-render-backend-url.onrender.com/api/:path*"
+      "destination": "https://lambda-lens.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
