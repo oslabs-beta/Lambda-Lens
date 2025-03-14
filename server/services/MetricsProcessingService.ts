@@ -1,6 +1,6 @@
 import { CloudWatchClient, GetMetricDataCommand, GetMetricDataCommandOutput } from '@aws-sdk/client-cloudwatch';
 import { CloudWatchLogsClient, DescribeLogStreamsCommand, GetLogEventsCommand } from '@aws-sdk/client-cloudwatch-logs';
-import { FormattedLog } from '../types';
+import { FormattedLog } from '../types/metrics';
 import { AwsClientService } from './AwsClientService';
 import { MetricsValidator } from '../utils/validators';
 
@@ -154,21 +154,28 @@ export class MetricsProcessingService {
       .toLocaleString('en-US', { timeZone: 'UTC' })
       .split(', ');
 
-    const currentFormattedLog: FormattedLog = {
+    const formattedLog: FormattedLog = {
       Date: formattedDate[0],
       Time: formattedDate[1],
       FunctionName: functionName,
+      duration: '0',  
+      BilledDuration: '0',
+      MaxMemUsed: '0'
     };
 
     const parts = log.message.split(/\s+/);
     parts.forEach((part, index) => {
+      if (part === 'Duration:')
+        formattedLog.duration = parts[index + 1];
       if (part === 'Billed')
-        currentFormattedLog.BilledDuration = parts[index + 2];
-      if (part === 'Init') currentFormattedLog.InitDuration = parts[index + 2];
-      if (part === 'Max') currentFormattedLog.MaxMemUsed = parts[index + 3];
+        formattedLog.BilledDuration = parts[index + 2];
+      if (part === 'Init')
+        formattedLog.InitDuration = parts[index + 2];
+      if (part === 'Max')
+        formattedLog.MaxMemUsed = parts[index + 3];
     });
 
-    return currentFormattedLog;
+    return formattedLog;
   }
 
   private async fetchLogStream(client: CloudWatchLogsClient, functionName: string, stream: any) {

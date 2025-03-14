@@ -23,7 +23,7 @@ const ChatContainer = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8080/data/chat", {
+      const response = await fetch("http://localhost:8080/api/data/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage }),

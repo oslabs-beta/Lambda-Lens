@@ -1,4 +1,4 @@
-import visData from '../models/visDataModel';
+import visData from '../models/lambdaMetrics';
 import { getAwsConfig } from '../configs/awsconfig';
 import { RawMetricsData, ProcessedMetricsResult } from '../types/metrics';
 import mongoose from 'mongoose';
@@ -33,27 +33,24 @@ export class DatabaseService {
         throw new DatabaseServiceError(`Invalid logs data for function ${func.functionName}`);
       }
 
-      let totalStarts = func.logs.length + 1;
-      let billed = 0;
-      let cold = 0;
+      let totalStarts = func.logs.length;
+      let totalBilledDuration = 0;
+      let coldStarts = 0;
 
       for (const log of func.logs) {
-        const billedDuration = parseInt(log.BilledDuration, 10);
-        if (isNaN(billedDuration)) {
-          throw new DatabaseServiceError(`Invalid billed duration in logs for function ${func.functionName}`);
-        }
-        billed += billedDuration;
-        if (log.InitDuration) cold++;
+        totalBilledDuration += parseFloat(log.BilledDuration);
+        if (log.InitDuration !== undefined) coldStarts++;
       }
 
-      const percentCold = totalStarts > 0 ? (cold / totalStarts) * 100 : 0;
+      const avgBilledDur = totalStarts > 0 ? totalBilledDuration / totalStarts : 0;
+      const percentColdStarts = totalStarts > 0 ? (coldStarts / totalStarts) * 100 : 0;
 
       return {
+        region,
         functionName: func.functionName,
-        avgBilledDur: billed,
-        numColdStarts: cold,
-        percentColdStarts: percentCold,
-        region
+        avgBilledDur,
+        numColdStarts: coldStarts,
+        percentColdStarts
       };
     });
   }

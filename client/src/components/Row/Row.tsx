@@ -14,9 +14,9 @@ const RowComponent = ({
   return (
     <div className="table-row">
       <div>{functionName}</div>
-      <div>{avgBilledDur} ms</div>
+      <div>{avgBilledDur.toFixed(2)} ms</div>
       <div>{coldStarts}</div>
-      <div>{percentage}%</div>
+      <div>{percentage.toFixed(1)}%</div>
     </div>
   );
 };

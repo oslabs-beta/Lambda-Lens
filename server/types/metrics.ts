@@ -1,9 +1,10 @@
 import { Document } from 'mongoose';
 
-export interface LogEntry {
+export interface FormattedLog {
   Date: string;
   Time: string;
   FunctionName: string;
+  duration: string;
   BilledDuration: string;
   InitDuration?: string;
   MaxMemUsed: string;
@@ -11,7 +12,7 @@ export interface LogEntry {
 
 export interface RawMetricsData {
   functionName: string;
-  logs: LogEntry[];
+  logs: FormattedLog[];
 }
 
 export interface ProcessedMetricsResult {

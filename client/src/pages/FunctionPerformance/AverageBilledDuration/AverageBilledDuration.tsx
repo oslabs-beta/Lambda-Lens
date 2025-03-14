@@ -11,7 +11,7 @@ const AvgBilledDurGraph = ({ data }: Props) => {
     datasets: [
       {
         label: 'Average Billed Duration (ms)',
-        data: data.map(fn => fn.avgBilledDur),
+        data: data.map(fn => Number(fn.avgBilledDur.toFixed(2))),
         backgroundColor: '#447A90',
         borderRadius: 2,
         hoverBackgroundColor: '#62ACCC'

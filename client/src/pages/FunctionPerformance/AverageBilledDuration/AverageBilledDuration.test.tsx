@@ -23,8 +23,8 @@ jest.mock("react-chartjs-2", () => {
 describe("AvgBilledDurGraph", () => {
   // Sample data for testing the component
   const sampleData = [
-    { functionName: "functionA", avgBilledDur: 120 },
-    { functionName: "functionB", avgBilledDur: 240 },
+    { functionName: "functionA", avgBilledDur: 120.123 },
+    { functionName: "functionB", avgBilledDur: 240.456 },
   ];
 
   // Verify that the header text and chart container are rendered correctly
@@ -49,7 +49,7 @@ describe("AvgBilledDurGraph", () => {
 
     // Validate that the labels and dataset values are structured as expected
     expect(props.data.labels).toEqual(["functionA", "functionB"]);
-    expect(props.data.datasets[0].data).toEqual([120, 240]);
+    expect(props.data.datasets[0].data).toEqual([120.12, 240.46]);
 
     // Validate that chart options are correctly set
     expect(props.options.indexAxis).toBe("y");

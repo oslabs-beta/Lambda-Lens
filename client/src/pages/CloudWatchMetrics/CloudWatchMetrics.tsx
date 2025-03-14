@@ -31,7 +31,7 @@ const CloudwatchContainer = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/data/cloud")
+    fetch("http://localhost:8080/api/data/cloud")
       .then((res) => {
         if (!res.ok) {
           return res.json().then(err => {
@@ -55,7 +55,7 @@ const CloudwatchContainer = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8080/data/metrics")
+    fetch("http://localhost:8080/api/data/metrics")
       .then((res) => {
         if (!res.ok) {
           return res.json().then(err => {
