@@ -13,7 +13,38 @@
   --light-text-sec: #444444;
 }
 
-/* Define component classes without @apply */
+/* Preserve existing styles using @layer base */
+@layer base {
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-self: flex-start;
+    font-weight: 500;
+    font-size: 32px;
+  }
+
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+  }
+  
+  /* Preserve dark mode styles */
+  body.darkmode .header-row {
+    color: #a2a2a2;
+  }
+  
+  body.darkmode .table-row {
+    color: #ffffff;
+    background-color: #363636;
+  }
+  
+  body.darkmode .table-row:hover {
+    background-color: #a2a2a2;
+  }
+}
+
+/* Define component classes */
 @layer components {
   .btn-primary {
     background-color: #447A90;
@@ -26,5 +57,39 @@
   }
   .btn-primary:disabled {
     opacity: 0.5;
+  }
+  
+  /* Add table styles to prevent Tailwind from breaking them */
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 12px 16px;
+    align-items: center;
+    background-color: #e1e1e1;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-row:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .header-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 12px 16px;
+    align-items: center;
+    font-weight: bold;
+    color: #646464;
+  }
+  
+  .chart-wrapper {
+    background-color: #e1e1e1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
   }
 }
