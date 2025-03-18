@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Keep your existing CSS variables */
+:root {
+  --primary-color: #447A90;
+  --primary-hover: #62ACCC;
+  --dark-cont-m: #2b2b2b;
+  --dark-text-prim: #e0e0e0;
+  --light-cont-s: #ffffff;
+  --light-text-prim: #000000;
+  --light-text-sec: #444444;
+}
+
+/* Define component classes without @apply */
+@layer components {
+  .btn-primary {
+    background-color: #447A90;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+  }
+  .btn-primary:hover {
+    background-color: #62ACCC;
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+  }
+}
