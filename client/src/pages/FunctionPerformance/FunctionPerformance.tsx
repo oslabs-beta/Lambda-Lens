@@ -40,37 +40,34 @@ const DashboardContainer = () => {
     .slice(0, 5);
 
   return (
-    <div>
-      {/* Quadrant 1 */}
-      <div className="dashboard-header-cw">
-        <h1>Function Performance</h1>
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Function Performance</h1>
         <button
-          className={`refresh-button ${isClicked ? "clicked" : ""}`}
+          className={`w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors ${
+            isClicked ? "bg-blue-500 text-white border-blue-500" : ""
+          }`}
           onClick={handleRefresh}
           aria-label="Refresh"
         >
           &#x21bb;
         </button>
       </div>
-      <div className="grid-container">
-        <div className="component-box-cw">
+      <div className="grid grid-cols-2 gap-5 auto-rows-fr">
+        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
           <AvgBilledDurGraph data={sortedData} />
         </div>
-
-        {/* Quadrant 2 */}
-        <div className="component-box-cw">
+        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
           <ColdStartsMetricsContainer data={sortedData} />
         </div>
-
-        {/* Quadrant 3 */}
-        <div className="component-box-cw">
+        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
           <ColdStartsGraphComponent data={sortedData} />
         </div>
-
-        {/* Quadrant 4 */}
-        <div className="component-box-cw">
-          <h2>Bedrock Analysis</h2>
-          <ChatContainer />
+        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Bedrock Analysis</h2>
+          <div className="h-[calc(100%-2rem)]">
+            <ChatContainer />
+          </div>
         </div>
       </div>
     </div>

@@ -42,19 +42,15 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
         },
       },
     },
+    maintainAspectRatio: false,
   };
 
   return (
-    <div>
-      <h2>Total Cold Starts</h2>
-
-      <Doughnut
-        data={chartData}
-        options={options}
-        className="pie"
-        width={20}
-        height={20}
-      />
+    <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Total Cold Starts</h2>
+      <div className="flex-1 min-h-0">
+        <Doughnut data={chartData} options={options} className="w-full h-full" />
+      </div>
     </div>
   );
 };
