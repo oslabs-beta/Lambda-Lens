@@ -1,5 +1,4 @@
 import { Doughnut } from "react-chartjs-2";
-import "../../../styles/Graphs.css";
 
 interface FunctionData {
   functionName: string;
@@ -35,26 +34,27 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
   const options = {
     plugins: {
       legend: {
-        display: true,
         position: "left" as const,
         labels: {
-          color: "#A2A2A2",
+          color: "#646464",
+          padding: 16,
+          font: {
+            size: 12,
+          },
         },
       },
     },
+    maintainAspectRatio: false,
   };
 
   return (
-    <div>
-      <h2>Total Cold Starts</h2>
-
-      <Doughnut
-        data={chartData}
-        options={options}
-        className="pie"
-        width={20}
-        height={20}
-      />
+    <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Total Cold Starts</h2>
+      <div className="flex-1 min-h-0">
+        <div className="bg-[#e1e1e1] dark:bg-[#2a2a2a] rounded-lg p-4 shadow-sm transition-colors">
+          <Doughnut data={chartData} options={options} className="w-full h-full" />
+        </div>
+      </div>
     </div>
   );
 };

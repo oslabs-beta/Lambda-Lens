@@ -1,53 +1,59 @@
-import { Bar } from 'react-chartjs-2';
-import '../../../styles/Graphs.css';
+import { Bar } from "react-chartjs-2";
+
+interface FunctionData {
+  functionName: string;
+  avgBilledDur: number;
+}
 
 interface Props {
-  data: { functionName: string; avgBilledDur: number}[];
+  data: FunctionData[];
 }
 
 const AvgBilledDurGraph = ({ data }: Props) => {
   const chartData = {
-    labels: data.map(fn => fn.functionName),
+    labels: data.map((fn) => fn.functionName),
     datasets: [
       {
-        label: 'Average Billed Duration (ms)',
-        data: data.map(fn => Number(fn.avgBilledDur.toFixed(2))),
-        backgroundColor: '#447A90',
-        borderRadius: 2,
-        hoverBackgroundColor: '#62ACCC'
+        label: "Average Billed Duration",
+        data: data.map((fn) => fn.avgBilledDur),
+        backgroundColor: [
+          "#437990",
+          "#4c88a1",
+          "#5796af",
+          "#68a0b7",
+          "#79abc0",
+          "#8bb6c8",
+          "#9cc1d0",
+          "#adccd8",
+          "#bfd7e0",
+          "#d0e1e9",
+        ],
+        borderRadius: 4,
       },
     ],
   };
 
   const options = {
-    indexAxis: 'y' as const,
+    indexAxis: "y" as const,
     scales: {
       x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: '#A2A2A2',
-          display: true,
-        },
         title: {
           display: true,
-          text: 'Milliseconds',
-          color: '#A2A2A2',
+          text: "Duration (ms)",
+          color: "#646464",
+        },
+        grid: {
+          display: false,
         },
       },
       y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          padding: 10,
-          color: '#A2A2A2',
-        },
         title: {
           display: true,
-          text: 'Function Name',
-          color: '#A2A2A2',
+          text: "Function Name",
+          color: "#646464",
+        },
+        grid: {
+          display: false,
         },
       },
     },
@@ -59,13 +65,17 @@ const AvgBilledDurGraph = ({ data }: Props) => {
   };
 
   return (
-    <div>
-      <h2>Average Billed Duration (ms)</h2>
-      <div className='chart-wrapper'>
-        <Bar data={chartData} options={options}/>
+    <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">
+        Average Billed Duration
+      </h2>
+      <div className="flex-1 min-h-0">
+        <div className="bg-[#e1e1e1] dark:bg-[#2a2a2a] rounded-lg p-4 shadow-sm transition-colors">
+          <Bar data={chartData} options={options} className="w-full h-full" />
+        </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default AvgBilledDurGraph;

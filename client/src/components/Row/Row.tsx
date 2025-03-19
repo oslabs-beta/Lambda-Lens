@@ -1,5 +1,3 @@
-import "../../styles/Graphs.css";
-
 const RowComponent = ({
   functionName,
   avgBilledDur,
@@ -12,7 +10,7 @@ const RowComponent = ({
   percentage: number;
 }) => {
   return (
-    <div className="table-row">
+    <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5 py-3 px-4 items-center bg-[#e1e1e1] dark:bg-[#2a2a2a] hover:bg-[#d1d1d1] dark:hover:bg-[#404040] rounded-lg text-[#161616] dark:text-white transition-colors">
       <div>{functionName}</div>
       <div>{avgBilledDur.toFixed(2)} ms</div>
       <div>{coldStarts}</div>

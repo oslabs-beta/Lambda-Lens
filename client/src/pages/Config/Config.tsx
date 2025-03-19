@@ -1,5 +1,4 @@
 import ConfigForm from "./ConfigForm/ConfigForm";
-import "./Config.css";
 
 export type Config = {
   awsAccessKeyID: string;
@@ -42,7 +41,6 @@ function ConfigPageContainer() {
       const data = await response.json();
 
       if (response.ok) {
-        // Use window.location.origin to make it work in all environments
         window.location.href = "/dash";
       } else {
         alert(
@@ -59,9 +57,9 @@ function ConfigPageContainer() {
   };
 
   return (
-    <div className="config-page-container">
-      <h2>Configuration</h2>
-      <div className="config-component">
+    <div className="flex flex-col p-5 rounded font-sans">
+      <h2 className="text-4xl font-normal mb-5 pl-5 self-start text-light-text-prim dark:text-dark-text-prim">Configuration</h2>
+      <div className="flex flex-col items-center">
         <ConfigForm onSave={handleSaveConfig} onDatabase={handleSaveDatabase} />
       </div>
     </div>

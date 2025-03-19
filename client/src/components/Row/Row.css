@@ -16,10 +16,10 @@
 
 body.darkmode .table-row {
   color: #ffffff;
-  background-color: #363636;
+  background-color: #2a2a2a;
 }
 
 body.darkmode .table-row:hover {
-  background-color: #a2a2a2;
+  background-color: #404040;
 }
 
