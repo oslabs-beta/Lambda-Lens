@@ -39,7 +39,7 @@ const DashboardContainer = () => {
     .slice(0, 5);
 
   return (
-    <div className="p-6 bg-[#ffffff] dark:bg-[#2a2a2a] transition-colors">
+    <div className="p-6 bg-[#ffffff] dark:bg-[#1e1e1e] transition-colors">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-[#161616] dark:text-white">Function Performance</h1>
         <button
