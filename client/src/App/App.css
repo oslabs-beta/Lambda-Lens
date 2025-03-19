@@ -9,7 +9,7 @@
   --light-text-prim: #161616;
   --light-text-sec: #646464;
   /* dark mode colors */
-  --dark-cont-l: #161616;
+  --dark-cont-l: #1e1e1e;
   --dark-cont-m: #2a2a2a;
   --dark-cont-s: #363636;
   --dark-text-prim: #ffffff;
@@ -22,22 +22,16 @@
 /* Basic body and root styles */
 body {
   background-color: var(--light-cont-l);
-}
-
-body.darkmode body {
-  background-color: var(--dark-cont-l);
+  min-height: 100vh;
 }
 
 #root {
-  background-color: var(--light-cont-l);
-}
-
-body.darkmode #root {
-  background-color: var(--dark-cont-l);
+  background-color: transparent;
+  min-height: 100vh;
 }
 
 /* Global dark mode styles */
 body.darkmode {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+  background-color: var(--dark-cont-l);
+  color: var(--dark-text-prim);
 }

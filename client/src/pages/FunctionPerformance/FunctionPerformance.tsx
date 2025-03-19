@@ -43,13 +43,13 @@ const DashboardContainer = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-[#161616] dark:text-white">Function Performance</h1>
         <button
-          className={`w-8 h-8 rounded-full border border-[#e1e1e1] dark:border-[#363636] bg-[#f3f3f3] dark:bg-[#363636] hover:bg-[#e1e1e1] dark:hover:bg-[#404040] transition-colors ${
-            isClicked ? "bg-[#447A90] dark:bg-[#447A90] text-white border-[#447A90]" : ""
+          className={`flex items-center justify-center w-10 h-10 rounded-lg bg-[#f3f3f3] dark:bg-[#363636] hover:bg-[#e1e1e1] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] focus:outline-none focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] shadow-sm transition-all ${
+            isClicked ? "bg-[#447A90] dark:bg-[#447A90] hover:bg-[#447A90] dark:hover:bg-[#447A90] text-white dark:text-white transform scale-95" : ""
           }`}
           onClick={handleRefresh}
-          aria-label="Refresh"
+          aria-label="Refresh data"
         >
-          &#x21bb;
+          <span className="text-xl leading-none select-none">↻</span>
         </button>
       </div>
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
