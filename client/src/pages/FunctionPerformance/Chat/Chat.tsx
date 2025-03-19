@@ -68,7 +68,7 @@ const ChatContainer = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto space-y-2 rounded-lg bg-[#f3f3f3] dark:bg-[#363636] p-3 transition-colors">
+      <div className="flex-1 overflow-y-auto space-y-2 bg-[#f3f3f3] dark:bg-[#363636] p-3 rounded-lg transition-colors">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -107,12 +107,12 @@ const ChatContainer = () => {
           onKeyPress={handleKeyPress}
           placeholder="Type your message here..."
           disabled={loading}
-          className="flex-1 p-2 border border-[#e1e1e1] dark:border-[#404040] rounded-lg bg-white dark:bg-[#363636] text-[#161616] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors"
+          className="flex-1 p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#2a2a2a] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors"
         />
         <button
           onClick={handleSendMessage}
           disabled={loading}
-          className="px-4 py-2 bg-[#447A90] hover:bg-[#62ACCC] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2 bg-[#447A90] hover:bg-[#62ACCC] text-white rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
         >
           {loading ? "Sending..." : "Send"}
         </button>
