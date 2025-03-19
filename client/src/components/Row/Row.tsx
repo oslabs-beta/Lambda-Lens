@@ -10,7 +10,7 @@ const RowComponent = ({
   percentage: number;
 }) => {
   return (
-    <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5 py-3 px-4 items-center bg-gray-200 dark:bg-gray-700 rounded-lg mb-2.5 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white transition-colors">
+    <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5 py-3 px-4 items-center bg-[#e1e1e1] dark:bg-[#363636] hover:bg-[#d1d1d1] dark:hover:bg-[#404040] rounded-lg text-[#161616] dark:text-white transition-colors">
       <div>{functionName}</div>
       <div>{avgBilledDur.toFixed(2)} ms</div>
       <div>{coldStarts}</div>

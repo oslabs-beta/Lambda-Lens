@@ -14,9 +14,9 @@ interface Props {
 const ColdStartsMetricsContainer = ({ data }: Props) => {
   return (
     <div className="flex flex-col">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Cold Start Performance Metrics</h2>
+      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Cold Start Performance Metrics</h2>
       <div className="flex flex-col">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5 px-4 py-2.5 bg-gray-300/50 dark:bg-gray-600/50 text-gray-700 dark:text-gray-300 text-sm tracking-wide">
+        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5 px-4 py-2.5 bg-[#e1e1e1] dark:bg-[#363636] text-[#646464] dark:text-[#a2a2a2] text-sm tracking-wide transition-colors">
           <div>Function Name</div>
           <div>Average Duration</div>
           <div># Cold Starts</div>

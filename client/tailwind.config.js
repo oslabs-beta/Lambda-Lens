@@ -21,7 +21,7 @@ export default {
       }
     },
   },
-  darkMode: 'class',
+  darkMode: 'selector',
   plugins: [],
   corePlugins: {
     preflight: false, // Disable Tailwind's base styles reset

@@ -3,7 +3,6 @@ import ColdStartsGraphComponent from "./ColdStart/ColdStart";
 import ColdStartsMetricsContainer from "./ColdStartMetrics/ColdStartMetrics";
 import AvgBilledDurGraph from "./AverageBilledDuration/AverageBilledDuration";
 import ChatContainer from "./Chat/Chat";
-import "../../styles/Graphs.css";
 
 interface FunctionData {
   functionName: string;
@@ -40,12 +39,12 @@ const DashboardContainer = () => {
     .slice(0, 5);
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-[#ffffff] dark:bg-[#2a2a2a] transition-colors">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Function Performance</h1>
+        <h1 className="text-2xl font-bold text-[#161616] dark:text-white">Function Performance</h1>
         <button
-          className={`w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors ${
-            isClicked ? "bg-blue-500 text-white border-blue-500" : ""
+          className={`w-8 h-8 rounded-full border border-[#e1e1e1] dark:border-[#363636] bg-[#f3f3f3] dark:bg-[#363636] hover:bg-[#e1e1e1] dark:hover:bg-[#404040] transition-colors ${
+            isClicked ? "bg-[#447A90] dark:bg-[#447A90] text-white border-[#447A90]" : ""
           }`}
           onClick={handleRefresh}
           aria-label="Refresh"
@@ -54,17 +53,17 @@ const DashboardContainer = () => {
         </button>
       </div>
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
-        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
           <AvgBilledDurGraph data={sortedData} />
         </div>
-        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
           <ColdStartsMetricsContainer data={sortedData} />
         </div>
-        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
           <ColdStartsGraphComponent data={sortedData} />
         </div>
-        <div className="flex-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Bedrock Analysis</h2>
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+          <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Bedrock Analysis</h2>
           <div className="h-[calc(100%-2rem)]">
             <ChatContainer />
           </div>
