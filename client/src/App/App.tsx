@@ -9,7 +9,7 @@ import "../utils/chartSetup";
 function App() {
   return (
     <Router>
-      <div>
+      <div className="min-h-screen bg-light-cont-l dark:bg-dark-cont-l text-light-text-prim dark:text-dark-text-prim">
         <NavbarComponent />
         <Routes>
           <Route path="/" element={<ConfigPageContainer />} />
