@@ -18,12 +18,15 @@ export default {
           'text-prim': '#000000',
           'text-sec': '#444444'
         }
-      }
+      },
+      fontFamily: {
+        sans: ['Helvetica', 'Arial', 'sans-serif'],
+      },
     },
   },
   darkMode: 'selector',
   plugins: [],
   corePlugins: {
-    preflight: false, // Disable Tailwind's base styles reset
+    preflight: true,
   }
 }

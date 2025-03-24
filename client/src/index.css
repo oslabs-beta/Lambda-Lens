@@ -3,13 +3,5 @@
 @tailwind utilities;
 
 
-/* Preserve existing styles using @layer base */
-@layer base {
 
-  body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: #ffffff;
-  }
-  
-}
 
