@@ -116,19 +116,19 @@ const CloudwatchContainer = () => {
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
         {filteredData && (
           <>
-            <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
+            <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
               <ConcurrExecComponent data={filteredData} />
             </div>
-            <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
+            <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
               <ThrottleComponent data={filteredData} />
             </div>
-            <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
+            <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
               <TotalDurationComponent data={filteredData} />
             </div>
           </>
         )}
         {filteredPercentileData && (
-          <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
+          <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
             <PercentileLatencyComponent data={filteredPercentileData} />
           </div>
         )}

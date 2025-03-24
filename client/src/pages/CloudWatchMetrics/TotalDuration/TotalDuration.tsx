@@ -60,6 +60,7 @@ const TotalDurationComponent = ({ data }: Props) => {
         },
       },
     },
+    maintainAspectRatio: false,  
   };
 
   return (
