@@ -68,7 +68,8 @@ const ChatContainer = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto space-y-2 bg-[#e1e1e1] dark:bg-[#2a2a2a] p-3 rounded-lg transition-colors">
+      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Bedrock Analysis</h2>
+      <div className="flex-1 overflow-y-auto space-y-2 bg-[#e1e1e1] dark:bg-[#363636] p-3 rounded-lg transition-colors">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -107,7 +108,7 @@ const ChatContainer = () => {
           onKeyPress={handleKeyPress}
           placeholder="Type your message here..."
           disabled={loading}
-          className="flex-1 p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#2a2a2a] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors"
+          className="flex-1 p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors"
         />
         <button
           onClick={handleSendMessage}

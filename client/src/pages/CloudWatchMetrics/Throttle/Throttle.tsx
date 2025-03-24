@@ -1,5 +1,4 @@
 import { Line } from 'react-chartjs-2';
-import "../../../styles/Graphs.css";
 
 interface Props {
   data: {
@@ -72,11 +71,15 @@ const ThrottleComponent = ({ data }: Props) => {
   };
 
   return (
-    <div>
-      <h2>Total Number of Throttles (5min period)</h2>
-      <Line data={chartData} options={options} className='line'/>
+    <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Total Number of Throttles (5min period)</h2>
+      <div className="flex-1 min-h-0">
+        <div className="bg-[#e1e1e1] dark:bg-[#363636] rounded-lg p-4 shadow-sm transition-colors">
+          <Line data={chartData} options={options} className="w-full h-full" />
+        </div>
+      </div>
     </div>
-  )
+  );
 };
 
 export default ThrottleComponent;

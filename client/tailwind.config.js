@@ -7,23 +7,42 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Element colors
+        'element-h': '#62ACCC',
+        'element-s': '#447A90',
+        
+        // Light mode colors
+        'light-cont-l': '#ffffff',
+        'light-cont-m': '#f3f3f3',
+        'light-cont-s': '#e1e1e1',
+        'light-text-prim': '#161616',
+        'light-text-sec': '#646464',
+        
+        // Dark mode colors
+        'dark-cont-l': '#1e1e1e',
+        'dark-cont-m': '#2a2a2a',
+        'dark-cont-s': '#363636',
+        'dark-text-prim': '#ffffff',
+        'dark-text-sec': '#a2a2a2',
+        
+        // Misc
+        'error': '#d25d23',
+        
+        // Existing colors
         primary: '#447A90',
         'primary-hover': '#62ACCC',
-        dark: {
-          'cont-m': '#2b2b2b',
-          'text-prim': '#e0e0e0'
-        },
-        light: {
-          'cont-s': '#ffffff',
-          'text-prim': '#000000',
-          'text-sec': '#444444'
-        }
-      }
+      },
+      fontFamily: {
+        sans: ['Helvetica', 'Arial', 'sans-serif'],
+      },
+      boxShadow: {
+        'mui-2': '0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.08)',
+      },
     },
   },
   darkMode: 'selector',
   plugins: [],
   corePlugins: {
-    preflight: false, // Disable Tailwind's base styles reset
+    preflight: true,
   }
 }

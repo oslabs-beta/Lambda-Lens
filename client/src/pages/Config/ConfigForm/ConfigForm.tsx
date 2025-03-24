@@ -28,11 +28,11 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
     onDatabase();
   };
 
-  const inputClasses = "p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#2a2a2a] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors";
+  const inputClasses = "p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors";
   const errorClasses = "text-left text-red-500 text-xs pl-2.5 relative before:content-['⚠_'] before:inline-block before:text-red-500 before:mr-1";
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-[700px] max-w-full bg-[#f3f3f3] dark:bg-[#363636] p-6 rounded-lg shadow-md font-sans">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-[700px] max-w-full bg-[#f3f3f3] dark:bg-[#2a2a2a] p-6 rounded-lg shadow-md font-sans">
       <div className="space-y-4">
         <div className="flex flex-col gap-1.5">
           <input

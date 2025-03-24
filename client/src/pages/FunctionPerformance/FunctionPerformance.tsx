@@ -53,20 +53,17 @@ const DashboardContainer = () => {
         </button>
       </div>
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
-        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
           <AvgBilledDurGraph data={sortedData} />
         </div>
-        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
           <ColdStartsMetricsContainer data={sortedData} />
         </div>
-        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
           <ColdStartsGraphComponent data={sortedData} />
         </div>
-        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
-          <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Bedrock Analysis</h2>
-          <div className="h-[calc(100%-2rem)]">
-            <ChatContainer />
-          </div>
+        <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+          <ChatContainer />
         </div>
       </div>
     </div>
