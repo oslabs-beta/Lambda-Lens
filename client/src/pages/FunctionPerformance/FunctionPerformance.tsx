@@ -63,10 +63,7 @@ const DashboardContainer = () => {
           <ColdStartsGraphComponent data={sortedData} />
         </div>
         <div className="flex-1 bg-[#f3f3f3] dark:bg-[#363636] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
-          <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Bedrock Analysis</h2>
-          <div className="h-[calc(100%-2rem)]">
-            <ChatContainer />
-          </div>
+          <ChatContainer />
         </div>
       </div>
     </div>

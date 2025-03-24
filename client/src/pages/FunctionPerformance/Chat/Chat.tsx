@@ -68,6 +68,7 @@ const ChatContainer = () => {
 
   return (
     <div className="flex flex-col h-full">
+      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Bedrock Analysis</h2>
       <div className="flex-1 overflow-y-auto space-y-2 bg-[#e1e1e1] dark:bg-[#2a2a2a] p-3 rounded-lg transition-colors">
         {messages.map((msg, index) => (
           <div

@@ -5,14 +5,6 @@
 
 /* Preserve existing styles using @layer base */
 @layer base {
-  h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    display: flex;
-    align-self: flex-start;
-    font-weight: 500;
-    font-size: 32px;
-  }
 
   body {
     font-family: Helvetica, Arial, sans-serif;
