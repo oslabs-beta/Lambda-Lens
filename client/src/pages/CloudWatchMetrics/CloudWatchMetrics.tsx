@@ -89,14 +89,19 @@ const CloudwatchContainer = () => {
   }, [selectedFunction, functionData, percentileData]);
 
   return (
-    <div>
-      <div className="dashboard-header-cw">
-        <h1>CloudWatch Metrics</h1>
-        {error && <div className="error-message">{error}</div>}
+    <div className="p-6">
+      <div className="flex items-center gap-4 mb-6">
+        <h1 className="text-4xl font-normal text-[#161616] dark:text-white">CloudWatch Metrics</h1>
+        {error && (
+          <div className="text-sm text-[#dc3545] bg-[#f8d7da] dark:bg-[#2f1c1e] border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
+            {error}
+          </div>
+        )}
         {functionData.length > 0 ? (
           <select
             value={selectedFunction}
             onChange={(e) => setSelectedFunction(e.target.value)}
+            className="rounded-lg px-2 py-2 bg-[#e1e1e1] dark:bg-[#363636] text-[#161616] dark:text-white border-0"
           >
             {functionData.map((func) => (
               <option key={func.functionName} value={func.functionName}>
@@ -105,25 +110,25 @@ const CloudwatchContainer = () => {
             ))}
           </select>
         ) : (
-          !error && <div>Loading functions...</div>
+          !error && <div className="text-[#161616] dark:text-white">Loading functions...</div>
         )}
       </div>
-      <div className="grid-container">
+      <div className="grid grid-cols-2 gap-5 auto-rows-fr">
         {filteredData && (
           <>
-            <div className="component-box-cw">
+            <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
               <ConcurrExecComponent data={filteredData} />
             </div>
-            <div className="component-box-cw">
+            <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
               <ThrottleComponent data={filteredData} />
             </div>
-            <div className="component-box-cw">
+            <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
               <TotalDurationComponent data={filteredData} />
             </div>
           </>
         )}
         {filteredPercentileData && (
-          <div className="component-box-cw">
+          <div className="bg-[#f3f3f3] dark:bg-[#2a2a2a] p-4 rounded-lg shadow-sm">
             <PercentileLatencyComponent data={filteredPercentileData} />
           </div>
         )}
