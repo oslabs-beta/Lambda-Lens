@@ -1,7 +1,7 @@
 import { screen, waitFor, act } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
 import { customRender } from "../../utils/test-utils";
-import CloudwatchContainer from "./CloudWatchMetrics";
+import CloudwatchContainer from "./FunctionAnalytics";
 
 // The following mocks replace the actual chart components with simple divs.
 // This prevents canvas/rendering issues during tests and lets us focus on the logic.

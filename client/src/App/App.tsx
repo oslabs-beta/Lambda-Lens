@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashboardContainer from "../pages/PerformanceOverview/PerformanceOverview";
-import CloudwatchContainer from "../pages/CloudWatchMetrics/CloudWatchMetrics";
+import CloudwatchContainer from "../pages/FunctionAnalytics/FunctionAnalytics";
 import NavbarComponent from "../components/Navbar/Navbar";
 import ConfigPageContainer from "../pages/Config/Config";
 import ChatContainer from "../pages/PerformanceOverview/Chat/Chat";
