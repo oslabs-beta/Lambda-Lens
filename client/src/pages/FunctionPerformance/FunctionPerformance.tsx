@@ -45,7 +45,7 @@ const DashboardContainer = () => {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
-                Function Performance
+                Performance Overview
               </h1>
               <p className="mt-1 text-sm text-light-text-sec dark:text-dark-text-sec">
                 Monitor cold starts and billed duration, across all your Lambda functions.

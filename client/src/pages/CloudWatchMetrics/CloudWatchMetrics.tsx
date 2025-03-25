@@ -93,7 +93,7 @@ const CloudwatchContainer = () => {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
-                CloudWatch Metrics
+                Function Analytics
               </h1>
               <p className="mt-1 text-sm text-light-text-sec dark:text-dark-text-sec">
                 Visualize execution, throttle, and latency data for individual Lambda functions.

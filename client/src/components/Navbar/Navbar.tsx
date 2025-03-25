@@ -70,10 +70,10 @@ const NavbarComponent: React.FC = () => {
       <div className="flex-grow flex justify-end">
         <ul className="flex items-center gap-5 list-none m-0 p-0">
           <li>
-            <Link to="/dash" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Function Performance</Link>
+            <Link to="/dash" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Performance Overview</Link>
           </li>
           <li>
-            <Link to="/cloudwatchmetrics" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">CloudWatch Metrics</Link>
+            <Link to="/cloudwatchmetrics" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Function Analytics</Link>
           </li>
           <li>
             <Link to="/" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Configuration</Link>
