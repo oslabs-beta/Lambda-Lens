@@ -88,33 +88,41 @@ const CloudwatchContainer = () => {
 
   return (
     <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
-      <div className="flex flex-wrap items-center gap-4 mb-6">
-        <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
-          CloudWatch Metrics
-        </h1>
-        
-        <div className="flex items-center gap-3 ml-auto">
-          {error && (
-            <div className="text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
-              {error}
+      <div className="border-b border-light-cont-s dark:border-dark-cont-s pb-5 mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
+                CloudWatch Metrics
+              </h1>
+              <p className="mt-1 text-sm text-light-text-sec dark:text-dark-text-sec">
+                Visualize execution, throttle, and latency data for individual Lambda functions.
+              </p>
             </div>
-          )}
-          
-          {functionData.length > 0 ? (
-            <select
-              value={selectedFunction}
-              onChange={(e) => setSelectedFunction(e.target.value)}
-              className="h-10 px-4 rounded-lg bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm"
-            >
-              {functionData.map((func) => (
-                <option key={func.functionName} value={func.functionName}>
-                  {func.functionName}
-                </option>
-              ))}
-            </select>
-          ) : (
-            !error && <div className="text-light-text-sec dark:text-dark-text-sec">Loading functions...</div>
-          )}
+            <div className="flex items-center gap-3">
+              {error && (
+                <div className="text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
+                  {error}
+                </div>
+              )}
+              
+              {functionData.length > 0 ? (
+                <select
+                  value={selectedFunction}
+                  onChange={(e) => setSelectedFunction(e.target.value)}
+                  className="h-10 px-4 rounded-lg bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm"
+                >
+                  {functionData.map((func) => (
+                    <option key={func.functionName} value={func.functionName}>
+                      {func.functionName}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                !error && <div className="text-light-text-sec dark:text-dark-text-sec">Loading functions...</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
