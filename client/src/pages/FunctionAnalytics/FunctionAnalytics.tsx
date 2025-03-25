@@ -87,46 +87,60 @@ const CloudwatchContainer = () => {
   }, [selectedFunction, functionData, percentileData]);
 
   return (
-    <div className="p-6">
-      <div className="flex items-center gap-4 mb-6">
-        <h1 className="text-4xl font-normal text-[#161616] dark:text-white">CloudWatch Metrics</h1>
-        {error && (
-          <div className="text-sm text-[#dc3545] bg-[#f8d7da] dark:bg-[#2f1c1e] border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
-            {error}
+    <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
+      <div className="border-b border-light-cont-s dark:border-dark-cont-s pb-5 mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
+                Function Analytics
+              </h1>
+              <p className="mt-1 text-sm text-light-text-sec dark:text-dark-text-sec">
+                Visualize execution, throttle, and latency data for individual Lambda functions.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              {error && (
+                <div className="text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
+                  {error}
+                </div>
+              )}
+              
+              {functionData.length > 0 ? (
+                <select
+                  value={selectedFunction}
+                  onChange={(e) => setSelectedFunction(e.target.value)}
+                  className="h-10 px-4 rounded-lg bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm"
+                >
+                  {functionData.map((func) => (
+                    <option key={func.functionName} value={func.functionName}>
+                      {func.functionName}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                !error && <div className="text-light-text-sec dark:text-dark-text-sec">Loading functions...</div>
+              )}
+            </div>
           </div>
-        )}
-        {functionData.length > 0 ? (
-          <select
-            value={selectedFunction}
-            onChange={(e) => setSelectedFunction(e.target.value)}
-            className="rounded-lg px-2 py-2 bg-[#e1e1e1] dark:bg-[#363636] text-[#161616] dark:text-white border-0"
-          >
-            {functionData.map((func) => (
-              <option key={func.functionName} value={func.functionName}>
-                {func.functionName}
-              </option>
-            ))}
-          </select>
-        ) : (
-          !error && <div className="text-[#161616] dark:text-white">Loading functions...</div>
-        )}
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
         {filteredData && (
           <>
-            <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
               <ConcurrExecComponent data={filteredData} />
             </div>
-            <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
               <ThrottleComponent data={filteredData} />
             </div>
-            <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
               <TotalDurationComponent data={filteredData} />
             </div>
           </>
         )}
         {filteredPercentileData && (
-          <div className="flex-1 bg-[#f3f3f3] dark:bg-[#2a2a2a] border border-[#e1e1e1] dark:border-[#404040] rounded-lg p-4 shadow-sm transition-colors">
+          <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
             <PercentileLatencyComponent data={filteredPercentileData} />
           </div>
         )}
