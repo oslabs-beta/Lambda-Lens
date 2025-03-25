@@ -104,7 +104,7 @@ const CloudwatchContainer = () => {
             <select
               value={selectedFunction}
               onChange={(e) => setSelectedFunction(e.target.value)}
-              className="rounded-lg px-3 py-2 bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm"
+              className="h-10 px-4 rounded-lg bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm"
             >
               {functionData.map((func) => (
                 <option key={func.functionName} value={func.functionName}>
