@@ -58,7 +58,11 @@ function ConfigPageContainer() {
 
   return (
     <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
-      <h2 className="text-4xl font-normal mb-5 text-light-text-prim dark:text-dark-text-prim">Configuration</h2>
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
+          Configuration
+        </h1>
+      </div>
       <div className="flex flex-col items-center">
         <ConfigForm onSave={handleSaveConfig} onDatabase={handleSaveDatabase} />
       </div>

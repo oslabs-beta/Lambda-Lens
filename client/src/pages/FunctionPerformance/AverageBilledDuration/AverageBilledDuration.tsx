@@ -66,11 +66,11 @@ const AvgBilledDurGraph = ({ data }: Props) => {
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">
+      <h2 className="text-xl font-semibold mb-4 text-light-text-prim dark:text-dark-text-prim">
         Average Billed Duration
       </h2>
       <div className="flex-1 min-h-0">
-        <div className="bg-[#e1e1e1] dark:bg-[#363636] rounded-lg p-4 shadow-sm transition-colors">
+        <div className="bg-light-cont-s dark:bg-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
           <Bar data={chartData} options={options} className="w-full h-full" />
         </div>
       </div>

@@ -40,17 +40,22 @@ const DashboardContainer = () => {
 
   return (
     <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-light-text-prim dark:text-dark-text-prim">Function Performance</h1>
-        <button
-          className={`flex items-center justify-center w-10 h-10 rounded-lg bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m text-light-text-prim dark:text-dark-text-sec focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h shadow-sm transition-all ${
-            isClicked ? "bg-element-s dark:bg-element-s hover:bg-element-s dark:hover:bg-element-s text-white dark:text-white transform scale-95" : ""
-          }`}
-          onClick={handleRefresh}
-          aria-label="Refresh data"
-        >
-          <span className="text-xl leading-none select-none">↻</span>
-        </button>
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
+          Function Performance
+        </h1>
+        
+        <div className="flex items-center gap-3 ml-auto">
+          <button
+            className={`flex items-center justify-center w-10 h-10 rounded-lg bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m text-light-text-prim dark:text-dark-text-sec focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h shadow-sm transition-all ${
+              isClicked ? "bg-element-s dark:bg-element-s hover:bg-element-s dark:hover:bg-element-s text-white dark:text-white transform scale-95" : ""
+            }`}
+            onClick={handleRefresh}
+            aria-label="Refresh data"
+          >
+            <span className="text-xl leading-none select-none">↻</span>
+          </button>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
         <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
