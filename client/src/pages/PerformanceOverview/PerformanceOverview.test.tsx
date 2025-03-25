@@ -1,6 +1,6 @@
 import { screen, waitFor, act, within } from "@testing-library/react";
 import { customRender } from "../../utils/test-utils";
-import DashboardContainer from "./FunctionPerformance";
+import DashboardContainer from "./PerformanceOverview";
 
 // We are replacing child components with simple mocks to isolate DashboardContainer's behavior.
 // This prevents the complexity of the child components (like chart rendering) from interfering with the tests.
