@@ -62,18 +62,18 @@ const NavbarComponent: React.FC = () => {
   return (
     <nav className="flex items-center justify-between rounded-lg bg-light-cont-m dark:bg-dark-cont-m relative font-sans shadow-mui-2 px-5 py-2.5 transition-colors">
       <div className="w-auto md:w-[15%] md:max-w-[80px] lg:w-auto lg:max-w-none">
-        <img src={lambda} alt="Logo" className="h-[2.7em] transition-all duration-300 dark:invert dark:brightness-0" />
+        <img src={lambda} alt="Logo" className="h-11 transition-all duration-300 dark:invert dark:brightness-0" />
       </div>
       <div className="flex items-center gap-5">
         <ul className="flex gap-5 list-none m-0 p-0">
           <li>
-            <Link to="/dash" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-[15px] py-[10px] rounded-md transition-colors text-[0.9em] font-light no-underline">Function Performance</Link>
+            <Link to="/dash" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Function Performance</Link>
           </li>
           <li>
-            <Link to="/cloudwatchmetrics" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-[15px] py-[10px] rounded-md transition-colors text-[0.9em] font-light no-underline">CloudWatch Metrics</Link>
+            <Link to="/cloudwatchmetrics" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">CloudWatch Metrics</Link>
           </li>
           <li>
-            <Link to="/" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-[15px] py-[10px] rounded-md transition-colors text-[0.9em] font-light no-underline">Configuration</Link>
+            <Link to="/" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Configuration</Link>
           </li>
         </ul>
         <button
