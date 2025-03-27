@@ -2,6 +2,7 @@ import Navbar from './Navbar/Navbar';
 import Hero from './Hero/Hero';
 import Features from './Features/Features';
 import HowItWorks from './HowItWorks/HowItWorks';
+import FAQ from './FAQ/FAQ';
 import CTA from './CTA/CTA';
 import Footer from './Footer/Footer';
 
@@ -12,6 +13,7 @@ const LandingPage = () => {
       <Hero />
       <Features />
       <HowItWorks />
+      <FAQ />
       <CTA />
       <Footer />
     </div>
