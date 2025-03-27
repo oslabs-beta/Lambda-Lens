@@ -61,12 +61,12 @@ const NavbarComponent: React.FC = () => {
 
   return (
     <nav className="flex items-center justify-between rounded-lg bg-light-cont-m dark:bg-dark-cont-m font-sans shadow-mui-2 px-5 py-2.5 transition-colors relative z-10">
-      {/* Logo container with better sizing */}
       <div className="flex-none">
-        <img src={lambda} alt="Logo" className="h-11 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
+        <Link to="/dash"> 
+          <img src={lambda} alt="Logo" className="h-11 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
+        </Link>
       </div>
       
-      {/* Navigation section with flex-grow to take available space */}
       <div className="flex-grow flex justify-end">
         <ul className="flex items-center gap-5 list-none m-0 p-0">
           <li>
@@ -76,12 +76,11 @@ const NavbarComponent: React.FC = () => {
             <Link to="/cloudwatchmetrics" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Function Analytics</Link>
           </li>
           <li>
-            <Link to="/" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Configuration</Link>
+            <Link to="/config" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Configuration</Link> {/* Changed from "/" to "/config" */}
           </li>
         </ul>
       </div>
       
-      {/* Fixed-width container for theme toggle */}
       <div className="w-8 flex-none ml-5">
         <button
           id="theme-switch"

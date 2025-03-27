@@ -8,6 +8,7 @@
     scrollbar-gutter: stable;
     /* For browsers that don't support scrollbar-gutter */
     overflow-y: scroll;
+    scroll-behavior: smooth; /* Add this line */
   }
   
   /* Hide scrollbar for Chrome, Safari and Opera */
