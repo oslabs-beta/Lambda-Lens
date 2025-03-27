@@ -5,19 +5,19 @@ const panes = [
     id: 1,
     title: 'Connect Your AWS Account',
     description: 'Securely provide your AWS credentials and region. Lambda Lens uses this to access CloudWatch metrics and logs for your Lambda functions.',
-    imageSrc: '/awsconnect.jpg',
+    imageSrc: '/connect.png',
   },
   {
     id: 2,
     title: 'Data Aggregation & Processing',
     description: 'Our backend fetches relevant metrics (like invocations, errors, duration) and log data (specifically looking for cold starts) directly from AWS CloudWatch.',
-    imageSrc: '/data-refinement.png', 
+    imageSrc: '/aggregate.png', 
   },
   {
     id: 3,
     title: 'Intuitive Visualization',
     description: 'The processed data is presented in easy-to-understand charts and tables on your dashboard, highlighting key performance indicators like cold starts and billed duration.',
-    imageSrc: '/awsconnect.jpg', 
+    imageSrc: '/visualization.png', 
 },
 ];
 
