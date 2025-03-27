@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import lambda from '../../assets/lambda.png'; // Assuming you might want the logo
+import lambda from '../../assets/lambda.png'; 
 
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-light-cont-l dark:bg-dark-cont-l text-light-text-prim dark:text-dark-text-prim font-sans transition-colors">
-      {/* Optional: Simple Navbar for Landing Page */}
       <nav className="p-4 flex justify-between items-center">
         <img src={lambda} alt="Lambda Lens Logo" className="h-10 dark:invert dark:brightness-0" />
         <Link
-          to="/config" // Changed from /dash to /config
+          to="/config" 
           className="px-6 py-2 bg-element-s hover:bg-element-h text-white rounded-lg transition-colors font-medium"
         >
           Get Started
@@ -25,12 +24,11 @@ const LandingPage: React.FC = () => {
           Lambda Lens aggregates key performance metrics like Cold Starts, providing a clear view of your serverless performance.
         </p>
         <Link
-          to="/config" // Changed from /dash to /config
+          to="/config" 
           className="px-8 py-3 bg-element-s hover:bg-element-h text-white rounded-lg transition-colors font-semibold text-lg"
         >
           Explore Dashboard
         </Link>
-        {/* Optional: Add an image or graphic here */}
       </section>
 
       {/* Features Section Placeholder */}
@@ -62,7 +60,7 @@ const LandingPage: React.FC = () => {
           Start monitoring your functions with Lambda Lens today.
         </p>
         <Link
-          to="/config" // Changed from /dash to /config
+          to="/config" 
           className="px-8 py-3 bg-element-s hover:bg-element-h text-white rounded-lg transition-colors font-semibold text-lg"
         >
           Configure Now
