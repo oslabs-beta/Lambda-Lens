@@ -2,7 +2,7 @@ const Features = () => {
   const cardBaseClasses = "bg-light-cont-l dark:bg-dark-cont-l p-10 rounded-lg shadow-lg hover:shadow-xl border border-light-cont-s/50 dark:border-dark-cont-s/50 transition-all duration-300 hover:scale-[1.03]";
 
   return (
-    <section className="py-24 bg-light-cont-m dark:bg-dark-cont-m px-4 transition-colors">
+    <section id="features" className="py-24 bg-light-cont-m dark:bg-dark-cont-m px-4 transition-colors">
       <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Key Features</h2>
       <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
         {/* Feature 1 */}

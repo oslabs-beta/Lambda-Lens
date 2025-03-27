@@ -67,7 +67,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-24 bg-light-cont-m dark:bg-dark-cont-m px-4 transition-colors">
+    <section id="faq" className="py-24 bg-light-cont-m dark:bg-dark-cont-m px-4 transition-colors">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Frequently Asked Questions</h2>
         <div className="bg-light-cont-l dark:bg-dark-cont-l rounded-lg shadow-lg overflow-hidden border border-light-cont-s/50 dark:border-dark-cont-s/50">
