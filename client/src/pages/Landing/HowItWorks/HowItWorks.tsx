@@ -11,13 +11,13 @@ const panes = [
     id: 2,
     title: 'Data Aggregation & Processing',
     description: 'Our backend fetches relevant metrics (like invocations, errors, duration) and log data (specifically looking for cold starts) directly from AWS CloudWatch.',
-    imageSrc: '/awsconnect.jpg',
+    imageSrc: '/data-refinement.png', 
   },
   {
     id: 3,
     title: 'Intuitive Visualization',
     description: 'The processed data is presented in easy-to-understand charts and tables on your dashboard, highlighting key performance indicators like cold starts and billed duration.',
-    imageSrc: '/awsconnect.jpg',
+    imageSrc: '/awsconnect.jpg', 
 },
 ];
 
@@ -47,8 +47,8 @@ const HowItWorks = () => {
               <h3 className="text-2xl font-semibold mb-4 text-element-h">{currentPane.title}</h3>
               <p className="text-light-text-sec dark:text-dark-text-sec leading-relaxed">{currentPane.description}</p>
             </div>
-            <div className={`w-full h-64 rounded-lg flex items-center justify-center text-gray-500 ${currentPane.imageSrc}`}>
-                <img src={currentPane.imageSrc} alt={currentPane.title} className='w-full h-full object-cover'/>
+            <div className="w-full h-64 rounded-lg flex items-center justify-center overflow-hidden">
+                <img src={currentPane.imageSrc} alt={currentPane.title} className='w-full h-full object-contain'/>
             </div>
           </div>
         )}
