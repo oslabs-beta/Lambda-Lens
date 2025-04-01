@@ -7,9 +7,27 @@ import dataRoutes from "./routes/dataRoutes";
 import healthRoutes from "./routes/healthRoutes";
 import chatRoutes from "./routes/chatRoutes";
 import { AwsClientService } from "./services/AwsClientService";
+import * as admin from 'firebase-admin'; // Import Firebase Admin SDK
 
 // Load environment variables, but don't throw if .env is missing
 dotenv.config();
+
+try {
+  const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+  if (!serviceAccountPath) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable not set.');
+  }
+  const serviceAccount = require(serviceAccountPath); // Load the key file
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+  console.log("Firebase Admin SDK initialized successfully.");
+} catch (error) {
+  console.error("Error initializing Firebase Admin SDK:", error);
+  process.exit(1);
+}
+
 
 const app = express();
 const PORT = process.env.PORT || 8080;
