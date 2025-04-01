@@ -3,8 +3,8 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { AwsClientService } from '../services/AwsClientService';
-import crypto from 'crypto'; // Use crypto module
-import UserConfig from '../models/userConfig'; // We'll create this model next
+import crypto from 'crypto';
+import UserConfig, { IUserConfig } from '../models/userConfig'; 
 
 interface ConfigParams {
   awsAccessKeyID: string;
@@ -47,7 +47,7 @@ class ConfigController {
 
   private encrypt(text: string): string {
     const encryptionKey = process.env.ENCRYPTION_KEY;
-    if (!encryptionKey || encryptionKey.length !== 64) { // Ensure key is hex 32 bytes
+    if (!encryptionKey || encryptionKey.length !== 64) { 
       throw new Error('ENCRYPTION_KEY environment variable is missing or invalid (must be a 64-character hex string).');
     }
     const key = Buffer.from(encryptionKey, 'hex');
@@ -58,8 +58,6 @@ class ConfigController {
     encrypted += cipher.final('hex');
     const authTag = cipher.getAuthTag();
 
-    // Combine IV, authTag, and encrypted data for storage
-    // Format: iv:authTag:encryptedData (all hex encoded)
     return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted}`;
   }
 
@@ -78,7 +76,6 @@ class ConfigController {
       const config: ConfigParams = req.body;
       this.validateConfig(config);
 
-      // Encrypt the secret key before saving
       const encryptedSecretKey = this.encrypt(config.awsSecretAccessKey);
 
       await UserConfig.findOneAndUpdate(
@@ -86,7 +83,7 @@ class ConfigController {
         {
           userId: userId,
           awsAccessKeyId: config.awsAccessKeyID,
-          awsSecretAccessKey: encryptedSecretKey, // Store the encrypted version
+          awsSecretAccessKey: encryptedSecretKey, 
           awsRegion: config.awsRegion,
         },
         { upsert: true, new: true }
@@ -95,7 +92,6 @@ class ConfigController {
       res.locals.saved = 'AWS configuration successfully saved for user.';
       return next();
     } catch (error) {
-       // Log the specific error for debugging
        console.error("Error during saveConfiguration:", error);
        const errorMessage = error instanceof Error ? error.message : 'Error saving configuration';
        return next({
@@ -106,7 +102,6 @@ class ConfigController {
     }
   };
 
-  // Simplified connectDatabase - just checks status
   public connectDatabase: RequestHandler = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const readyState = mongoose.connection.readyState;
@@ -114,45 +109,81 @@ class ConfigController {
       if (readyState === 1) {
         res.status(200).json({ message: "Database connection is healthy" });
       } else {
-        // Throw an error or return a specific status if not connected
         throw new Error(`Database connection state is: ${readyState}`);
       }
     } catch (error) {
       return next({
         log: `Error in ConfigController.connectDatabase check: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        status: 503, // Service Unavailable might be appropriate
+        status: 503, 
         message: { err: 'Database connection is not healthy' },
       });
     }
   };
 
-  // --- Decryption Helper (will be needed later) ---
-  // private decrypt(encryptedText: string): string {
-  //   const encryptionKey = process.env.ENCRYPTION_KEY;
-  //   if (!encryptionKey || encryptionKey.length !== 64) {
-  //     throw new Error('ENCRYPTION_KEY environment variable is missing or invalid.');
-  //   }
-  //   const key = Buffer.from(encryptionKey, 'hex');
-  //   const parts = encryptedText.split(':');
-  //   if (parts.length !== 3) {
-  //     throw new Error('Invalid encrypted format.');
-  //   }
-  //   const iv = Buffer.from(parts[0], 'hex');
-  //   const authTag = Buffer.from(parts[1], 'hex');
-  //   const encryptedData = parts[2];
+  // --- Decryption Helper ---
+  private decrypt(encryptedText: string): string {
+    const encryptionKey = process.env.ENCRYPTION_KEY;
+    if (!encryptionKey || encryptionKey.length !== 64) { 
+      throw new Error('ENCRYPTION_KEY environment variable is missing or invalid (must be a 64-character hex string).');
+    }
+    const key = Buffer.from(encryptionKey, 'hex');
+    const parts = encryptedText.split(':');
+    if (parts.length !== 3) {
+      throw new Error('Invalid encrypted format. Expected iv:authTag:encryptedData.');
+    }
+    const iv = Buffer.from(parts[0], 'hex');
+    const authTag = Buffer.from(parts[1], 'hex');
+    const encryptedData = parts[2];
 
-  //   if (iv.length !== IV_LENGTH || authTag.length !== AUTH_TAG_LENGTH) {
-  //      throw new Error('Invalid IV or authTag length.');
-  //   }
+    if (iv.length !== IV_LENGTH) {
+        throw new Error(`Invalid IV length. Expected ${IV_LENGTH}, got ${iv.length}.`);
+    }
+    if (authTag.length !== AUTH_TAG_LENGTH) {
+        throw new Error(`Invalid authTag length. Expected ${AUTH_TAG_LENGTH}, got ${authTag.length}.`);
+    }
 
-  //   const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
-  //   decipher.setAuthTag(authTag);
+    try {
+        const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
+        decipher.setAuthTag(authTag); 
 
-  //   let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
-  //   decrypted += decipher.final('utf8');
-  //   return decrypted;
-  // }
-  // --- End Decryption Helper ---
+        let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+        decrypted += decipher.final('utf8'); 
+        return decrypted;
+    } catch (error) {
+        console.error("Decryption failed:", error);
+        throw new Error(`Decryption failed. The key may be incorrect or the data corrupted. ${error instanceof Error ? error.message : ''}`);
+    }
+  }
+
+  // --- Helper to get Decrypted User Config ---
+  public async getDecryptedUserConfig(userId: string): Promise<IUserConfig | null> {
+    if (!userId) {
+      console.error("getDecryptedUserConfig called without userId");
+      return null;
+    }
+    try {
+      const userConfig = await UserConfig.findOne({ userId: userId }).lean(); 
+
+      if (!userConfig) {
+        return null; 
+      }
+
+      // Decrypt the secret key
+      const decryptedSecretKey = this.decrypt(userConfig.awsSecretAccessKey);
+
+      return {
+        ...userConfig,
+        awsSecretAccessKey: decryptedSecretKey, 
+      };
+
+    } catch (error) {
+      console.error(`Error fetching or decrypting config for user ${userId}:`, error);
+      if (error instanceof Error && error.message.includes('Decryption failed')) {
+           throw error; 
+      }
+      return null; 
+    }
+  }
 }
 
 export const configController = ConfigController.getInstance();

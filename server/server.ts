@@ -2,23 +2,21 @@ import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from 'mongoose'; // Import mongoose
+import mongoose from 'mongoose'; 
 import configRoutes from "./routes/configRoutes";
 import dataRoutes from "./routes/dataRoutes";
 import healthRoutes from "./routes/healthRoutes";
 import chatRoutes from "./routes/chatRoutes";
-import * as admin from 'firebase-admin'; // Import Firebase Admin SDK
+import * as admin from 'firebase-admin'; 
 
-// Load environment variables, but don't throw if .env is missing
 dotenv.config();
 
-// --- Initialize Firebase Admin ---
 try {
   const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
   if (!serviceAccountPath) {
     throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable not set.');
   }
-  const serviceAccount = require(serviceAccountPath); // Load the key file
+  const serviceAccount = require(serviceAccountPath); 
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -29,7 +27,6 @@ try {
   process.exit(1);
 }
 
-// --- Connect to MongoDB ---
 const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGODB_URI;
@@ -40,12 +37,10 @@ const connectDB = async () => {
     console.log('MongoDB Connected...');
   } catch (err) {
     console.error("Error connecting to MongoDB:", err instanceof Error ? err.message : err);
-    // Exit process with failure
     process.exit(1);
   }
 };
-connectDB(); // Call the function to connect
-// --- End MongoDB Connection ---
+connectDB(); 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -58,7 +53,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? "https://lambda-lens.vercel.app" // Replace with your actual frontend URL
+        ? "https://lambda-lens.vercel.app" 
         : "http://localhost:3000",
     credentials: true,
   })
@@ -91,7 +86,6 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     message: { err: "An error occurred" },
   };
 
-  // Add better error messages for AWS credential errors
   if (err.message?.includes("credentials")) {
     defaultErr.message.err =
       "AWS credentials are not configured. Please configure them in the settings page.";

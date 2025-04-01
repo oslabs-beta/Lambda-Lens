@@ -3,6 +3,7 @@ import ColdStartsGraphComponent from "./ColdStart/ColdStart";
 import ColdStartsMetricsContainer from "./ColdStartMetrics/ColdStartMetrics";
 import AvgBilledDurGraph from "./AverageBilledDuration/AverageBilledDuration";
 import ChatContainer from "./Chat/Chat";
+import { useAuth } from "../../context/AuthContext"; 
 
 interface FunctionData {
   functionName: string;
@@ -12,31 +13,68 @@ interface FunctionData {
 }
 
 const DashboardContainer = () => {
+  const { currentUser } = useAuth(); 
   const [data, setData] = useState<FunctionData[]>([]);
   const [isClicked, setClicked] = useState(false);
+  const [error, setError] = useState<string | null>(null); 
 
-  const fetchData = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/data/req`)
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((err) => {
-        console.log(err);
+  const fetchData = async () => { 
+    if (!currentUser) {
+        setError("Please log in to view performance data.");
+        setData([]); 
+        return;
+    }
+    setError(null); 
+
+    try {
+      const token = await currentUser.getIdToken(); 
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/data/req`, {
+          headers: { 
+              'Authorization': `Bearer ${token}` 
+          }
       });
+
+      if (!response.ok) {
+          let errorMsg = `Failed to fetch data: ${response.status} ${response.statusText}`;
+          try {
+              const errorData = await response.json();
+              errorMsg = errorData.message?.err || errorData.err || errorMsg;
+          } catch (parseError) {
+          }
+          throw new Error(errorMsg);
+      }
+
+      const resultData = await response.json();
+      if (Array.isArray(resultData)) {
+          setData(resultData);
+      } else {
+          console.error("API did not return an array:", resultData);
+          setData([]); 
+          throw new Error("Received invalid data format from server.");
+      }
+
+    } catch (err) {
+        console.error("Fetch data error:", err); 
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+        setData([]); 
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentUser]); 
 
   const handleRefresh = () => {
     setClicked(true);
-    fetchData();
+    fetchData(); 
     setTimeout(() => setClicked(false), 1000);
   };
 
-  const sortedData = data
-    .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
-    .slice(0, 5);
+  const sortedData = Array.isArray(data)
+    ? [...data] 
+        .sort((a, b) => b.percentColdStarts - a.percentColdStarts)
+        .slice(0, 5)
+    : [];
 
   return (
     <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
@@ -61,22 +99,32 @@ const DashboardContainer = () => {
               <span className="text-xl leading-none select-none">↻</span>
             </button>
           </div>
+          {error && ( 
+            <div className="mt-2 text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
+              Error: {error}
+            </div>
+          )}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-5 auto-rows-fr">
-        <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
-          <AvgBilledDurGraph data={sortedData} />
-        </div>
-        <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
-          <ColdStartsMetricsContainer data={sortedData} />
-        </div>
-        <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
-          <ColdStartsGraphComponent data={sortedData} />
-        </div>
-        <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
-          <ChatContainer />
-        </div>
-      </div>
+      {/* Only render charts if data is loaded and valid */}
+      {!error && data.length > 0 ? (
+          <div className="grid grid-cols-2 gap-5 auto-rows-fr">
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+              <AvgBilledDurGraph data={sortedData} />
+            </div>
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+              <ColdStartsMetricsContainer data={sortedData} />
+            </div>
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+              <ColdStartsGraphComponent data={sortedData} />
+            </div>
+            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+              <ChatContainer />
+            </div>
+          </div>
+      ) : !error ? (
+          <div className="text-center text-light-text-sec dark:text-dark-text-sec">Loading performance data...</div>
+      ) : null }
     </div>
   );
 };

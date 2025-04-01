@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext"; 
 
 const ChatContainer = () => {
+  const { currentUser } = useAuth(); 
   const [messages, setMessages] = useState<
     {
       role: "user" | "assistant";
@@ -11,7 +13,10 @@ const ChatContainer = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async () => {
-    if (input.trim() === "") return;
+    if (input.trim() === "" || !currentUser) { 
+        if (!currentUser) alert("Please log in to use the chat.");
+        return;
+    }
 
     const userMessage = input.trim();
     setMessages((prevMessages) => [
@@ -22,17 +27,28 @@ const ChatContainer = () => {
     setLoading(true);
 
     try {
+      const token = await currentUser.getIdToken(); 
+
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/data/chat`,
+        `${import.meta.env.VITE_API_URL}/api/chat`, 
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+             "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}` 
+          },
           body: JSON.stringify({ message: userMessage }),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        let errorMsg = "Network response was not ok";
+        try {
+            const errorData = await response.json();
+            errorMsg = errorData.message?.err || errorData.err || errorMsg;
+        } catch (parseError) {
+        }
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
@@ -51,8 +67,7 @@ const ChatContainer = () => {
         ...prevMessages,
         {
           role: "assistant",
-          content:
-            "I apologize, but I encountered an error processing your request. Please try again or check your connection.",
+          content: `I apologize, but I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
         },
       ]);
     } finally {
@@ -107,12 +122,12 @@ const ChatContainer = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Type your message here..."
-          disabled={loading}
+          disabled={loading || !currentUser} 
           className="flex-1 p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors"
         />
         <button
           onClick={handleSendMessage}
-          disabled={loading}
+          disabled={loading || !currentUser} 
           className="px-4 py-2 bg-[#447A90] hover:bg-[#62ACCC] text-white rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
         >
           {loading ? "Sending..." : "Send"}

@@ -3,6 +3,7 @@ import ThrottleComponent from "./Throttle/Throttle";
 import TotalDurationComponent from "./TotalDuration/TotalDuration";
 import PercentileLatencyComponent from "./PercentileLatency/PercentileLatency";
 import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext"; 
 
 interface FunctionData {
   functionName: string;
@@ -18,7 +19,8 @@ interface PercentileData {
   p99: number[];
 }
 
-const CloudwatchContainer = () => {
+const FunctionAnalyticsContainer = () => {
+  const { currentUser } = useAuth(); 
   const [functionData, setFunctionData] = useState<FunctionData[]>([]);
   const [selectedFunction, setSelectedFunction] = useState<string>("");
   const [filteredData, setFilteredData] = useState<FunctionData | null>(null);
@@ -27,52 +29,92 @@ const CloudwatchContainer = () => {
   }>({});
   const [filteredPercentileData, setFilteredPercentileData] =
     useState<PercentileData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
+  const [errorCW, setErrorCW] = useState<string | null>(null);
+  const [errorPercentiles, setErrorPercentiles] = useState<string | null>(null);
+  const [loadingCW, setLoadingCW] = useState<boolean>(false);
+  const [loadingPercentiles, setLoadingPercentiles] = useState<boolean>(false);
+
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/data/cloud`)
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((err) => {
-            throw new Error(err.err || "Failed to fetch CloudWatch metrics");
-          });
+    const fetchCloudWatchMetrics = async () => {
+      if (!currentUser) {
+        setErrorCW("Please log in to fetch CloudWatch metrics.");
+        setFunctionData([]);
+        return;
+      }
+      setLoadingCW(true);
+      setErrorCW(null);
+      try {
+        const token = await currentUser.getIdToken(); 
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/data/cloud`, {
+          headers: { 
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          let errorMsg = `Failed to fetch CloudWatch metrics: ${response.status} ${response.statusText}`;
+          try {
+              const errorData = await response.json();
+              errorMsg = errorData.message?.err || errorData.err || errorMsg;
+          } catch (parseError) { /* Ignore */ }
+          throw new Error(errorMsg);
         }
-        return res.json();
-      })
-      .then((data: FunctionData[]) => {
+        const data: FunctionData[] = await response.json();
         setFunctionData(Array.isArray(data) ? data : []);
-        if (data && data.length > 0) {
+        if (Array.isArray(data) && data.length > 0 && !selectedFunction) {
           setSelectedFunction(data[0].functionName);
         }
-        setError(null);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("CloudWatch metrics error:", err);
-        setError(err.message);
-        setFunctionData([]);
-      });
-  }, []);
+        setErrorCW(err instanceof Error ? err.message : "Failed to fetch CloudWatch metrics");
+        setFunctionData([]); 
+      } finally {
+        setLoadingCW(false);
+      }
+    };
+
+    fetchCloudWatchMetrics();
+  }, [currentUser]); 
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/data/metrics`)
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((err) => {
-            throw new Error(err.err || "Failed to fetch percentile metrics");
-          });
-        }
-        return res.json();
-      })
-      .then((data: { [key: string]: { percentiles: PercentileData } }) => {
-        setPercentileData(data || {});
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Percentile metrics error:", err);
-        setError(err.message);
+    const fetchPercentileMetrics = async () => {
+      if (!currentUser) {
+        setErrorPercentiles("Please log in to fetch percentile metrics.");
         setPercentileData({});
-      });
-  }, []);
+        return;
+      }
+      setLoadingPercentiles(true);
+      setErrorPercentiles(null);
+      try {
+        const token = await currentUser.getIdToken(); 
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/data/metrics`, {
+           headers: { 
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          let errorMsg = `Failed to fetch percentile metrics: ${response.status} ${response.statusText}`;
+          try {
+              const errorData = await response.json();
+              errorMsg = errorData.message?.err || errorData.err || errorMsg;
+          } catch (parseError) { /* Ignore */ }
+          throw new Error(errorMsg);
+        }
+        const data = await response.json();
+        setPercentileData(typeof data === 'object' && data !== null ? data : {});
+      } catch (err) {
+        console.error("Percentile metrics error:", err);
+        setErrorPercentiles(err instanceof Error ? err.message : "Failed to fetch percentile metrics");
+        setPercentileData({}); 
+      } finally {
+        setLoadingPercentiles(false);
+      }
+    };
+
+    fetchPercentileMetrics();
+  }, [currentUser]); 
+
 
   useEffect(() => {
     if (selectedFunction && functionData.length > 0) {
@@ -80,14 +122,32 @@ const CloudwatchContainer = () => {
         (func) => func.functionName === selectedFunction
       );
       setFilteredData(selected || null);
+    } else {
+      setFilteredData(null); 
+    }
 
-      const selectedPercentile = percentileData[selectedFunction]?.percentiles;
-      setFilteredPercentileData(selectedPercentile || null);
+    if (selectedFunction && Object.keys(percentileData).length > 0) {
+       const selectedPercentile = percentileData[selectedFunction]?.percentiles;
+       setFilteredPercentileData(selectedPercentile || null);
+    } else {
+        setFilteredPercentileData(null); 
     }
   }, [selectedFunction, functionData, percentileData]);
 
+
+  const handleFunctionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFunction(e.target.value);
+  };
+
+  const allFunctionNames = [
+      ...functionData.map(d => d.functionName),
+      ...Object.keys(percentileData)
+  ];
+  const uniqueFunctionNames = [...new Set(allFunctionNames)];
+
+
   return (
-    <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
+    <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors min-h-screen">
       <div className="border-b border-light-cont-s dark:border-dark-cont-s pb-5 mb-6">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-start">
@@ -100,33 +160,49 @@ const CloudwatchContainer = () => {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              {error && (
-                <div className="text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
-                  {error}
+              {/* Display Combined Errors */}
+              {(errorCW || errorPercentiles) && (
+                <div className="text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2 max-w-xs">
+                  {errorCW && <div>CloudWatch Error: {errorCW}</div>}
+                  {errorPercentiles && <div>Percentiles Error: {errorPercentiles}</div>}
                 </div>
               )}
-              
-              {functionData.length > 0 ? (
+
+              {/* Function Selector */}
+              {!loadingCW && !loadingPercentiles && uniqueFunctionNames.length > 0 ? (
                 <select
                   value={selectedFunction}
-                  onChange={(e) => setSelectedFunction(e.target.value)}
-                  className="h-10 px-4 rounded-lg bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm"
+                  onChange={handleFunctionChange}
+                  disabled={!currentUser} 
+                  className="h-10 px-4 rounded-lg bg-light-cont-s dark:bg-dark-cont-s text-light-text-prim dark:text-dark-text-prim border-0 shadow-sm disabled:opacity-50"
                 >
-                  {functionData.map((func) => (
-                    <option key={func.functionName} value={func.functionName}>
-                      {func.functionName}
+                  {/* Add a default placeholder option */}
+                  {!selectedFunction && <option value="" disabled>Select a function</option>}
+                  {uniqueFunctionNames.map((funcName) => (
+                    <option key={funcName} value={funcName}>
+                      {funcName}
                     </option>
                   ))}
                 </select>
-              ) : (
-                !error && <div className="text-light-text-sec dark:text-dark-text-sec">Loading functions...</div>
-              )}
+              ) : (loadingCW || loadingPercentiles) ? (
+                 <div className="text-light-text-sec dark:text-dark-text-sec text-sm">Loading functions...</div>
+              ) : (!errorCW && !errorPercentiles && !currentUser) ? (
+                 <div className="text-light-text-sec dark:text-dark-text-sec text-sm">Please log in.</div>
+              ) : (!errorCW && !errorPercentiles && uniqueFunctionNames.length === 0) ? (
+                 <div className="text-light-text-sec dark:text-dark-text-sec text-sm">No functions found.</div>
+              ) : null }
             </div>
           </div>
         </div>
       </div>
+
+      {/* Charts Area */}
       <div className="grid grid-cols-2 gap-5 auto-rows-fr">
-        {filteredData && (
+        {selectedFunction && (loadingCW || loadingPercentiles) && (
+             <div className="col-span-2 text-center text-light-text-sec dark:text-dark-text-sec">Loading data for {selectedFunction}...</div>
+        )}
+
+        {selectedFunction && !loadingCW && !errorCW && filteredData && (
           <>
             <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
               <ConcurrExecComponent data={filteredData} />
@@ -139,14 +215,25 @@ const CloudwatchContainer = () => {
             </div>
           </>
         )}
-        {filteredPercentileData && (
+        {selectedFunction && !loadingPercentiles && !errorPercentiles && filteredPercentileData && (
           <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
             <PercentileLatencyComponent data={filteredPercentileData} />
           </div>
         )}
+
+         {selectedFunction && !loadingCW && !errorCW && !filteredData && (
+             <div className="col-span-2 text-center text-light-text-sec dark:text-dark-text-sec">No CloudWatch data found for {selectedFunction}.</div>
+         )}
+          {selectedFunction && !loadingPercentiles && !errorPercentiles && !filteredPercentileData && (
+             <div className="col-span-2 text-center text-light-text-sec dark:text-dark-text-sec">No Percentile data found for {selectedFunction}.</div>
+         )}
+
+         {!selectedFunction && !loadingCW && !loadingPercentiles && !errorCW && !errorPercentiles && currentUser && uniqueFunctionNames.length > 0 && (
+              <div className="col-span-2 text-center text-light-text-sec dark:text-dark-text-sec">Please select a function to view its analytics.</div>
+         )}
       </div>
     </div>
   );
 };
 
-export default CloudwatchContainer;
+export default FunctionAnalyticsContainer;
