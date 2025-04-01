@@ -5,8 +5,10 @@ import NavbarComponent from "../components/Navbar/Navbar";
 import ConfigPageContainer from "../pages/Config/Config";
 import ChatContainer from "../pages/PerformanceOverview/Chat/Chat";
 import LandingPage from "../pages/Landing/LandingPage";
-import LoginPage from "../pages/Login/LoginPage"; 
-import SignupPage from "../pages/Signup/SignupPage"; 
+import LoginPage from "../pages/Login/LoginPage";
+import SignupPage from "../pages/Signup/SignupPage";
+import { AuthProvider, useAuth } from "../context/AuthContext"; 
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"; 
 import "../utils/chartSetup";
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -24,18 +26,24 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const AppLayout = () => {
   const location = useLocation();
+  const { loading } = useAuth(); 
   const mainLayoutPaths = ['/config', '/dash', '/cloudwatchmetrics', '/chat'];
-
   const useMainLayout = mainLayoutPaths.some(path => location.pathname.startsWith(path));
+
+  if (loading && useMainLayout) {
+     return <div>Loading Application...</div>; 
+  }
 
   if (useMainLayout) {
     return (
       <MainLayout>
         <Routes>
-          <Route path="/config" element={<ConfigPageContainer />} />
-          <Route path="/dash" element={<DashboardContainer />} />
-          <Route path="/cloudwatchmetrics" element={<CloudwatchContainer />} />
-          <Route path="/chat" element={<ChatContainer />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/config" element={<ConfigPageContainer />} />
+            <Route path="/dash" element={<DashboardContainer />} />
+            <Route path="/cloudwatchmetrics" element={<CloudwatchContainer />} />
+            <Route path="/chat" element={<ChatContainer />} />
+          </Route>
         </Routes>
       </MainLayout>
     );
@@ -53,9 +61,11 @@ const AppLayout = () => {
 
 function App() {
   return (
-    <Router>
-      <AppLayout /> 
-    </Router>
+    <AuthProvider> 
+      <Router>
+        <AppLayout />
+      </Router>
+    </AuthProvider>
   );
 }
 
