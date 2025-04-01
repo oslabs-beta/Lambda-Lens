@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import lambda from "../../assets/lambda.png";
+import { useAuth } from "../../context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 const LightModeIcon = () => (
   <svg
@@ -29,17 +32,16 @@ const DarkModeIcon = () => (
 );
 
 const NavbarComponent: React.FC = () => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    // Initialize from localStorage and system preference
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark";
   });
 
   useEffect(() => {
-    // Apply dark mode class to html element for Tailwind
     if (darkMode) {
       document.documentElement.classList.add("dark");
-      // Keep body.darkmode for backwards compatibility during migration
       document.body.classList.add("darkmode");
     } else {
       document.documentElement.classList.remove("dark");
@@ -59,34 +61,72 @@ const NavbarComponent: React.FC = () => {
     });
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+      console.log("User logged out successfully");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  const navLinkBaseClasses = "px-3 py-2 rounded-md transition-colors text-sm font-medium no-underline";
+  const getNavLinkClasses = ({ isActive }: { isActive: boolean }) =>
+    `${navLinkBaseClasses} ${
+      isActive
+        ? 'text-light-text-prim dark:text-dark-text-prim'
+        : 'text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim'
+    }`;
+
   return (
-    <nav className="flex items-center justify-between rounded-lg bg-light-cont-m dark:bg-dark-cont-m font-sans shadow-mui-2 px-5 py-2.5 transition-colors relative z-10">
-      <div className="flex-none">
-        <Link to="/dash"> 
-          <img src={lambda} alt="Logo" className="h-11 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
-        </Link>
-      </div>
-      
-      <div className="flex-grow flex justify-end">
-        <ul className="flex items-center gap-5 list-none m-0 p-0">
+    <nav className="flex items-center justify-between rounded-lg bg-light-cont-m dark:bg-dark-cont-m font-sans shadow-mui-2 px-6 py-3 transition-colors relative z-10">
+      <div className="flex items-center gap-6">
+        <div className="flex-shrink-0">
+          <NavLink to="/dash">
+            <img src={lambda} alt="Logo" className="h-10 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
+          </NavLink>
+        </div>
+        <ul className="flex items-center gap-4 list-none m-0 p-0">
           <li>
-            <Link to="/dash" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Performance Overview</Link>
+            <NavLink to="/dash" className={getNavLinkClasses}>
+              Performance Overview
+            </NavLink>
           </li>
           <li>
-            <Link to="/cloudwatchmetrics" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Function Analytics</Link>
+            <NavLink to="/cloudwatchmetrics" className={getNavLinkClasses}>
+              Function Analytics
+            </NavLink>
           </li>
           <li>
-            <Link to="/config" className="text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim px-4 py-2.5 rounded-md transition-colors text-sm font-light no-underline">Configuration</Link> {/* Changed from "/" to "/config" */}
+            <NavLink to="/config" className={getNavLinkClasses}>
+              Configuration
+            </NavLink>
           </li>
         </ul>
       </div>
-      
-      <div className="w-8 flex-none ml-5">
+
+      <div className="flex items-center gap-4 flex-shrink-0">
+        {currentUser ? (
+          <>
+            <span className="text-sm text-light-text-sec dark:text-dark-text-sec hidden md:inline">
+              {currentUser.email}
+            </span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center justify-center h-9 px-3 bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m text-light-text-sec dark:text-dark-text-sec rounded-md transition-colors text-sm font-medium border border-light-cont-s dark:border-dark-cont-s focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h focus:ring-offset-2 dark:focus:ring-offset-dark-cont-m"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+           null
+        )}
         <button
           id="theme-switch"
           aria-label="theme switch"
           onClick={toggleDarkMode}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m transition-colors"
+          className="flex items-center justify-center w-9 h-9 rounded-full bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m transition-colors focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h focus:ring-offset-2 dark:focus:ring-offset-dark-cont-m"
         >
           {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
         </button>
