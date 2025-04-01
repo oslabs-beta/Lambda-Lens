@@ -1,8 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { databaseController } from '../controllers/databaseController';
 import metricsController from '../controllers/MetricsController';
+import { verifyFirebaseToken } from '../middleware/authMiddleware'; 
 
 const dataRouter = Router();
+
+dataRouter.use(verifyFirebaseToken);
 
 dataRouter.get(
   '/update',
