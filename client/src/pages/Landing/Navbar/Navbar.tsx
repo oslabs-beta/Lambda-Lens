@@ -43,7 +43,7 @@ const Navbar = () => {
         </div>
 
         <Link
-          to="/config"
+          to="/dash"
           className="px-6 py-2 bg-element-s hover:bg-element-h text-white rounded-lg transition-all duration-200 font-medium hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-element-h focus-visible:ring-offset-2 dark:focus-visible:ring-offset-dark-cont-l"
         >
           Get Started

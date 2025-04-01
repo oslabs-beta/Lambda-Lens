@@ -2,14 +2,56 @@ import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import mongoose from 'mongoose'; 
 import configRoutes from "./routes/configRoutes";
 import dataRoutes from "./routes/dataRoutes";
 import healthRoutes from "./routes/healthRoutes";
 import chatRoutes from "./routes/chatRoutes";
-import { AwsClientService } from "./services/AwsClientService";
+import * as admin from 'firebase-admin'; 
 
-// Load environment variables, but don't throw if .env is missing
 dotenv.config();
+
+try {
+  // Check if the key is a file path or JSON string
+  const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+  
+  if (!serviceAccountKey) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable not set.');
+  }
+  
+  let serviceAccount;
+  
+  // If it starts with a path separator or contains .json, treat as a file path
+  if (serviceAccountKey.startsWith('/') || serviceAccountKey.includes('.json')) {
+    serviceAccount = require(serviceAccountKey);
+  } else {
+    // Otherwise, treat as a JSON string
+    serviceAccount = JSON.parse(serviceAccountKey);
+  }
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+  console.log("Firebase Admin SDK initialized successfully.");
+} catch (error) {
+  console.error("Error initializing Firebase Admin SDK:", error);
+  process.exit(1);
+}
+
+const connectDB = async () => {
+  try {
+    const mongoURI = process.env.MONGODB_URI;
+    if (!mongoURI) {
+      throw new Error('MONGODB_URI environment variable not set.');
+    }
+    await mongoose.connect(mongoURI);
+    console.log('MongoDB Connected...');
+  } catch (err) {
+    console.error("Error connecting to MongoDB:", err instanceof Error ? err.message : err);
+    process.exit(1);
+  }
+};
+connectDB(); 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -22,37 +64,12 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? "https://lambda-lens.vercel.app" // Replace with your actual frontend URL
+        ? "https://lambda-lens.vercel.app" 
         : "http://localhost:3000",
     credentials: true,
   })
 );
 app.use(express.json());
-
-// Initialize AWS client service with any existing config
-try {
-  if (
-    process.env.AWS_ACCESS_KEY_ID &&
-    process.env.AWS_SECRET_ACCESS_KEY &&
-    process.env.AWS_REGION
-  ) {
-    const awsClientService = AwsClientService.getInstance();
-    awsClientService.updateConfig({
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      },
-      region: process.env.AWS_REGION,
-    });
-    console.log("AWS configuration loaded from environment");
-  } else {
-    console.log(
-      "No AWS configuration found - waiting for configuration through UI"
-    );
-  }
-} catch (error) {
-  console.error("Error initializing AWS configuration:", error);
-}
 
 app.use("/api/config", configRoutes);
 app.use("/api/data", dataRoutes);
@@ -80,7 +97,6 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     message: { err: "An error occurred" },
   };
 
-  // Add better error messages for AWS credential errors
   if (err.message?.includes("credentials")) {
     defaultErr.message.err =
       "AWS credentials are not configured. Please configure them in the settings page.";
@@ -91,6 +107,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
+// Start server only after DB connection attempt (handled by process.exit on failure)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

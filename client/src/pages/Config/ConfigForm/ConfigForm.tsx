@@ -1,31 +1,23 @@
-import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Config = {
   awsAccessKeyID: string;
   awsSecretAccessKey: string;
   awsRegion: string;
-  mongoURI: string;
 };
 
 type ConfigFormProps = {
   onSave: (config: Config) => void;
-  onDatabase: () => void;
 };
 
-function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
+function ConfigForm({ onSave }: ConfigFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Config>();
+  } = useForm<Config>(); 
   const onSubmit: SubmitHandler<Config> = (data) => {
     onSave(data);
-  };
-
-  const handleDatabase = (e: React.FormEvent) => {
-    e.preventDefault();
-    onDatabase();
   };
 
   const inputClasses = "p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors";
@@ -37,7 +29,7 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
         <div className="flex flex-col gap-1.5">
           <input
             {...register("awsAccessKeyID", { required: true })}
-            placeholder="AWS Access Key"
+            placeholder="AWS Access Key ID"
             className={inputClasses}
           />
           {errors.awsAccessKeyID && (
@@ -45,8 +37,10 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
           )}
         </div>
 
+        {/* AWS Secret Access Key Input */}
         <div className="flex flex-col gap-1.5">
           <input
+            type="password" 
             {...register("awsSecretAccessKey", { required: true })}
             placeholder="AWS Secret Access Key"
             className={inputClasses}
@@ -56,12 +50,14 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
           )}
         </div>
 
+        {/* AWS Region Select */}
         <div className="flex flex-col gap-1.5">
-          <select 
+          <select
             {...register("awsRegion", { required: true })}
             className={inputClasses}
+            defaultValue="" 
           >
-            <option value="">Select Region</option>
+            <option value="" disabled>Select AWS Region</option>
             <option value="us-east-1">US East 1 (N. Virginia)</option>
             <option value="us-east-2">US East 2 (Ohio)</option>
             <option value="us-west-1">US West 1 (N. California)</option>
@@ -96,39 +92,14 @@ function ConfigForm({ onSave, onDatabase }: ConfigFormProps) {
             <p className={errorClasses}>AWS Region is required</p>
           )}
         </div>
-
-        <div className="flex flex-col gap-1.5">
-          <input
-            {...register("mongoURI", { required: true })}
-            placeholder="MongoDB URI"
-            className={inputClasses}
-          />
-          {errors.mongoURI && (
-            <p className={errorClasses}>MongoDB URI is required</p>
-          )}
-        </div>
       </div>
 
       <div className="mt-4 space-y-2">
         <input
           type="submit"
-          value="Submit"
-          disabled
-          title="Submissions disabled pending authentication implementation"
-          className="w-full px-4 py-2 bg-primary text-white rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+          value="Save Configuration" 
+          className="w-full px-4 py-2 bg-[#447A90] hover:bg-[#62ACCC] text-white rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
         />
-        
-        <small className="block text-light-text-sec dark:text-white text-xs text-center">
-          ⓘ Inputting access keys is temporarily disabled pending authentication implementation
-        </small>
-        
-        <button
-          type="button"
-          onClick={handleDatabase}
-          className="w-full px-4 py-2 bg-[#3e3e3e] dark:bg-light-cont-s text-white dark:text-light-text-prim rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 hover:bg-[#494949] dark:hover:bg-[#eaeaea] dark:hover:text-light-text-sec transition-colors font-medium"
-        >
-          View as guest
-        </button>
       </div>
     </form>
   );

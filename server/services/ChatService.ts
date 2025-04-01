@@ -1,6 +1,6 @@
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 import ConversationModel from '../models/chatConversation';
-import { AwsClientService } from './AwsClientService';
+import { configController } from '../controllers/ConfigController';
 
 class ChatServiceError extends Error {
   constructor(message: string) {
@@ -11,12 +11,9 @@ class ChatServiceError extends Error {
 
 export class ChatService {
   private static instance: ChatService;
-  private readonly awsClientService: AwsClientService;
-  private readonly conversationId = '2'; // TODO: Make this configurable
+  private readonly conversationId = 'global_chat_v1';
 
-  private constructor() {
-    this.awsClientService = AwsClientService.getInstance();
-  }
+  private constructor() {}
 
   public static getInstance(): ChatService {
     if (!ChatService.instance) {
@@ -25,15 +22,33 @@ export class ChatService {
     return ChatService.instance;
   }
 
-  public async processMessage(message: string): Promise<string> {
+  private async getBedrockClientForUser(userId: string): Promise<BedrockRuntimeClient> {
+     const userConfig = await configController.getDecryptedUserConfig(userId);
+     if (!userConfig) {
+       throw new ChatServiceError(`AWS configuration not found for user ${userId}. Cannot initialize Bedrock client.`);
+     }
+     return new BedrockRuntimeClient({
+       region: userConfig.awsRegion,
+       credentials: {
+         accessKeyId: userConfig.awsAccessKeyId,
+         secretAccessKey: userConfig.awsSecretAccessKey,
+       },
+       maxAttempts: 3
+     });
+  }
+
+  public async processMessage(userId: string, message: string): Promise<string> {
+    if (!userId) {
+        throw new ChatServiceError('User ID is required to process chat message.');
+    }
     if (!message?.trim()) {
       throw new ChatServiceError('Invalid or empty message');
     }
 
     const conversationHistory = await this.getConversationHistory(message);
-    const chatResponse = await this.invokeBedrock(conversationHistory);
+    const chatResponse = await this.invokeBedrock(userId, conversationHistory);
     await this.saveConversation([...conversationHistory, { role: 'assistant', content: chatResponse }]);
-    
+
     return chatResponse;
   }
 
@@ -53,9 +68,10 @@ export class ChatService {
     }
   }
 
-  private async invokeBedrock(conversationHistory: Array<{ role: string; content: string }>): Promise<string> {
+  private async invokeBedrock(userId: string, conversationHistory: Array<{ role: string; content: string }>): Promise<string> {
     try {
-      const client = this.awsClientService.getClient<BedrockRuntimeClient>('BedrockRuntimeClient');
+      const client = await this.getBedrockClientForUser(userId);
+
       const command = new InvokeModelCommand({
         modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
         contentType: 'application/json',
@@ -70,13 +86,20 @@ export class ChatService {
       const response = await client.send(command);
       const responseBody = this.parseBedrockResponse(response.body);
       const parsedResponse = JSON.parse(responseBody);
-      
+
       if (!Array.isArray(parsedResponse.content) || !parsedResponse.content.length) {
         throw new ChatServiceError('Invalid content structure in response');
       }
 
       return parsedResponse.content[0]?.text || 'No response';
     } catch (error) {
+       console.error(`Error invoking Bedrock for user ${userId}:`, error);
+       if (error instanceof Error && error.name === 'AccessDeniedException') {
+           throw new ChatServiceError(`AWS Bedrock access denied for user ${userId}. Check IAM permissions or region availability.`);
+       }
+       if (error instanceof Error && error.name === 'ResourceNotFoundException') {
+           throw new ChatServiceError(`Bedrock model not found or not available in region for user ${userId}.`);
+       }
       throw new ChatServiceError(`Failed to invoke Bedrock model: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }

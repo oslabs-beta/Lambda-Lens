@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { configController } from "../controllers/ConfigController";
+import { verifyFirebaseToken } from '../middleware/authMiddleware'; 
 
 const router = Router();
 
-router.post("/save", configController.saveConfiguration, (_req, res) => {
+router.post("/save", verifyFirebaseToken, configController.saveConfiguration, (_req, res) => {
   res.status(200).json({ message: res.locals.saved });
 });
 

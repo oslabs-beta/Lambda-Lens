@@ -1,7 +1,7 @@
 import { CloudWatchClient, GetMetricDataCommand, GetMetricDataCommandOutput } from '@aws-sdk/client-cloudwatch';
-import { CloudWatchLogsClient, DescribeLogStreamsCommand, GetLogEventsCommand } from '@aws-sdk/client-cloudwatch-logs';
+import { CloudWatchLogsClient, DescribeLogStreamsCommand, GetLogEventsCommand, LogStream } from '@aws-sdk/client-cloudwatch-logs'; // Import LogStream type
 import { FormattedLog } from '../types/metrics';
-import { AwsClientService } from './AwsClientService';
+import { configController } from '../controllers/ConfigController';
 import { MetricsValidator } from '../utils/validators';
 
 export interface MetricData {
@@ -21,13 +21,9 @@ export interface PercentileData {
 export class MetricsProcessingService {
   private static instance: MetricsProcessingService;
   private readonly BATCH_SIZE = 6;
-  private readonly TIME_WINDOW = 90 * 24 * 60 * 60 * 1000; // 90 days
-  private readonly cloudWatchClient: CloudWatchClient;
+  private readonly TIME_WINDOW = 90 * 24 * 60 * 60 * 1000; 
 
-  private constructor() {
-    const awsClientService = AwsClientService.getInstance();
-    this.cloudWatchClient = awsClientService.getClient<CloudWatchClient>('CloudWatchClient');
-  }
+  private constructor() {}
 
   public static getInstance(): MetricsProcessingService {
     if (!MetricsProcessingService.instance) {
@@ -36,35 +32,76 @@ export class MetricsProcessingService {
     return MetricsProcessingService.instance;
   }
 
-  public async getCloudWatchMetrics(functionNames: string[]): Promise<MetricData[]> {
+  private async getCloudWatchClientForUser(userId: string): Promise<CloudWatchClient> {
+     const userConfig = await configController.getDecryptedUserConfig(userId);
+     if (!userConfig) {
+       throw new Error(`AWS configuration not found for user ${userId}.`);
+     }
+     return new CloudWatchClient({
+       region: userConfig.awsRegion,
+       credentials: {
+         accessKeyId: userConfig.awsAccessKeyId,
+         secretAccessKey: userConfig.awsSecretAccessKey,
+       },
+       maxAttempts: 3
+     });
+  }
+
+  private async getCloudWatchLogsClientForUser(userId: string): Promise<CloudWatchLogsClient> {
+     const userConfig = await configController.getDecryptedUserConfig(userId);
+     if (!userConfig) {
+       throw new Error(`AWS configuration not found for user ${userId}.`);
+     }
+     return new CloudWatchLogsClient({
+       region: userConfig.awsRegion,
+       credentials: {
+         accessKeyId: userConfig.awsAccessKeyId,
+         secretAccessKey: userConfig.awsSecretAccessKey,
+       },
+       maxAttempts: 3 
+     });
+  }
+
+
+  public async getCloudWatchMetrics(userId: string, functionNames: string[]): Promise<MetricData[]> {
+    if (!userId) throw new Error('User ID is required for getCloudWatchMetrics.');
+    MetricsValidator.validateFunctionNames(functionNames);
+
+    const client = await this.getCloudWatchClientForUser(userId);
+
     const batches = this.batchArray(functionNames, this.BATCH_SIZE);
     const results = await Promise.all(
-      batches.map(batch => this.processMetricsBatch(batch))
+      batches.map(batch => this.processMetricsBatch(client, batch))
     );
     return results.flat();
   }
 
-  public async getPercentileMetrics(functionNames: string[]): Promise<PercentileData> {
+  public async getPercentileMetrics(userId: string, functionNames:string[]): Promise<PercentileData> {
+    if (!userId) throw new Error('User ID is required for getPercentileMetrics.');
+    MetricsValidator.validateFunctionNames(functionNames);
+
+    const client = await this.getCloudWatchClientForUser(userId);
+
     const batches = this.batchArray(functionNames, this.BATCH_SIZE);
     const results = await Promise.all(
-      batches.map(batch => this.processPercentilesBatch(batch))
+      batches.map(batch => this.processPercentilesBatch(client, batch))
     );
     return results.reduce((acc, curr) => ({ ...acc, ...curr }), {});
   }
 
-  private async processMetricsBatch(functionNames: string[]): Promise<MetricData[]> {
+  private async processMetricsBatch(client: CloudWatchClient, functionNames: string[]): Promise<MetricData[]> {
     const commands = functionNames.map(name => this.createMetricCommand(name));
     const responses = await Promise.all(
-      commands.map(cmd => this.cloudWatchClient.send(cmd))
+      commands.map(cmd => client.send(cmd))
     );
 
     return functionNames.map((name, idx) => this.normalizeMetricData(name, responses[idx]));
   }
 
-  private async processPercentilesBatch(functionNames: string[]): Promise<PercentileData> {
+  private async processPercentilesBatch(client: CloudWatchClient, functionNames: string[]): Promise<PercentileData> {
     const commands = functionNames.map(name => this.createPercentileCommand(name));
     const responses = await Promise.all(
-      commands.map(cmd => this.cloudWatchClient.send(cmd))
+      commands.map(cmd => client.send(cmd))
     );
 
     return functionNames.reduce((acc, name, idx) => ({
@@ -151,14 +188,14 @@ export class MetricsProcessingService {
   private formatLog(log: { message: string; timestamp: number }, functionName: string): FormattedLog {
     const dateObject = new Date(log.timestamp);
     const formattedDate = dateObject
-      .toLocaleString('en-US', { timeZone: 'UTC' })
+      .toLocaleString('en-US', { timeZone: 'UTC' }) 
       .split(', ');
 
     const formattedLog: FormattedLog = {
       Date: formattedDate[0],
       Time: formattedDate[1],
       FunctionName: functionName,
-      duration: '0',  
+      duration: '0',
       BilledDuration: '0',
       MaxMemUsed: '0'
     };
@@ -178,11 +215,15 @@ export class MetricsProcessingService {
     return formattedLog;
   }
 
-  private async fetchLogStream(client: CloudWatchLogsClient, functionName: string, stream: any) {
+  private async fetchLogStream(client: CloudWatchLogsClient, functionName: string, stream: LogStream) {
+    if (!stream.logStreamName) {
+        console.warn(`Skipping stream for ${functionName} due to missing name.`);
+        return [];
+    }
     const params = {
       logGroupName: `/aws/lambda/${functionName}`,
       logStreamName: stream.logStreamName,
-      startFromHead: true,
+      startFromHead: true, 
     };
 
     try {
@@ -192,7 +233,7 @@ export class MetricsProcessingService {
         .map(event => ({
           message: event.message!,
           timestamp: event.timestamp || Date.now(),
-          functionName,
+          functionName, 
         }));
     } catch (err) {
       console.error(
@@ -204,46 +245,52 @@ export class MetricsProcessingService {
     }
   }
 
-  private async fetchAndFormatLogs(functionName: string): Promise<FormattedLog[]> {
+  private async fetchAndFormatLogs(userId: string, functionName: string): Promise<FormattedLog[]> {
+    if (!userId) throw new Error('User ID is required for fetchAndFormatLogs.');
+
     const formattedFunc = `/aws/lambda/${functionName}`;
     const allLogs: { message: string; timestamp: number; functionName: string }[] = [];
 
     try {
-      const awsClientService = AwsClientService.getInstance();
-      const client = awsClientService.getClient<CloudWatchLogsClient>('CloudWatchLogsClient');
-      
+      const client = await this.getCloudWatchLogsClientForUser(userId);
+
       const describeResponse = await client.send(
-        new DescribeLogStreamsCommand({ 
+        new DescribeLogStreamsCommand({
           logGroupName: formattedFunc,
           orderBy: 'LastEventTime',
           descending: true,
-          limit: this.BATCH_SIZE
+          limit: this.BATCH_SIZE 
         })
       );
 
       const streams = describeResponse.logStreams || [];
       const streamPromises = streams.map(stream => this.fetchLogStream(client, functionName, stream));
       const streamResults = await Promise.all(streamPromises);
-      
+
       allLogs.push(...streamResults.flat());
-      
-      return allLogs.map(log => this.formatLog(log, log.functionName));
+
+      return allLogs.map(log => this.formatLog(log, functionName));
     } catch (err) {
       console.error(
-        `Error processing logs for function ${functionName}: ${
+        `Error processing logs for function ${functionName} (User: ${userId}): ${
           (err as Error).message
         }`
       );
-      return [];
+      if (err instanceof Error && err.name === 'ResourceNotFoundException') {
+          console.warn(`Log group ${formattedFunc} not found for user ${userId}.`);
+          return []; 
+      }
+      throw err; 
     }
   }
 
-  public async getProcessedLogs(functionNames: string[]): Promise<{ functionName: string; logs: FormattedLog[] }[]> {
+  public async getProcessedLogs(userId: string, functionNames: string[]): Promise<{ functionName: string; logs: FormattedLog[] }[]> {
+    if (!userId) throw new Error('User ID is required for getProcessedLogs.');
     MetricsValidator.validateFunctionNames(functionNames);
 
     const logPromises = functionNames.map(async (functionName) => ({
       functionName,
-      logs: await this.fetchAndFormatLogs(functionName),
+      logs: await this.fetchAndFormatLogs(userId, functionName),
     }));
 
     return Promise.all(logPromises);
