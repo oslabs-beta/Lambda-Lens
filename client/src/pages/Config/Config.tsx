@@ -1,58 +1,50 @@
 import ConfigForm from "./ConfigForm/ConfigForm";
+import { useAuth } from "../../context/AuthContext"; 
 
 export type Config = {
   awsAccessKeyID: string;
   awsSecretAccessKey: string;
   awsRegion: string;
-  mongoURI: string;
 };
 
 function ConfigPageContainer() {
-  const handleSaveConfig = async (config: Required<Config>) => {
+  const { currentUser } = useAuth(); 
+
+  const handleSaveConfig = async (config: Config) => { 
+    if (!currentUser) {
+      alert("You must be logged in to save configuration.");
+      return;
+    }
+
     try {
+      const token = await currentUser.getIdToken(); 
+
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/config/save`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, 
           },
-          body: JSON.stringify(config),
+          body: JSON.stringify({
+            awsAccessKeyID: config.awsAccessKeyID,
+            awsSecretAccessKey: config.awsSecretAccessKey,
+            awsRegion: config.awsRegion,
+          }),
         }
       );
-      if (response.ok) {
-        alert(`Configuration saved`);
-      } else {
-        alert("Error saving user information");
-      }
-    } catch (err) {
-      console.log("The following error occurred:", err);
-    }
-  };
 
-  const handleSaveDatabase = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/config/db`,
-        {
-          method: "POST",
-        }
-      );
-      const data = await response.json();
+      const responseData = await response.json(); 
 
       if (response.ok) {
-        window.location.href = "/dash";
+        alert(responseData.message || `Configuration saved successfully.`); 
       } else {
-        alert(
-          data.message?.err ||
-            "Error connecting to database. Please check for valid URI input"
-        );
+        alert(responseData.message?.err || responseData.err || "Error saving configuration");
       }
     } catch (err) {
-      console.error("Error in handleDatabase: ", err);
-      alert(
-        "Failed to connect to database. Please check your connection and try again."
-      );
+      console.error("Error saving configuration:", err); 
+      alert("An error occurred while saving configuration. Please try again.");
     }
   };
 
@@ -65,13 +57,13 @@ function ConfigPageContainer() {
               Configuration
             </h1>
             <p className="mt-1 text-sm text-light-text-sec dark:text-dark-text-sec">
-              Set up your AWS credentials and database connection to start monitoring your Lambda functions.
+              Enter your AWS credentials to start monitoring your Lambda functions.
             </p>
           </div>
         </div>
       </div>
       <div className="flex flex-col items-center">
-        <ConfigForm onSave={handleSaveConfig} onDatabase={handleSaveDatabase} />
+        <ConfigForm onSave={handleSaveConfig} />
       </div>
     </div>
   );

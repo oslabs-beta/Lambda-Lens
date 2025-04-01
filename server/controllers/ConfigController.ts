@@ -106,38 +106,25 @@ class ConfigController {
     }
   };
 
+  // Simplified connectDatabase - just checks status
   public connectDatabase: RequestHandler = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const mongoURI = process.env.MONGODB_URI;
-      if (!mongoURI) {
-        throw new ConfigValidationError('MongoDB URI is not configured on the server');
-      }
-      // Check connection status without reconnecting unnecessarily
-      if (mongoose.connection.readyState !== 1) {
-         await this.connectToDatabase(mongoURI);
-         console.log('Connected to MongoDB');
+      const readyState = mongoose.connection.readyState;
+      // 0 = disconnected; 1 = connected; 2 = connecting; 3 = disconnecting
+      if (readyState === 1) {
+        res.status(200).json({ message: "Database connection is healthy" });
       } else {
-         console.log('Already connected to MongoDB');
+        // Throw an error or return a specific status if not connected
+        throw new Error(`Database connection state is: ${readyState}`);
       }
-      res.status(200).json({ message: "Database connection is healthy" });
     } catch (error) {
       return next({
-        log: `Error in ConfigController.connectDatabase: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        status: 500,
-        message: { err: error instanceof ConfigValidationError ? error.message : 'Failed to connect to database' },
+        log: `Error in ConfigController.connectDatabase check: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        status: 503, // Service Unavailable might be appropriate
+        message: { err: 'Database connection is not healthy' },
       });
     }
   };
-
-  private async connectToDatabase(mongoURI: string): Promise<void> {
-     try {
-       if (mongoose.connection.readyState !== 1) {
-         await mongoose.connect(mongoURI);
-       }
-     } catch (error) {
-       throw new Error(`Failed to connect to MongoDB: ${error instanceof Error ? error.message : 'Unknown error'}`);
-     }
-  }
 
   // --- Decryption Helper (will be needed later) ---
   // private decrypt(encryptedText: string): string {

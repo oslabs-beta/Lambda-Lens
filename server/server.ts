@@ -2,16 +2,17 @@ import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import mongoose from 'mongoose'; // Import mongoose
 import configRoutes from "./routes/configRoutes";
 import dataRoutes from "./routes/dataRoutes";
 import healthRoutes from "./routes/healthRoutes";
 import chatRoutes from "./routes/chatRoutes";
-import { AwsClientService } from "./services/AwsClientService";
 import * as admin from 'firebase-admin'; // Import Firebase Admin SDK
 
 // Load environment variables, but don't throw if .env is missing
 dotenv.config();
 
+// --- Initialize Firebase Admin ---
 try {
   const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
   if (!serviceAccountPath) {
@@ -28,6 +29,23 @@ try {
   process.exit(1);
 }
 
+// --- Connect to MongoDB ---
+const connectDB = async () => {
+  try {
+    const mongoURI = process.env.MONGODB_URI;
+    if (!mongoURI) {
+      throw new Error('MONGODB_URI environment variable not set.');
+    }
+    await mongoose.connect(mongoURI);
+    console.log('MongoDB Connected...');
+  } catch (err) {
+    console.error("Error connecting to MongoDB:", err instanceof Error ? err.message : err);
+    // Exit process with failure
+    process.exit(1);
+  }
+};
+connectDB(); // Call the function to connect
+// --- End MongoDB Connection ---
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -46,31 +64,6 @@ app.use(
   })
 );
 app.use(express.json());
-
-// Initialize AWS client service with any existing config
-try {
-  if (
-    process.env.AWS_ACCESS_KEY_ID &&
-    process.env.AWS_SECRET_ACCESS_KEY &&
-    process.env.AWS_REGION
-  ) {
-    const awsClientService = AwsClientService.getInstance();
-    awsClientService.updateConfig({
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      },
-      region: process.env.AWS_REGION,
-    });
-    console.log("AWS configuration loaded from environment");
-  } else {
-    console.log(
-      "No AWS configuration found - waiting for configuration through UI"
-    );
-  }
-} catch (error) {
-  console.error("Error initializing AWS configuration:", error);
-}
 
 app.use("/api/config", configRoutes);
 app.use("/api/data", dataRoutes);
@@ -109,6 +102,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
+// Start server only after DB connection attempt (handled by process.exit on failure)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
