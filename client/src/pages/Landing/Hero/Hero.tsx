@@ -13,7 +13,7 @@ const Hero = () => {
         Lambda Lens aggregates key performance metrics like Cold Starts, providing a clear view of your serverless performance.
       </p>
       <Link
-        to="/config"
+        to="/dash"
         className="px-8 py-3 bg-element-s hover:bg-element-h text-white rounded-lg transition-colors font-semibold text-lg"
       >
         Explore Dashboard

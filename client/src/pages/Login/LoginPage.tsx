@@ -21,7 +21,7 @@ const LoginPage = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/config'); 
+      navigate('/dash'); 
     } catch (err: any) {
       console.error("Firebase Login Error:", err);
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {

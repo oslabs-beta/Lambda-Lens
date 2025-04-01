@@ -8,7 +8,7 @@ const CTA = () => {
         Start monitoring your functions with Lambda Lens today.
       </p>
       <Link
-        to="/config"
+        to="/dash"
         className="px-8 py-3 bg-element-s hover:bg-element-h text-white rounded-lg transition-colors font-semibold text-lg"
       >
         Configure Now
