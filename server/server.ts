@@ -12,11 +12,22 @@ import * as admin from 'firebase-admin';
 dotenv.config();
 
 try {
-  const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
-  if (!serviceAccountPath) {
+  // Check if the key is a file path or JSON string
+  const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+  
+  if (!serviceAccountKey) {
     throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable not set.');
   }
-  const serviceAccount = require(serviceAccountPath); 
+  
+  let serviceAccount;
+  
+  // If it starts with a path separator or contains .json, treat as a file path
+  if (serviceAccountKey.startsWith('/') || serviceAccountKey.includes('.json')) {
+    serviceAccount = require(serviceAccountKey);
+  } else {
+    // Otherwise, treat as a JSON string
+    serviceAccount = JSON.parse(serviceAccountKey);
+  }
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
