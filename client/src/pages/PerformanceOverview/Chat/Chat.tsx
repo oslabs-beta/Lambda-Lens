@@ -83,8 +83,19 @@ const ChatContainer = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Bedrock Analysis</h2>
-      <div className="flex-1 overflow-y-auto space-y-2 bg-[#e1e1e1] dark:bg-[#363636] p-3 rounded-lg transition-colors">
+      {/* Target: Updated title style */}
+      <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Bedrock Analysis</h2>
+       {/* Target: Add subtitle */}
+      <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
+        AI model performance metrics
+      </p>
+      {/* Target: White background, border, adjust padding */}
+      <div className="flex-1 overflow-y-auto space-y-3 bg-white dark:bg-dark-cont-m p-4 border border-gray-200 dark:border-gray-700 rounded-t-md transition-colors mb-0"> {/* Removed mb-2 */}
+        {messages.length === 0 && !loading && ( // Show placeholder if no messages
+           <div className="text-center text-gray-400 dark:text-gray-500 pt-10">
+             No conversation yet. Ask something about your performance data!
+           </div>
+        )}
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -93,44 +104,44 @@ const ChatContainer = () => {
             }`}
           >
             <div
-              className={`max-w-[80%] rounded-lg p-2.5 ${
+              // Target: Refined bubble styles
+              className={`max-w-[85%] rounded-lg px-3.5 py-2 text-sm shadow-sm ${ // Added shadow-sm back for definition
                 msg.role === "user"
-                  ? "bg-[#447A90] text-white"
-                  : "bg-[#e1e1e1] dark:bg-[#404040] text-[#161616] dark:text-white"
+                  ? "bg-blue-600 text-white" // Keep user messages distinct
+                  : "bg-gray-100 dark:bg-dark-cont-s text-gray-800 dark:text-dark-text-prim" // Lighter assistant messages
               } transition-colors`}
             >
-              <div className="font-semibold mb-0.5">
-                {msg.role === "user" ? "You" : "Assistant"}:
-              </div>
               <p className="whitespace-pre-wrap break-words">{msg.content}</p>
             </div>
           </div>
         ))}
         {loading && (
           <div className="flex flex-col items-start">
-            <div className="max-w-[80%] rounded-lg p-2.5 bg-[#e1e1e1] dark:bg-[#404040] text-[#161616] dark:text-white transition-colors">
-              <div className="font-semibold mb-0.5">Assistant:</div>
-              <p className="whitespace-pre-wrap break-words">Thinking...</p>
+            <div className="max-w-[85%] rounded-lg px-3.5 py-2 text-sm bg-gray-100 dark:bg-dark-cont-s text-gray-500 dark:text-dark-text-sec transition-colors shadow-sm">
+              <p className="whitespace-pre-wrap break-words italic">Thinking...</p>
             </div>
           </div>
         )}
       </div>
-      <div className="flex gap-2 mt-2">
+      {/* Target: Input area with border top */}
+      <div className="flex gap-2 p-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-cont-l rounded-b-md">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Type your message here..."
-          disabled={loading || !currentUser} 
-          className="flex-1 p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors"
+          placeholder="Ask about performance..."
+          disabled={loading || !currentUser}
+           // Target: Input field style matching buttons
+          className="flex-1 px-3 py-1.5 rounded-md bg-gray-50 dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-900 dark:text-dark-text-prim disabled:opacity-60 transition-colors text-sm outline-none"
         />
         <button
           onClick={handleSendMessage}
-          disabled={loading || !currentUser} 
-          className="px-4 py-2 bg-[#447A90] hover:bg-[#62ACCC] text-white rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+          disabled={loading || !currentUser || input.trim() === ''} // Disable if input is empty
+          // Target: Send button style
+          className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md border-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-dark-cont-l disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
         >
-          {loading ? "Sending..." : "Send"}
+          {loading ? "..." : "Send"}
         </button>
       </div>
     </div>
