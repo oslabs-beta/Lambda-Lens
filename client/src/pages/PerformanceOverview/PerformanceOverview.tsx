@@ -3,7 +3,8 @@ import ColdStartsGraphComponent from "./ColdStart/ColdStart";
 import ColdStartsMetricsContainer from "./ColdStartMetrics/ColdStartMetrics";
 import AvgBilledDurGraph from "./AverageBilledDuration/AverageBilledDuration";
 import ChatContainer from "./Chat/Chat";
-import { useAuth } from "../../context/AuthContext"; 
+import { useAuth } from "../../context/AuthContext";
+import { RefreshIcon, DownloadIcon, FilterIcon } from "../../components/icons";
 
 interface FunctionData {
   functionName: string;
@@ -11,10 +12,6 @@ interface FunctionData {
   numColdStarts: number;
   percentColdStarts: number;
 }
-
-const FilterIcon = () => <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>;
-const ExportIcon = () => <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>;
-const RefreshIcon = () => <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m-15.357-2a8.001 8.001 0 0115.357-2m0 0H15" /></svg>;
 
 const DashboardContainer = () => {
   const { currentUser } = useAuth(); 
@@ -81,7 +78,7 @@ const DashboardContainer = () => {
     : [];
 
   return (
-    <div className="p-6 bg-white dark:bg-dark-bg transition-colors min-h-screen">
+    <div className="p-6 transition-colors min-h-screen">
       <div className="pb-4 mb-6">
         <div className="flex flex-col gap-2">
           <div>
@@ -114,7 +111,7 @@ const DashboardContainer = () => {
               className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg ml-auto"
               // onClick={handleExport} // Add export handler
             >
-              <ExportIcon />
+              <DownloadIcon />
               Export Data
             </button>
           </div>
