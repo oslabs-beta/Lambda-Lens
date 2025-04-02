@@ -1,6 +1,5 @@
 import { Doughnut } from "react-chartjs-2";
-// Ensure Chart.js elements are registered
-import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart, ArcElement, Tooltip, Legend, ChartOptions } from 'chart.js'; // Import ChartOptions
 Chart.register(ArcElement, Tooltip, Legend);
 
 
@@ -25,48 +24,52 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
   ];
 
   const chartData = {
-    labels: data.map((fn) => `${fn.functionName} (${((fn.numColdStarts / data.reduce((sum, d) => sum + d.numColdStarts, 0)) * 100).toFixed(0)}%)`), // Add percentage to label
+    // Use only function name for labels, legend will show details
+    labels: data.map((fn) => fn.functionName),
     datasets: [
       {
         data: data.map((fn) => fn.numColdStarts),
         backgroundColor: backgroundColors.slice(0, data.length),
-        // Target: Add white border between segments
-        borderColor: '#ffffff', // White border for light mode
-        // borderColor: '#2d3748', // Dark border for dark mode (conditionally apply if needed)
+        borderColor: '#ffffff',
         borderWidth: 2,
       },
     ],
   };
 
-  const options = {
+  // Explicitly type options
+  const options: ChartOptions<'doughnut'> = {
     plugins: {
-      // Target: Hide default legend, labels are now part of the data labels
       legend: {
-        display: false,
+        display: true, // Re-enable the legend
+        position: 'right', // Position legend to the right
+        labels: {
+           boxWidth: 12, // Smaller color box
+           padding: 15, // Padding between legend items
+           color: '#6b7280', // Match tick color for consistency (adjust if needed)
+           // Optional: Customize label generation further if needed
+           // generateLabels: function(chart) { ... }
+        }
       },
       tooltip: {
         callbacks: {
             label: function(context: any) {
-                // Show only the value in the tooltip, as label now includes percentage
+                let label = context.label || '';
                 let value = context.parsed || 0;
-                return `Cold Starts: ${value}`;
+                if (label) {
+                    label += ': ';
+                }
+                label += `${value} Cold Starts`;
+                // Calculate percentage for tooltip
+                const total = context.chart.data.datasets[0].data.reduce((acc: number, val: number) => acc + val, 0);
+                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0.0%';
+                label += ` (${percentage})`;
+                return label;
             }
         }
       },
-      // Optional: Use chartjs-plugin-datalabels if you want labels directly on/near the chart segments
-      // datalabels: {
-      //   formatter: (value, ctx) => {
-      //     let sum = 0;
-      //     let dataArr = ctx.chart.data.datasets[0].data;
-      //     dataArr.map(data => { sum += data; });
-      //     let percentage = (value*100 / sum).toFixed(0)+"%";
-      //     return percentage;
-      //   },
-      //   color: '#fff',
-      // }
     },
     maintainAspectRatio: false,
-    cutout: '70%', // Target: Adjust cutout percentage
+    cutout: '70%',
   };
 
   return (

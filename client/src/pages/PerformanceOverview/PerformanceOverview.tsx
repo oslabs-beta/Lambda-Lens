@@ -82,29 +82,16 @@ const DashboardContainer = () => {
 
   return (
     <div className="p-6 bg-white dark:bg-dark-bg transition-colors min-h-screen">
-      {/* Target: No bottom border here, adjust spacing */}
       <div className="pb-4 mb-6">
         <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-center"> {/* Target: Align items center */}
-            <div>
-              {/* Target: Larger heading */}
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
-                Performance Overview
-              </h1>
-              <p className="mt-1 text-sm text-gray-600 dark:text-dark-text-sec">
-                Monitor cold starts and billed duration across all your Lambda functions.
-              </p>
-            </div>
-            {/* Target: Add Export Data button */}
-            <button
-              className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
-              // onClick={handleExport} // Add export handler
-            >
-              <ExportIcon />
-              Export Data
-            </button>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
+              Performance Overview
+            </h1>
+            <p className="mt-1 text-sm text-gray-600 dark:text-dark-text-sec">
+              Monitor cold starts and billed duration across all your Lambda functions.
+            </p>
           </div>
-          {/* Target: Add Filter and Refresh buttons below */}
           <div className="flex gap-2 mt-4">
              <button
               className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
@@ -114,9 +101,8 @@ const DashboardContainer = () => {
               Filter
             </button>
              <button
-              // Target: Updated refresh button style
               className={`flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-all text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg ${
-                isClicked ? "ring-2 ring-blue-500 dark:ring-blue-400" : "" // Simplified click feedback
+                isClicked ? "ring-2 ring-blue-500 dark:ring-blue-400" : ""
               }`}
               onClick={handleRefresh}
               aria-label="Refresh data"
@@ -124,32 +110,32 @@ const DashboardContainer = () => {
               <RefreshIcon />
               Refresh
             </button>
+            <button
+              className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg ml-auto"
+              // onClick={handleExport} // Add export handler
+            >
+              <ExportIcon />
+              Export Data
+            </button>
           </div>
           {error && (
-            // Target: Consistent error styling
             <div className="mt-4 text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/50 rounded-md px-3 py-2">
               Error: {error}
             </div>
           )}
         </div>
       </div>
-      {/* Only render charts if data is loaded and valid */}
       {!error && data.length > 0 ? (
-          // Target: Adjusted gap
-          <div className="grid grid-cols-2 gap-6 auto-rows-fr"> {/* Target: Increased gap */}
-            {/* Target: White background, border, no shadow */}
+          <div className="grid grid-cols-2 gap-6 auto-rows-fr">
             <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <AvgBilledDurGraph data={sortedData} />
             </div>
-            {/* Target: White background, border, no shadow */}
             <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <ColdStartsMetricsContainer data={sortedData} />
             </div>
-            {/* Target: White background, border, no shadow */}
             <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <ColdStartsGraphComponent data={sortedData} />
             </div>
-            {/* Target: White background, border, no shadow */}
             <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <ChatContainer />
             </div>
