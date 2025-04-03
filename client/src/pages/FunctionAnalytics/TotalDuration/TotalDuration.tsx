@@ -33,20 +33,19 @@ const TotalDurationComponent = ({ data }: Props) => {
       {
         data: data.duration,
         backgroundColor: [
-          "#2563eb", // Darker Blue
-          "#3b82f6", // Medium Blue
-          "#60a5fa", // Lighter Blue
-          "#93c5fd", // Very Light Blue
-          "#bfdbfe", // Palest Blue
-          // Add more shades if needed, cycling through
+          "#2563eb", 
+          "#3b82f6", 
+          "#60a5fa", 
+          "#93c5fd", 
+          "#bfdbfe", 
           "#2563eb",
           "#3b82f6",
           "#60a5fa",
           "#93c5fd",
           "#bfdbfe",
         ],
-        borderColor: '#ffffff', // Add white border like ColdStartsGraphComponent
-        borderWidth: 2,       // Add white border like ColdStartsGraphComponent
+        borderColor: '#ffffff', 
+        borderWidth: 2,       
       },
     ],
   };

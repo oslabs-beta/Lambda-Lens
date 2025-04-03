@@ -18,17 +18,14 @@ const ColdStartsMetricsContainer = ({ data }: Props) => {
       <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
         Function performance breakdown
       </p>
-      {/* Container for header and rows */}
-      <div className="flex flex-col border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"> {/* Add border, rounding, overflow */}
-        {/* Header */}
+      <div className="flex flex-col border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"> 
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 px-3 py-2 bg-gray-50 dark:bg-dark-cont-s border-b border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500 dark:text-dark-text-sec uppercase tracking-wider">
           <div>Function Name</div>
           <div className="text-right">Avg Duration</div>
           <div className="text-right"># Cold Starts</div>
           <div className="text-right">% Cold Starts</div>
         </div>
-        {/* Rows container */}
-        <div className="flex flex-col bg-white dark:bg-dark-cont-l"> {/* Ensure background for rows */}
+        <div className="flex flex-col bg-white dark:bg-dark-cont-l"> 
           {data.map((row, index) => (
             <RowComponent
               key={row.functionName || index}
@@ -38,7 +35,6 @@ const ColdStartsMetricsContainer = ({ data }: Props) => {
               percentage={row.percentColdStarts}
             />
           ))}
-          {/* Add a check for empty data */}
           {data.length === 0 && (
             <div className="text-center py-4 text-gray-500 dark:text-dark-text-sec">No data available</div>
           )}

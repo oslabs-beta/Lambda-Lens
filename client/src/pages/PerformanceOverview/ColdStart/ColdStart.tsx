@@ -1,5 +1,5 @@
 import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement, Tooltip, Legend, ChartOptions } from 'chart.js'; // Import ChartOptions
+import { Chart, ArcElement, Tooltip, Legend, ChartOptions } from 'chart.js'; 
 Chart.register(ArcElement, Tooltip, Legend);
 
 
@@ -13,18 +13,15 @@ interface Props {
 }
 
 const ColdStartsGraphComponent = ({ data }: Props) => {
-  // Target: Different blue shades
   const backgroundColors = [
-    "#2563eb", // Darker Blue
-    "#3b82f6", // Medium Blue
-    "#60a5fa", // Lighter Blue
-    "#93c5fd", // Very Light Blue
-    "#bfdbfe", // Palest Blue
-    // Add more shades if needed
+    "#2563eb", 
+    "#3b82f6", 
+    "#60a5fa", 
+    "#93c5fd", 
+    "#bfdbfe", 
   ];
 
   const chartData = {
-    // Use only function name for labels, legend will show details
     labels: data.map((fn) => fn.functionName),
     datasets: [
       {
@@ -36,16 +33,15 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
     ],
   };
 
-  // Explicitly type options
   const options: ChartOptions<'doughnut'> = {
     plugins: {
       legend: {
-        display: true, // Re-enable the legend
-        position: 'right', // Position legend to the right
+        display: true, 
+        position: 'right', 
         labels: {
-           boxWidth: 12, // Smaller color box
-           padding: 15, // Padding between legend items
-           color: '#6b7280', // Match tick color for consistency (adjust if needed)
+           boxWidth: 12, 
+           padding: 15, 
+           color: '#6b7280', 
            // Optional: Customize label generation further if needed
            // generateLabels: function(chart) { ... }
         }
@@ -59,7 +55,6 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
                     label += ': ';
                 }
                 label += `${value} Cold Starts`;
-                // Calculate percentage for tooltip
                 const total = context.chart.data.datasets[0].data.reduce((acc: number, val: number) => acc + val, 0);
                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0.0%';
                 label += ` (${percentage})`;
@@ -74,14 +69,11 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Target: Updated title style */}
       <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Total Cold Starts</h2>
-       {/* Target: Add subtitle */}
       <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
         Distribution by function
       </p>
-      {/* Target: Remove inner container/background/shadow */}
-      <div className="flex-1 min-h-0 relative"> {/* Added relative for potential future label positioning */}
+      <div className="flex-1 min-h-0 relative"> 
         <Doughnut data={chartData} options={options} className="w-full h-full" />
       </div>
     </div>

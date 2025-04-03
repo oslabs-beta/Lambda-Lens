@@ -79,10 +79,7 @@ const DashboardContainer = () => {
 
   return (
     <div className="p-6 transition-colors min-h-screen">
-      {/* Adjust header layout */}
-      {/* Change items-start to items-end */}
       <div className="pb-4 mb-6 flex justify-between items-end">
-        {/* Title and Subtitle */}
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
             Performance Overview
@@ -92,19 +89,15 @@ const DashboardContainer = () => {
           </p>
         </div>
 
-        {/* Controls Group */}
-        <div className="flex items-center gap-3"> {/* Group buttons */}
-          {/* Error Message (if applicable, keep near controls) */}
+        <div className="flex items-center gap-3"> 
           {error && (
             <div className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/50 rounded-md px-3 py-2 max-w-xs">
               Error: {error}
             </div>
           )}
-          {/* Action Buttons */}
           <button
             className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
-            // onClick={handleFilter} // Add filter handler if needed
-            disabled={!currentUser || data.length === 0} // Disable if no data or not logged in
+            disabled={!currentUser || data.length === 0} 
           >
             <FilterIcon />
             Filter
@@ -115,15 +108,14 @@ const DashboardContainer = () => {
             }`}
             onClick={handleRefresh}
             aria-label="Refresh data"
-            disabled={!currentUser} // Disable if not logged in
+            disabled={!currentUser} 
           >
             <RefreshIcon />
             Refresh
           </button>
           <button
             className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
-            // onClick={handleExport} // Add export handler if needed
-            disabled={!currentUser || data.length === 0} // Disable if no data or not logged in
+            disabled={!currentUser || data.length === 0} 
           >
             <DownloadIcon />
             Export Data
@@ -131,10 +123,8 @@ const DashboardContainer = () => {
         </div>
       </div>
 
-      {/* Charts Area - No changes needed here */}
       {!error && data.length > 0 ? (
           <div className="grid grid-cols-2 gap-6 auto-rows-fr">
-            {/* ... chart components ... */}
             <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <AvgBilledDurGraph data={sortedData} />
             </div>

@@ -47,7 +47,6 @@ const ChatContainer = () => {
             const errorData = await response.json();
             errorMsg = errorData.message?.err || errorData.err || errorMsg;
         } catch (parseError) {
-            // Keep original error message if parsing fails
         }
         throw new Error(errorMsg);
       }
@@ -84,14 +83,12 @@ const ChatContainer = () => {
 
 
   return (
-    // Main container for the chat component
     <div className="flex flex-col h-full">
       <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Bedrock Analysis</h2>
       <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
         AI model performance metrics
       </p>
 
-      {/* Message Area - Fully separate block */}
       <div className="flex-1 overflow-y-auto space-y-3 bg-white dark:bg-dark-cont-m p-4 border border-gray-200 dark:border-gray-700 rounded-lg transition-colors mb-2">
         {messages.length === 0 && !loading && (
            <div className="text-center text-gray-400 dark:text-gray-500 pt-10">
@@ -125,7 +122,6 @@ const ChatContainer = () => {
         )}
       </div>
 
-      {/* Input and Button - No outer box, just a flex container */}
       <div className="flex gap-2">
         <input
           type="text"

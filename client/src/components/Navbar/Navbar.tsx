@@ -31,7 +31,7 @@ const DarkModeIcon = () => (
   </svg>
 );
 
-const NavbarComponent: React.FC = () => {
+const NavbarComponent = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -75,21 +75,19 @@ const NavbarComponent: React.FC = () => {
   const getNavLinkClasses = ({ isActive }: { isActive: boolean }) =>
     `${navLinkBaseClasses} ${
       isActive
-        ? 'bg-blue-600 text-white' // Target: Blue background, white text for active
-        : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700' // Target: Subtle hover
+        ? 'bg-blue-600 text-white' 
+        : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700' 
     }`;
 
   return (
-    // Target: White background, bottom border, no rounding
-    <nav className="flex items-center justify-between bg-white dark:bg-dark-cont-l font-sans px-4 py-2 border-b border-gray-200 dark:border-gray-700 transition-colors relative z-10">
+    <nav className="flex items-center justify-between bg-white dark:bg-dark-cont-l font-sans px-4 py-5 border-b border-gray-200 dark:border-gray-700 transition-colors relative z-10">
       <div className="flex items-center gap-6">
         <div className="flex-shrink-0">
           <NavLink to="/dash">
-            {/* Target: Ensure logo looks correct on white/dark bg */}
             <img src={lambda} alt="Logo" className="h-8 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
           </NavLink>
         </div>
-        <ul className="flex items-center gap-1 list-none m-0 p-0"> {/* Target: Reduced gap further */}
+        <ul className="flex items-center gap-1 list-none m-0 p-0"> 
           <li>
             <NavLink to="/dash" className={getNavLinkClasses}>
               Performance Overview
@@ -108,15 +106,14 @@ const NavbarComponent: React.FC = () => {
         </ul>
       </div>
 
-      <div className="flex items-center gap-2 flex-shrink-0"> {/* Target: Reduced gap */}
+      <div className="flex items-center gap-2 flex-shrink-0"> 
         {currentUser ? (
           <>
-            <span className="text-sm text-gray-600 dark:text-gray-400 hidden md:inline"> {/* Target: Adjusted text color */}
+            <span className="text-sm text-gray-600 dark:text-gray-400 hidden md:inline"> 
               {currentUser.email}
             </span>
             <button
               onClick={handleLogout}
-              // Target: Lighter background, border, subtle hover
               className="flex items-center justify-center h-8 px-3 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-cont-l"
             >
               Logout
@@ -129,7 +126,6 @@ const NavbarComponent: React.FC = () => {
           id="theme-switch"
           aria-label="theme switch"
           onClick={toggleDarkMode}
-          // Target: Lighter background, border, subtle hover, circular
           className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-cont-l"
         >
           {darkMode ? <DarkModeIcon /> : <LightModeIcon />}

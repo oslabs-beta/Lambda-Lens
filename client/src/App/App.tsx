@@ -14,7 +14,7 @@ import "../utils/chartSetup";
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="min-h-screen bg-light-cont-l dark:bg-dark-cont-l text-light-text-prim dark:text-dark-text-prim">
-      <div className="sticky top-0 p-4 z-10">
+      <div className="sticky top-0 z-10">
         <NavbarComponent />
       </div>
       <div className="pt-2"> 

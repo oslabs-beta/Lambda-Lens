@@ -150,9 +150,7 @@ const FunctionAnalyticsContainer = () => {
 
   return (
     <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors min-h-screen">
-      {/* Adjust header layout */}
-      <div className="pb-4 mb-6 flex justify-between items-end"> {/* Change items-start to items-end */}
-        {/* Title and Subtitle */}
+      <div className="pb-4 mb-6 flex justify-between items-end"> 
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
             Function Analytics
@@ -162,9 +160,7 @@ const FunctionAnalyticsContainer = () => {
           </p>
         </div>
 
-        {/* Controls Group */}
-        <div className="flex items-center gap-3"> {/* Group controls */}
-          {/* Error Message */}
+        <div className="flex items-center gap-3"> 
           {(errorCW || errorPercentiles) && (
             <div className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/50 rounded-md px-3 py-2 max-w-xs">
               {errorCW && <div>CloudWatch Error: {errorCW}</div>}
@@ -172,7 +168,6 @@ const FunctionAnalyticsContainer = () => {
             </div>
           )}
 
-          {/* Function Selector */}
           {!loadingCW && !loadingPercentiles && uniqueFunctionNames.length > 0 ? (
             <select
               value={selectedFunction}
@@ -195,7 +190,6 @@ const FunctionAnalyticsContainer = () => {
              <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">No functions found.</div>
           ) : null }
 
-          {/* Action Buttons */}
           <button
             className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
             disabled={!currentUser || (!loadingCW && !loadingPercentiles && uniqueFunctionNames.length === 0)}
@@ -224,7 +218,6 @@ const FunctionAnalyticsContainer = () => {
         </div>
       </div>
 
-      {/* Charts Area - No changes needed here */}
       <div className="grid grid-cols-2 gap-6 auto-rows-fr">
         {selectedFunction && (loadingCW || loadingPercentiles) && (
              <div className="col-span-2 text-center text-gray-500 dark:text-dark-text-sec py-10">Loading data for {selectedFunction}...</div>

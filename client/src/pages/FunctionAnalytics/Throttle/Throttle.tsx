@@ -35,7 +35,7 @@ const ThrottleComponent = ({ data }: Props) => {
         data: data.throttles,
         borderColor: "#60a5fa",
         fill: false,
-        tension: 0.1 // Optional: Add slight curve to line
+        tension: 0.1 
       },
     ],
   };
@@ -48,10 +48,10 @@ const ThrottleComponent = ({ data }: Props) => {
           text: 'End time'
         },
         grid: {
-          display: false // Keep grid off
+          display: false 
         },
         ticks: {
-           color: "#6b7280", // Match tick color
+           color: "#6b7280", 
         }
       },
       y: {
@@ -61,10 +61,10 @@ const ThrottleComponent = ({ data }: Props) => {
           text: 'Throttles'
         },
         grid: {
-          display: false // Keep grid off
+          display: false 
         },
         ticks: {
-           color: "#6b7280", // Match tick color
+           color: "#6b7280", 
         }
       },
     },
@@ -73,18 +73,15 @@ const ThrottleComponent = ({ data }: Props) => {
         display: false,
       },
     },
-    maintainAspectRatio: false, // Add maintainAspectRatio
+    maintainAspectRatio: false, 
   };
 
   return (
     <div className="flex flex-col h-full">
-      {/* Use consistent title styling */}
       <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Total Number of Throttles</h2>
-       {/* Add consistent subtitle */}
       <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
         Throttles per 5min interval
       </p>
-      {/* Remove inner container/background/shadow */}
       <div className="flex-1 min-h-0">
           <Line data={chartData} options={options} className="w-full h-full" />
       </div>
