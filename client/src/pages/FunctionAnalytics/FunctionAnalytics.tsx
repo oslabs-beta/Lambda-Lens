@@ -150,77 +150,81 @@ const FunctionAnalyticsContainer = () => {
 
   return (
     <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors min-h-screen">
-      <div className="pb-4 mb-6">
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
-                Function Analytics
-              </h1>
-              <p className="mt-1 text-sm text-gray-600 dark:text-dark-text-sec">
-                Visualize execution, throttle, and latency data for individual Lambda functions.
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              {(errorCW || errorPercentiles) && (
-                <div className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/50 rounded-md px-3 py-2 max-w-xs">
-                  {errorCW && <div>CloudWatch Error: {errorCW}</div>}
-                  {errorPercentiles && <div>Percentiles Error: {errorPercentiles}</div>}
-                </div>
-              )}
+      {/* Adjust header layout */}
+      <div className="pb-4 mb-6 flex justify-between items-end"> {/* Change items-start to items-end */}
+        {/* Title and Subtitle */}
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
+            Function Analytics
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 dark:text-dark-text-sec">
+            Visualize execution, throttle, and latency data for individual Lambda functions.
+          </p>
+        </div>
 
-              {!loadingCW && !loadingPercentiles && uniqueFunctionNames.length > 0 ? (
-                <select
-                  value={selectedFunction}
-                  onChange={handleFunctionChange}
-                  disabled={!currentUser}
-                  className="h-9 px-4 rounded-md bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 shadow-sm disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg text-sm"
-                >
-                  {!selectedFunction && <option value="" disabled>Select a function</option>}
-                  {uniqueFunctionNames.map((funcName) => (
-                    <option key={funcName} value={funcName}>
-                      {funcName}
-                    </option>
-                  ))}
-                </select>
-              ) : (loadingCW || loadingPercentiles) ? (
-                 <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">Loading functions...</div>
-              ) : (!errorCW && !errorPercentiles && !currentUser) ? (
-                 <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">Please log in.</div>
-              ) : (!errorCW && !errorPercentiles && uniqueFunctionNames.length === 0) ? (
-                 <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">No functions found.</div>
-              ) : null }
-
-              <button
-                className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
-                disabled={!currentUser || (!loadingCW && !loadingPercentiles && uniqueFunctionNames.length === 0)}
-              >
-                <FilterIcon />
-                Filter
-              </button>
-              <button
-                className={`flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-all text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg ${
-                  isClicked ? "ring-2 ring-blue-500 dark:ring-blue-400" : ""
-                }`}
-                onClick={handleRefresh}
-                aria-label="Refresh data"
-                disabled={!currentUser}
-              >
-                <RefreshIcon />
-                Refresh
-              </button>
-              <button
-                className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
-                disabled={!currentUser || (!loadingCW && !loadingPercentiles && uniqueFunctionNames.length === 0)}
-              >
-                <DownloadIcon />
-                Export Data
-              </button>
+        {/* Controls Group */}
+        <div className="flex items-center gap-3"> {/* Group controls */}
+          {/* Error Message */}
+          {(errorCW || errorPercentiles) && (
+            <div className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/50 rounded-md px-3 py-2 max-w-xs">
+              {errorCW && <div>CloudWatch Error: {errorCW}</div>}
+              {errorPercentiles && <div>Percentiles Error: {errorPercentiles}</div>}
             </div>
-          </div>
+          )}
+
+          {/* Function Selector */}
+          {!loadingCW && !loadingPercentiles && uniqueFunctionNames.length > 0 ? (
+            <select
+              value={selectedFunction}
+              onChange={handleFunctionChange}
+              disabled={!currentUser}
+              className="h-9 px-4 rounded-md bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 shadow-sm disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg text-sm"
+            >
+              {!selectedFunction && <option value="" disabled>Select a function</option>}
+              {uniqueFunctionNames.map((funcName) => (
+                <option key={funcName} value={funcName}>
+                  {funcName}
+                </option>
+              ))}
+            </select>
+          ) : (loadingCW || loadingPercentiles) ? (
+             <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">Loading functions...</div>
+          ) : (!errorCW && !errorPercentiles && !currentUser) ? (
+             <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">Please log in.</div>
+          ) : (!errorCW && !errorPercentiles && uniqueFunctionNames.length === 0) ? (
+             <div className="text-sm text-gray-500 dark:text-dark-text-sec h-9 flex items-center px-4">No functions found.</div>
+          ) : null }
+
+          {/* Action Buttons */}
+          <button
+            className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
+            disabled={!currentUser || (!loadingCW && !loadingPercentiles && uniqueFunctionNames.length === 0)}
+          >
+            <FilterIcon />
+            Filter
+          </button>
+          <button
+            className={`flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-all text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg ${
+              isClicked ? "ring-2 ring-blue-500 dark:ring-blue-400" : ""
+            }`}
+            onClick={handleRefresh}
+            aria-label="Refresh data"
+            disabled={!currentUser}
+          >
+            <RefreshIcon />
+            Refresh
+          </button>
+          <button
+            className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
+            disabled={!currentUser || (!loadingCW && !loadingPercentiles && uniqueFunctionNames.length === 0)}
+          >
+            <DownloadIcon />
+            Export Data
+          </button>
         </div>
       </div>
 
+      {/* Charts Area - No changes needed here */}
       <div className="grid grid-cols-2 gap-6 auto-rows-fr">
         {selectedFunction && (loadingCW || loadingPercentiles) && (
              <div className="col-span-2 text-center text-gray-500 dark:text-dark-text-sec py-10">Loading data for {selectedFunction}...</div>
