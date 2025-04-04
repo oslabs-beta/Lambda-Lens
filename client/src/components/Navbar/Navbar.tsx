@@ -80,11 +80,11 @@ const NavbarComponent = () => {
     }`;
 
   return (
-    <nav className="flex items-center justify-between bg-white dark:bg-dark-cont-l font-sans px-4 py-5 border-b border-gray-200 dark:border-gray-700 transition-colors relative z-10">
+    <nav className="flex items-center justify-between bg-white dark:bg-dark-cont-l font-sans px-4 py-4 border-b border-gray-200 dark:border-gray-700 transition-colors relative z-10">
       <div className="flex items-center gap-6">
         <div className="flex-shrink-0">
           <NavLink to="/dash">
-            <img src={lambda} alt="Logo" className="h-8 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
+            <img src={lambda} alt="Logo" className="h-12 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
           </NavLink>
         </div>
         <ul className="flex items-center gap-1 list-none m-0 p-0"> 

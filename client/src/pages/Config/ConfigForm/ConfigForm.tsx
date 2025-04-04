@@ -15,47 +15,53 @@ function ConfigForm({ onSave }: ConfigFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Config>(); 
+  } = useForm<Config>();
   const onSubmit: SubmitHandler<Config> = (data) => {
     onSave(data);
   };
 
-  const inputClasses = "p-2 rounded-lg bg-[#e1e1e1] hover:bg-[#f3f3f3] dark:bg-[#363636] dark:hover:bg-[#404040] text-[#161616] dark:text-[#a2a2a2] outline-none border-0 focus:ring-2 focus:ring-[#447A90] dark:focus:ring-[#62ACCC] disabled:opacity-50 transition-colors";
-  const errorClasses = "text-left text-red-500 text-xs pl-2.5 relative before:content-['⚠_'] before:inline-block before:text-red-500 before:mr-1";
+  const inputClasses = "block w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-cont-s text-gray-900 dark:text-dark-text-prim placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent disabled:opacity-50 transition-colors text-sm";
+  const labelClasses = "block text-sm font-medium text-gray-700 dark:text-dark-text-sec mb-1";
+  const errorClasses = "text-xs text-red-600 dark:text-red-400 mt-1";
+  const buttonClasses = "w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-md border-0 outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-dark-cont-m disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm";
+
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-[700px] max-w-full bg-[#f3f3f3] dark:bg-[#2a2a2a] p-6 rounded-lg shadow-md font-sans">
-      <div className="space-y-4">
-        <div className="flex flex-col gap-1.5">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col font-sans space-y-4">
+        <div>
+          <label htmlFor="awsAccessKeyID" className={labelClasses}>AWS Access Key ID</label>
           <input
-            {...register("awsAccessKeyID", { required: true })}
-            placeholder="AWS Access Key ID"
+            id="awsAccessKeyID"
+            {...register("awsAccessKeyID", { required: "AWS Access Key ID is required" })}
+            placeholder="AKIAIOSFODNN7EXAMPLE" 
             className={inputClasses}
           />
           {errors.awsAccessKeyID && (
-            <p className={errorClasses}>AWS Access Key ID is required</p>
+            <p className={errorClasses}>{errors.awsAccessKeyID.message}</p>
           )}
         </div>
 
-        {/* AWS Secret Access Key Input */}
-        <div className="flex flex-col gap-1.5">
+        <div>
+           <label htmlFor="awsSecretAccessKey" className={labelClasses}>AWS Secret Access Key</label>
           <input
-            type="password" 
-            {...register("awsSecretAccessKey", { required: true })}
-            placeholder="AWS Secret Access Key"
+            id="awsSecretAccessKey"
+            type="password"
+            {...register("awsSecretAccessKey", { required: "AWS Secret Access Key is required" })}
+            placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" 
             className={inputClasses}
           />
           {errors.awsSecretAccessKey && (
-            <p className={errorClasses}>AWS Secret Access Key is required</p>
+            <p className={errorClasses}>{errors.awsSecretAccessKey.message}</p>
           )}
         </div>
 
-        {/* AWS Region Select */}
-        <div className="flex flex-col gap-1.5">
+        <div>
+           <label htmlFor="awsRegion" className={labelClasses}>AWS Region</label>
           <select
-            {...register("awsRegion", { required: true })}
-            className={inputClasses}
-            defaultValue="" 
+            id="awsRegion"
+            {...register("awsRegion", { required: "AWS Region is required" })}
+            className={`${inputClasses} appearance-none`} 
+            defaultValue=""
           >
             <option value="" disabled>Select AWS Region</option>
             <option value="us-east-1">US East 1 (N. Virginia)</option>
@@ -89,16 +95,15 @@ function ConfigForm({ onSave }: ConfigFormProps) {
             <option value="il-central-1">IL Central 1 (Tel Aviv)</option>
           </select>
           {errors.awsRegion && (
-            <p className={errorClasses}>AWS Region is required</p>
+            <p className={errorClasses}>{errors.awsRegion.message}</p>
           )}
         </div>
-      </div>
 
-      <div className="mt-4 space-y-2">
+      <div className="pt-2"> 
         <input
           type="submit"
-          value="Save Configuration" 
-          className="w-full px-4 py-2 bg-[#447A90] hover:bg-[#62ACCC] text-white rounded-lg border-0 outline-none focus:ring-2 focus:ring-[#447A90] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+          value="Save Configuration"
+          className={buttonClasses}
         />
       </div>
     </form>
