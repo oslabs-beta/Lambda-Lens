@@ -1,4 +1,10 @@
-import { Bar } from "react-chartjs-2";
+import { ChartOptions } from "chart.js";
+import ChartWrapper from "../../../components/Charts/ChartWrapper";
+import { formatTimestamp } from "../../../utils/dateUtils";
+import {
+  getHorizontalBarOptions,
+  deepMerge,
+} from "../../../utils/chartOptions";
 
 interface Props {
   data: {
@@ -7,85 +13,48 @@ interface Props {
   };
 }
 
-const formatTimestamp = (timestamp: string) => {
-  const date = new Date(timestamp);
-
-  const formattedDate = date.toLocaleDateString([], {
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-  });
-
-  const formattedTime = date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-  return `${formattedDate} ${formattedTime}`;
-};
-
 const ConcurrExecComponent = ({ data }: Props) => {
   const labels = data.timestamps.map(formatTimestamp);
-  
+
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Executions',
+        label: "Executions",
         data: data.concurrentExecutions,
         backgroundColor: "#60a5fa",
-        borderRadius: 4
+        borderRadius: 4,
       },
     ],
   };
 
-  const options = {
-    indexAxis: 'y' as const,
+  const baseOptions = getHorizontalBarOptions();
+  const options: ChartOptions<"bar"> = deepMerge(baseOptions, {
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Executions'
+          text: "Executions",
         },
-        grid: {
-          display: true
-        },
-        ticks: {
-          color: "#6b7280", 
-        }
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'End time'
+          text: "End time",
         },
-        grid: {
-          display: false 
-        },
-        ticks: {
-          color: "#6b7280", 
-        }
       },
     },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    maintainAspectRatio: false, 
-  };
+  });
 
   return (
-    <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Total Concurrent Executions</h2>
-      <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
-        Executions per 5min interval
-      </p>
-      <div className="flex-1 min-h-0">
-        <Bar data={chartData} options={options} className="w-full h-full" />
-      </div>
-    </div>
+    <ChartWrapper
+      title="Total Concurrent Executions"
+      description="Executions per 5min interval"
+      chartType="bar"
+      chartData={chartData}
+      chartOptions={options}
+    />
   );
 };
 
