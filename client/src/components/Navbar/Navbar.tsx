@@ -31,7 +31,7 @@ const DarkModeIcon = () => (
   </svg>
 );
 
-const NavbarComponent: React.FC = () => {
+const NavbarComponent = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -75,19 +75,19 @@ const NavbarComponent: React.FC = () => {
   const getNavLinkClasses = ({ isActive }: { isActive: boolean }) =>
     `${navLinkBaseClasses} ${
       isActive
-        ? 'text-light-text-prim dark:text-dark-text-prim'
-        : 'text-light-text-sec dark:text-dark-text-sec hover:text-light-text-prim dark:hover:text-dark-text-prim'
+        ? 'bg-blue-600 text-white' 
+        : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700' 
     }`;
 
   return (
-    <nav className="flex items-center justify-between rounded-lg bg-light-cont-m dark:bg-dark-cont-m font-sans shadow-mui-2 px-6 py-3 transition-colors relative z-10">
+    <nav className="flex items-center justify-between bg-white dark:bg-dark-cont-l font-sans px-4 py-4 border-b border-gray-200 dark:border-gray-700 transition-colors relative z-10">
       <div className="flex items-center gap-6">
         <div className="flex-shrink-0">
           <NavLink to="/dash">
-            <img src={lambda} alt="Logo" className="h-10 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
+            <img src={lambda} alt="Logo" className="h-12 max-w-none transition-all duration-300 dark:invert dark:brightness-0" />
           </NavLink>
         </div>
-        <ul className="flex items-center gap-4 list-none m-0 p-0">
+        <ul className="flex items-center gap-1 list-none m-0 p-0"> 
           <li>
             <NavLink to="/dash" className={getNavLinkClasses}>
               Performance Overview
@@ -106,15 +106,15 @@ const NavbarComponent: React.FC = () => {
         </ul>
       </div>
 
-      <div className="flex items-center gap-4 flex-shrink-0">
+      <div className="flex items-center gap-2 flex-shrink-0"> 
         {currentUser ? (
           <>
-            <span className="text-sm text-light-text-sec dark:text-dark-text-sec hidden md:inline">
+            <span className="text-sm text-gray-600 dark:text-gray-400 hidden md:inline"> 
               {currentUser.email}
             </span>
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center h-9 px-3 bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m text-light-text-sec dark:text-dark-text-sec rounded-md transition-colors text-sm font-medium border border-light-cont-s dark:border-dark-cont-s focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h focus:ring-offset-2 dark:focus:ring-offset-dark-cont-m"
+              className="flex items-center justify-center h-8 px-3 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-cont-l"
             >
               Logout
             </button>
@@ -126,7 +126,7 @@ const NavbarComponent: React.FC = () => {
           id="theme-switch"
           aria-label="theme switch"
           onClick={toggleDarkMode}
-          className="flex items-center justify-center w-9 h-9 rounded-full bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m transition-colors focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h focus:ring-offset-2 dark:focus:ring-offset-dark-cont-m"
+          className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-cont-l"
         >
           {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
         </button>

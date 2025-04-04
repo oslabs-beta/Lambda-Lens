@@ -33,17 +33,19 @@ const TotalDurationComponent = ({ data }: Props) => {
       {
         data: data.duration,
         backgroundColor: [
-          '#437990',
-          '#4c88a1',
-          '#5796af',
-          '#68a0b7',
-          '#79abc0',
-          '#8bb6c8',
-          '#9cc1d0',
-          '#adccd8',
-          '#bfd7e0',
-          '#d0e1e9',
+          "#2563eb", 
+          "#3b82f6", 
+          "#60a5fa", 
+          "#93c5fd", 
+          "#bfdbfe", 
+          "#2563eb",
+          "#3b82f6",
+          "#60a5fa",
+          "#93c5fd",
+          "#bfdbfe",
         ],
+        borderColor: '#ffffff', 
+        borderWidth: 2,       
       },
     ],
   };
@@ -52,23 +54,31 @@ const TotalDurationComponent = ({ data }: Props) => {
     plugins: {
       legend: {
         display: true,
-        position: 'left' as const,
+        position: 'right' as const,
         labels: {
-          boxWidth: 20,
-          padding: 10,
+          boxWidth: 12,
+          padding: 15,
+          color: '#6b7280',
         },
       },
+      tooltip: {
+        backgroundColor: '#333',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+      },
     },
-    maintainAspectRatio: false,  
+    maintainAspectRatio: false,
+    cutout: '70%',
   };
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Average Execution Duration (5min period)</h2>
+      <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Average Execution Duration</h2>
+      <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
+        Duration per 5min interval (ms)
+      </p>
       <div className="flex-1 min-h-0">
-        <div className="bg-[#e1e1e1] dark:bg-[#363636] rounded-lg p-4 shadow-sm transition-colors">
-          <Doughnut data={chartData} options={options} className="w-full h-full" />
-        </div>
+        <Doughnut data={chartData} options={options} className="w-full h-full" />
       </div>
     </div>
   );

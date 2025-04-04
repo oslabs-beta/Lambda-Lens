@@ -3,7 +3,8 @@ import ColdStartsGraphComponent from "./ColdStart/ColdStart";
 import ColdStartsMetricsContainer from "./ColdStartMetrics/ColdStartMetrics";
 import AvgBilledDurGraph from "./AverageBilledDuration/AverageBilledDuration";
 import ChatContainer from "./Chat/Chat";
-import { useAuth } from "../../context/AuthContext"; 
+import { useAuth } from "../../context/AuthContext";
+import { RefreshIcon, DownloadIcon, FilterIcon } from "../../components/icons";
 
 interface FunctionData {
   functionName: string;
@@ -77,53 +78,68 @@ const DashboardContainer = () => {
     : [];
 
   return (
-    <div className="p-6 bg-light-cont-l dark:bg-dark-cont-l transition-colors">
-      <div className="border-b border-light-cont-s dark:border-dark-cont-s pb-5 mb-6">
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-3xl font-medium tracking-tight text-light-text-prim dark:text-dark-text-prim">
-                Performance Overview
-              </h1>
-              <p className="mt-1 text-sm text-light-text-sec dark:text-dark-text-sec">
-                Monitor cold starts and billed duration, across all your Lambda functions.
-              </p>
-            </div>
-            <button
-              className={`flex items-center justify-center w-10 h-10 rounded-lg bg-light-cont-s dark:bg-dark-cont-s hover:bg-light-cont-m dark:hover:bg-dark-cont-m text-light-text-prim dark:text-dark-text-sec focus:outline-none focus:ring-2 focus:ring-element-s dark:focus:ring-element-h shadow-sm transition-all ${
-                isClicked ? "bg-element-s dark:bg-element-s hover:bg-element-s dark:hover:bg-element-s text-white dark:text-white transform scale-95" : ""
-              }`}
-              onClick={handleRefresh}
-              aria-label="Refresh data"
-            >
-              <span className="text-xl leading-none select-none">↻</span>
-            </button>
-          </div>
-          {error && ( 
-            <div className="mt-2 text-sm text-[#dc3545] bg-light-cont-s dark:bg-dark-cont-s border border-[#f5c6cb] dark:border-[#472a2d] rounded-md px-3 py-2">
+    <div className="p-6 transition-colors min-h-screen">
+      <div className="pb-4 mb-6 flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-dark-text-prim">
+            Performance Overview
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 dark:text-dark-text-sec">
+            Monitor cold starts and billed duration across all your Lambda functions.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3"> 
+          {error && (
+            <div className="text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/50 rounded-md px-3 py-2 max-w-xs">
               Error: {error}
             </div>
           )}
+          <button
+            className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
+            disabled={!currentUser || data.length === 0} 
+          >
+            <FilterIcon />
+            Filter
+          </button>
+          <button
+            className={`flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-all text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg ${
+              isClicked ? "ring-2 ring-blue-500 dark:ring-blue-400" : ""
+            }`}
+            onClick={handleRefresh}
+            aria-label="Refresh data"
+            disabled={!currentUser} 
+          >
+            <RefreshIcon />
+            Refresh
+          </button>
+          <button
+            className="flex items-center justify-center h-9 px-4 bg-white dark:bg-dark-cont-s border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-cont-m text-gray-700 dark:text-gray-300 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-dark-bg"
+            disabled={!currentUser || data.length === 0} 
+          >
+            <DownloadIcon />
+            Export Data
+          </button>
         </div>
       </div>
-      {/* Only render charts if data is loaded and valid */}
+
       {!error && data.length > 0 ? (
-          <div className="grid grid-cols-2 gap-5 auto-rows-fr">
-            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+          <div className="grid grid-cols-2 gap-6 auto-rows-fr">
+            <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <AvgBilledDurGraph data={sortedData} />
             </div>
-            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+            <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <ColdStartsMetricsContainer data={sortedData} />
             </div>
-            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+            <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <ColdStartsGraphComponent data={sortedData} />
             </div>
-            <div className="flex-1 bg-light-cont-m dark:bg-dark-cont-m border border-light-cont-s dark:border-dark-cont-s rounded-lg p-4 shadow-sm transition-colors">
+            <div className="flex-1 bg-white dark:bg-dark-cont-l rounded-lg p-5 border border-gray-200 dark:border-gray-700 transition-colors">
               <ChatContainer />
             </div>
           </div>
       ) : !error ? (
-          <div className="text-center text-light-text-sec dark:text-dark-text-sec">Loading performance data...</div>
+          <div className="text-center text-gray-500 dark:text-dark-text-sec py-10">Loading performance data...</div>
       ) : null }
     </div>
   );

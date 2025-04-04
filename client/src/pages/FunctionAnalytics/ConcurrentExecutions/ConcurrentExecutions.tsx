@@ -33,18 +33,7 @@ const ConcurrExecComponent = ({ data }: Props) => {
       {
         label: 'Executions',
         data: data.concurrentExecutions,
-        backgroundColor: [
-          '#437990',
-          '#4c88a1',
-          '#5796af',
-          '#68a0b7',
-          '#79abc0',
-          '#8bb6c8',
-          '#9cc1d0',
-          '#adccd8',
-          '#bfd7e0',
-          '#d0e1e9'
-        ],
+        backgroundColor: "#60a5fa",
         borderRadius: 4
       },
     ],
@@ -59,7 +48,10 @@ const ConcurrExecComponent = ({ data }: Props) => {
           text: 'Executions'
         },
         grid: {
-          display: false
+          display: true
+        },
+        ticks: {
+          color: "#6b7280", 
         }
       },
       y: {
@@ -69,7 +61,10 @@ const ConcurrExecComponent = ({ data }: Props) => {
           text: 'End time'
         },
         grid: {
-          display: false
+          display: false 
+        },
+        ticks: {
+          color: "#6b7280", 
         }
       },
     },
@@ -78,15 +73,17 @@ const ConcurrExecComponent = ({ data }: Props) => {
         display: false,
       },
     },
+    maintainAspectRatio: false, 
   };
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-4 text-[#161616] dark:text-white">Total Concurrent Executions (5min period)</h2>
+      <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Total Concurrent Executions</h2>
+      <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
+        Executions per 5min interval
+      </p>
       <div className="flex-1 min-h-0">
-        <div className="bg-[#e1e1e1] dark:bg-[#363636] rounded-lg p-4 shadow-sm transition-colors">
-          <Bar data={chartData} options={options} className="w-full h-full" />
-        </div>
+        <Bar data={chartData} options={options} className="w-full h-full" />
       </div>
     </div>
   );
