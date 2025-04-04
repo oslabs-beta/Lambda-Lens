@@ -1,5 +1,5 @@
-import { Bar } from "react-chartjs-2";
 import { ChartOptions, Tick, TooltipItem } from "chart.js";
+import ChartWrapper from "../../../components/Charts/ChartWrapper";
 
 interface FunctionData {
   functionName: string;
@@ -87,17 +87,13 @@ const AvgBilledDurGraph = ({ data }: Props) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">
-        Average Billed Duration
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
-        Measured in milliseconds (ms)
-      </p>
-      <div className="flex-1 min-h-0">
-        <Bar data={chartData} options={options} className="w-full h-full" />
-      </div>
-    </div>
+    <ChartWrapper
+      title="Average Billed Duration"
+      description="Measured in milliseconds (ms)"
+      chartType="bar"
+      chartData={chartData}
+      chartOptions={options}
+    />
   );
 };
 

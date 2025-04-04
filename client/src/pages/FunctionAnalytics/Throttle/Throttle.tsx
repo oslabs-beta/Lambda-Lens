@@ -1,4 +1,5 @@
-import { Line } from 'react-chartjs-2';
+import { ChartOptions } from "chart.js";
+import ChartWrapper from "../../../components/Charts/ChartWrapper";
 
 interface Props {
   data: {
@@ -11,14 +12,14 @@ const formatTimestamp = (timestamp: string) => {
   const date = new Date(timestamp);
 
   const formattedDate = date.toLocaleDateString([], {
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
   });
 
   const formattedTime = date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
+    hour: "2-digit",
+    minute: "2-digit",
   });
 
   return `${formattedDate} ${formattedTime}`;
@@ -26,46 +27,48 @@ const formatTimestamp = (timestamp: string) => {
 
 const ThrottleComponent = ({ data }: Props) => {
   const labels = data.timestamps.map(formatTimestamp);
-  
+
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Throttles',
+        label: "Throttles",
         data: data.throttles,
         borderColor: "#60a5fa",
+        backgroundColor: "#60a5fa",
+        borderRadius: 0,
         fill: false,
-        tension: 0.1 
+        tension: 0.1,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"line"> = {
     scales: {
       x: {
         title: {
           display: true,
-          text: 'End time'
+          text: "End time",
         },
         grid: {
-          display: false 
+          display: false,
         },
         ticks: {
-           color: "#6b7280", 
-        }
+          color: "#6b7280",
+        },
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Throttles'
+          text: "Throttles",
         },
         grid: {
-          display: false 
+          display: false,
         },
         ticks: {
-           color: "#6b7280", 
-        }
+          color: "#6b7280",
+        },
       },
     },
     plugins: {
@@ -73,19 +76,17 @@ const ThrottleComponent = ({ data }: Props) => {
         display: false,
       },
     },
-    maintainAspectRatio: false, 
+    maintainAspectRatio: false,
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-dark-text-prim">Total Number of Throttles</h2>
-      <p className="text-sm text-gray-500 dark:text-dark-text-sec mb-4">
-        Throttles per 5min interval
-      </p>
-      <div className="flex-1 min-h-0">
-          <Line data={chartData} options={options} className="w-full h-full" />
-      </div>
-    </div>
+    <ChartWrapper
+      title="Total Number of Throttles"
+      description="Throttles per 5min interval"
+      chartType="line"
+      chartData={chartData}
+      chartOptions={options}
+    />
   );
 };
 
