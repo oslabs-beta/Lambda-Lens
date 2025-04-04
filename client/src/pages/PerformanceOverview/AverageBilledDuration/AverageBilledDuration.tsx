@@ -1,5 +1,5 @@
 import { Bar } from "react-chartjs-2";
-import { ChartOptions, Tick, TooltipItem } from 'chart.js';
+import { ChartOptions, Tick, TooltipItem } from "chart.js";
 
 interface FunctionData {
   functionName: string;
@@ -18,12 +18,12 @@ const AvgBilledDurGraph = ({ data }: Props) => {
         label: "Average Billed Duration",
         data: data.map((fn) => fn.avgBilledDur),
         backgroundColor: "#60a5fa",
-        borderRadius: 4, 
+        borderRadius: 4,
       },
     ],
   };
 
-  const options: ChartOptions<'bar'> = {
+  const options: ChartOptions<"bar"> = {
     indexAxis: "y" as const,
     scales: {
       x: {
@@ -35,12 +35,19 @@ const AvgBilledDurGraph = ({ data }: Props) => {
           color: "#e5e7eb",
         },
         ticks: {
-           color: "#6b7280",
-           callback: function(value: string | number, _index: number, _ticks: Tick[]) {
-                const numericValue = typeof value === 'string' ? parseFloat(value) : value;
-                return !isNaN(numericValue) ? numericValue + ' ms' : value;
-           }
-        }
+          color: "#6b7280",
+          callback: function (
+            value: string | number,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            _index: number,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            _ticks: Tick[]
+          ) {
+            const numericValue =
+              typeof value === "string" ? parseFloat(value) : value;
+            return !isNaN(numericValue) ? numericValue + " ms" : value;
+          },
+        },
       },
       y: {
         title: {
@@ -50,8 +57,8 @@ const AvgBilledDurGraph = ({ data }: Props) => {
           display: false,
         },
         ticks: {
-           color: "#6b7280",
-        }
+          color: "#6b7280",
+        },
       },
     },
     plugins: {
@@ -59,22 +66,22 @@ const AvgBilledDurGraph = ({ data }: Props) => {
         display: false,
       },
       tooltip: {
-        backgroundColor: '#333',
-        titleColor: '#fff',
-        bodyColor: '#fff',
+        backgroundColor: "#333",
+        titleColor: "#fff",
+        bodyColor: "#fff",
         callbacks: {
-            label: function(context: TooltipItem<'bar'>) {
-                let label = context.dataset.label || '';
-                if (label) {
-                    label += ': ';
-                }
-                if (context.parsed?.x !== null && context.parsed?.x !== undefined) {
-                    label += context.parsed.x.toFixed(2) + ' ms';
-                }
-                return label;
+          label: function (context: TooltipItem<"bar">) {
+            let label = context.dataset.label || "";
+            if (label) {
+              label += ": ";
             }
-        }
-      }
+            if (context.parsed?.x !== null && context.parsed?.x !== undefined) {
+              label += context.parsed.x.toFixed(2) + " ms";
+            }
+            return label;
+          },
+        },
+      },
     },
     maintainAspectRatio: false,
   };
