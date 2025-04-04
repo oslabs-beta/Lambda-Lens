@@ -1,5 +1,9 @@
 import { ChartOptions } from "chart.js";
 import ChartWrapper from "../../../components/Charts/ChartWrapper";
+import {
+  getHorizontalBarOptions,
+  deepMerge,
+} from "../../../utils/chartOptions";
 
 interface PercentileData {
   p90: number[];
@@ -28,27 +32,13 @@ const PercentileLatencyComponent = ({ data }: Props) => {
     ),
   };
 
-  const options: ChartOptions<"bar"> = {
-    indexAxis: "y" as const,
+  const baseOptions = getHorizontalBarOptions();
+  const options: ChartOptions<"bar"> = deepMerge(baseOptions, {
     scales: {
       x: {
         title: {
           display: true,
           text: "Latency (ms)",
-        },
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: "#6b7280",
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: "#6b7280",
         },
       },
     },
@@ -62,14 +52,8 @@ const PercentileLatencyComponent = ({ data }: Props) => {
           padding: 10,
         },
       },
-      tooltip: {
-        backgroundColor: "#333",
-        titleColor: "#fff",
-        bodyColor: "#fff",
-      },
     },
-    maintainAspectRatio: false,
-  };
+  });
 
   return (
     <ChartWrapper

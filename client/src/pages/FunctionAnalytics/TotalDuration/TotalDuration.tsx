@@ -1,5 +1,6 @@
-import { ChartOptions } from "chart.js";
 import ChartWrapper from "../../../components/Charts/ChartWrapper";
+import { formatTimestamp } from "../../../utils/dateUtils";
+import { getDoughnutOptions } from "../../../utils/chartOptions";
 
 interface Props {
   data: {
@@ -7,23 +8,6 @@ interface Props {
     timestamps: string[];
   };
 }
-
-const formatTimestamp = (timestamp: string) => {
-  const date = new Date(timestamp);
-
-  const formattedDate = date.toLocaleDateString([], {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-  });
-
-  const formattedTime = date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-  return `${formattedDate} ${formattedTime}`;
-};
 
 const TotalDurationComponent = ({ data }: Props) => {
   const labels = data.timestamps.map(formatTimestamp);
@@ -53,26 +37,7 @@ const TotalDurationComponent = ({ data }: Props) => {
     ],
   };
 
-  const options: ChartOptions<"doughnut"> = {
-    plugins: {
-      legend: {
-        display: true,
-        position: "right" as const,
-        labels: {
-          boxWidth: 12,
-          padding: 15,
-          color: "#6b7280",
-        },
-      },
-      tooltip: {
-        backgroundColor: "#333",
-        titleColor: "#fff",
-        bodyColor: "#fff",
-      },
-    },
-    maintainAspectRatio: false,
-    cutout: "70%",
-  };
+  const options = getDoughnutOptions();
 
   return (
     <ChartWrapper

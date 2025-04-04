@@ -1,5 +1,9 @@
 import { ChartOptions, Tick, TooltipItem } from "chart.js";
 import ChartWrapper from "../../../components/Charts/ChartWrapper";
+import {
+  getHorizontalBarOptions,
+  deepMerge,
+} from "../../../utils/chartOptions";
 
 interface FunctionData {
   functionName: string;
@@ -23,19 +27,14 @@ const AvgBilledDurGraph = ({ data }: Props) => {
     ],
   };
 
-  const options: ChartOptions<"bar"> = {
-    indexAxis: "y" as const,
+  const baseOptions = getHorizontalBarOptions();
+  const options: ChartOptions<"bar"> = deepMerge(baseOptions, {
     scales: {
       x: {
-        title: {
-          display: false,
-        },
         grid: {
-          display: true,
           color: "#e5e7eb",
         },
         ticks: {
-          color: "#6b7280",
           callback: function (
             value: string | number,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -49,26 +48,9 @@ const AvgBilledDurGraph = ({ data }: Props) => {
           },
         },
       },
-      y: {
-        title: {
-          display: false,
-        },
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: "#6b7280",
-        },
-      },
     },
     plugins: {
-      legend: {
-        display: false,
-      },
       tooltip: {
-        backgroundColor: "#333",
-        titleColor: "#fff",
-        bodyColor: "#fff",
         callbacks: {
           label: function (context: TooltipItem<"bar">) {
             let label = context.dataset.label || "";
@@ -83,8 +65,7 @@ const AvgBilledDurGraph = ({ data }: Props) => {
         },
       },
     },
-    maintainAspectRatio: false,
-  };
+  });
 
   return (
     <ChartWrapper

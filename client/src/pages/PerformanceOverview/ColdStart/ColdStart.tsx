@@ -1,5 +1,6 @@
 import { ChartOptions, TooltipItem } from "chart.js";
 import ChartWrapper from "../../../components/Charts/ChartWrapper";
+import { getDoughnutOptions, deepMerge } from "../../../utils/chartOptions";
 
 interface FunctionData {
   functionName: string;
@@ -33,17 +34,9 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
     ],
   };
 
-  const options: ChartOptions<"doughnut"> = {
+  const baseOptions = getDoughnutOptions();
+  const options: ChartOptions<"doughnut"> = deepMerge(baseOptions, {
     plugins: {
-      legend: {
-        display: true,
-        position: "right",
-        labels: {
-          boxWidth: 12,
-          padding: 15,
-          color: "#6b7280",
-        },
-      },
       tooltip: {
         callbacks: {
           label: function (context: TooltipItem<"doughnut">) {
@@ -72,9 +65,7 @@ const ColdStartsGraphComponent = ({ data }: Props) => {
         },
       },
     },
-    maintainAspectRatio: false,
-    cutout: "70%",
-  };
+  });
 
   return (
     <ChartWrapper
